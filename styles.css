@@ -218,29 +218,40 @@ body {
     padding: var(--spacing-lg) 0;
 }
 
-.award-badge {
-    display: inline-flex;
+.professional-badge {
+    display: flex;
     align-items: center;
-    gap: var(--spacing-sm);
-    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
-    border: 2px solid rgba(255, 215, 0, 0.3);
-    padding: var(--spacing-xs) var(--spacing-md);
-    border-radius: 50px;
-    margin-bottom: var(--spacing-md);
-    animation: pulse 2s ease-in-out infinite;
+    gap: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-lg);
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(10px);
 }
 
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
+.badge-icon {
+    flex-shrink: 0;
 }
 
-.award-badge span {
-    font-weight: 600;
-    background: linear-gradient(135deg, #FFD700, #FFA500);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+.badge-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.badge-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: -0.02em;
+}
+
+.badge-subtitle {
+    font-size: 0.9rem;
+    color: var(--gray);
+    font-weight: 500;
 }
 
 .hero-title {
@@ -886,25 +897,90 @@ body {
     }
 }
 
-/* Smooth reveal on scroll */
-.project-card,
-.impact-card,
-.arch-layer {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.6s ease-out forwards;
+/* Professional Scroll Reveal Animations */
+.fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.project-card:nth-child(1) { animation-delay: 0.1s; }
-.project-card:nth-child(2) { animation-delay: 0.2s; }
-.project-card:nth-child(3) { animation-delay: 0.3s; }
-
 @keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
+
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered delays for project cards */
+.project-card.scroll-reveal:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.project-card.scroll-reveal:nth-child(3) {
+    transition-delay: 0.2s;
+}
+
+.project-card.scroll-reveal:nth-child(4) {
+    transition-delay: 0.3s;
+}
+
+/* Section header animation */
+.section-header.scroll-reveal {
+    transition-delay: 0s;
+}
+
+/* Impact cards stagger */
+.impact-card {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.impact-card.revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.impact-card:nth-child(1) { transition-delay: 0.05s; }
+.impact-card:nth-child(2) { transition-delay: 0.1s; }
+.impact-card:nth-child(3) { transition-delay: 0.15s; }
+.impact-card:nth-child(4) { transition-delay: 0.2s; }
+.impact-card:nth-child(5) { transition-delay: 0.25s; }
+.impact-card:nth-child(6) { transition-delay: 0.3s; }
+
+/* Architecture layers */
+.arch-layer {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.arch-layer.revealed {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.arch-layer:nth-child(1) { transition-delay: 0.1s; }
+.arch-layer:nth-child(2) { transition-delay: 0.2s; }
+.arch-layer:nth-child(3) { transition-delay: 0.3s; }
+.arch-layer:nth-child(4) { transition-delay: 0.4s; }
+.arch-layer:nth-child(5) { transition-delay: 0.5s; }
 
 /* Loading state */
 .loading {

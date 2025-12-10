@@ -108,27 +108,42 @@ function initSmoothScroll() {
 }
 
 // =========================================
-// Scroll Animations
+// Professional Scroll Reveal Animations
 // =========================================
 
 function initScrollAnimations() {
-    const animateElements = document.querySelectorAll('.project-card, .impact-card, .arch-layer');
+    // Select all elements that need scroll reveal
+    const scrollRevealElements = document.querySelectorAll('.scroll-reveal, .impact-card, .arch-layer');
 
-    const animationObserver = new IntersectionObserver((entries) => {
+    // Create an Intersection Observer with professional settings
+    const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                // Add the 'revealed' class when element enters viewport
+                entry.target.classList.add('revealed');
+                // Optionally unobserve after revealing (one-time animation)
+                revealObserver.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        threshold: 0.15, // Trigger when 15% of element is visible
+        rootMargin: '0px 0px -80px 0px' // Start animation slightly before element fully visible
     });
 
-    animateElements.forEach(element => {
-        animationObserver.observe(element);
+    // Observe all scroll reveal elements
+    scrollRevealElements.forEach(element => {
+        revealObserver.observe(element);
     });
+
+    // Add parallax effect to hero background
+    const heroBackground = document.querySelector('.hero-background');
+    if (heroBackground) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * 0.5;
+            heroBackground.style.transform = `translateY(${rate}px)`;
+        }, { passive: true });
+    }
 }
 
 // =========================================
