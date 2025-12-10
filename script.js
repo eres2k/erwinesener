@@ -119,66 +119,42 @@ function initSmoothScroll() {
 }
 
 // =========================================
-// Scroll Reveal Animations
+// Professional Scroll Reveal Animations
 // =========================================
 
 function initScrollAnimations() {
-    const projectCards = document.querySelectorAll('.project-card');
-    const impactCards = document.querySelectorAll('.impact-card');
+    // Select all elements that need scroll reveal
+    const scrollRevealElements = document.querySelectorAll('.scroll-reveal, .impact-card, .arch-layer');
 
-    const animationObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
+    // Create an Intersection Observer with professional settings
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
             if (entry.isIntersecting) {
-                setTimeout(() => {
-                    entry.target.classList.add('visible');
-                }, index * 150); // Stagger animation
+                // Add the 'revealed' class when element enters viewport
+                entry.target.classList.add('revealed');
+                // Optionally unobserve after revealing (one-time animation)
+                revealObserver.unobserve(entry.target);
             }
         });
     }, {
-        threshold: 0.15,
-        rootMargin: '0px 0px -100px 0px'
+        threshold: 0.15, // Trigger when 15% of element is visible
+        rootMargin: '0px 0px -80px 0px' // Start animation slightly before element fully visible
     });
 
-    projectCards.forEach(card => animationObserver.observe(card));
-    impactCards.forEach(card => animationObserver.observe(card));
-}
+    // Observe all scroll reveal elements
+    scrollRevealElements.forEach(element => {
+        revealObserver.observe(element);
+    });
 
-// =========================================
-// Parallax Effects
-// =========================================
-
-function initParallaxEffects() {
-    const orbs = document.querySelectorAll('.gradient-orb');
-    const particles = document.querySelectorAll('.particle');
-
-    window.addEventListener('scroll', throttle(() => {
-        const scrolled = window.pageYOffset;
-
-        orbs.forEach((orb, index) => {
-            const speed = 0.5 + (index * 0.2);
-            orb.style.transform = `translateY(${scrolled * speed}px)`;
-        });
-
-        particles.forEach((particle, index) => {
-            const speed = 0.3 + (index * 0.1);
-            particle.style.transform = `translateY(${scrolled * speed}px)`;
-        });
-    }, 10));
-
-    // Mouse move parallax for project icons
-    const projectIcons = document.querySelectorAll('.project-icon-large');
-
-    document.addEventListener('mousemove', throttle((e) => {
-        const mouseX = e.clientX / window.innerWidth;
-        const mouseY = e.clientY / window.innerHeight;
-
-        projectIcons.forEach((icon, index) => {
-            const moveX = (mouseX - 0.5) * 20;
-            const moveY = (mouseY - 0.5) * 20;
-
-            icon.style.transform = `translate(${moveX}px, ${moveY}px)`;
-        });
-    }, 50));
+    // Add parallax effect to hero background
+    const heroBackground = document.querySelector('.hero-background');
+    if (heroBackground) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * 0.5;
+            heroBackground.style.transform = `translateY(${rate}px)`;
+        }, { passive: true });
+    }
 }
 
 // =========================================
