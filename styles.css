@@ -59,7 +59,7 @@ html {
 
 body {
     font-family: var(--font-secondary);
-    background-color: var(--bg-primary);
+    background-color: #000000;
     color: var(--text-primary);
     line-height: 1.6;
     overflow-x: hidden;
@@ -84,8 +84,7 @@ body {
     height: 100%;
     z-index: -1;
     overflow: hidden;
-    background: radial-gradient(ellipse at top, rgba(124, 58, 237, 0.05) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom, rgba(255, 107, 53, 0.05) 0%, transparent 50%);
+    background: #000000;
 }
 
 .gradient-orb {
@@ -211,7 +210,7 @@ body {
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(10, 10, 15, 0.8);
+    background: rgba(0, 0, 0, 0.95);
     backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     transition: var(--transition-base);
@@ -341,6 +340,7 @@ body {
     padding-bottom: var(--spacing-xl);
     position: relative;
     overflow: hidden;
+    background: #000000;
 }
 
 .hero-content {
@@ -648,6 +648,7 @@ body {
 .projects {
     padding: var(--spacing-2xl) 0;
     position: relative;
+    background: #000000;
 }
 
 .section-header {
@@ -971,7 +972,7 @@ body {
 
 .impact {
     padding: var(--spacing-2xl) 0;
-    background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    background: #000000;
     position: relative;
 }
 
@@ -1116,6 +1117,7 @@ body {
 
 .contact {
     padding: var(--spacing-2xl) 0;
+    background: #000000;
 }
 
 .contact-content {
@@ -1204,7 +1206,7 @@ body {
    ========================================= */
 
 .footer {
-    background: var(--bg-secondary);
+    background: #000000;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     padding: var(--spacing-xl) 0 var(--spacing-md);
 }
@@ -1434,7 +1436,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: var(--bg-secondary);
+    background: #000000;
 }
 
 ::-webkit-scrollbar-thumb {
