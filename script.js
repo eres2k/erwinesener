@@ -979,31 +979,15 @@ console.log('Award-winning portfolio initialized');
 })();
 
 // =========================================
-// Page Views Counter with Persistence
+// Page Views Counter with Persistent Backend
 // =========================================
 
 (function initPageViewsCounter() {
-    const STORAGE_KEY = 'erwinesener_page_views';
-    const INITIAL_COUNT = 1377;
     const countElement = document.getElementById('pageViewCount');
+    const COUNTER_API = 'https://api.counterapi.dev/v1/erwinesener-portfolio/pageviews/up';
+    const FALLBACK_COUNT = 1377;
 
     if (!countElement) return;
-
-    // Get current count from localStorage or start at initial value
-    let currentCount = localStorage.getItem(STORAGE_KEY);
-
-    if (currentCount === null) {
-        // First visit - start at initial count
-        currentCount = INITIAL_COUNT;
-    } else {
-        currentCount = parseInt(currentCount, 10);
-    }
-
-    // Increment for this page view
-    currentCount++;
-
-    // Save to localStorage
-    localStorage.setItem(STORAGE_KEY, currentCount.toString());
 
     // Animate the counter display
     function animateCount(target) {
@@ -1031,17 +1015,59 @@ console.log('Award-winning portfolio initialized');
         requestAnimationFrame(update);
     }
 
+    // Fetch and increment the counter from the backend
+    async function fetchAndIncrementCount() {
+        try {
+            const response = await fetch(COUNTER_API);
+            if (!response.ok) throw new Error('Counter API unavailable');
+            const data = await response.json();
+            // The API returns { count: number } - add to our base count
+            return FALLBACK_COUNT + (data.count || 0);
+        } catch (error) {
+            console.warn('Counter API error, using fallback:', error);
+            // Fallback to localStorage if API fails
+            const localCount = localStorage.getItem('erwinesener_page_views');
+            if (localCount) {
+                const count = parseInt(localCount, 10) + 1;
+                localStorage.setItem('erwinesener_page_views', count.toString());
+                return count;
+            }
+            return FALLBACK_COUNT;
+        }
+    }
+
     // Start animation when element is in view
+    let hasAnimated = false;
+    let currentCount = FALLBACK_COUNT;
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            if (entry.isIntersecting && !hasAnimated) {
+                hasAnimated = true;
                 animateCount(currentCount);
                 observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.5 });
 
-    observer.observe(countElement);
+    // Fetch count from backend and update
+    fetchAndIncrementCount().then(count => {
+        currentCount = count;
+        // If already in view, animate now
+        const rect = countElement.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight && rect.bottom > 0;
+        if (inView && !hasAnimated) {
+            hasAnimated = true;
+            animateCount(currentCount);
+        } else if (!hasAnimated) {
+            observer.observe(countElement);
+        } else {
+            // Already animated with fallback, update to real count
+            countElement.textContent = currentCount.toLocaleString();
+        }
+        console.log('Page views counter initialized:', currentCount);
+    });
 
-    console.log('Page views counter initialized:', currentCount);
+    // Show fallback immediately, will be updated when API responds
+    observer.observe(countElement);
 })();
