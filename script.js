@@ -262,9 +262,9 @@ function initSmoothScroll() {
 
 function initMobileMenu() {
     const menuToggle = document.querySelector('.mobile-menu-toggle');
-    const navMenu = document.querySelector('.nav-menu');
+    const navMenu = document.querySelector('.nav-menu-mobile');
 
-    if (!menuToggle) return;
+    if (!menuToggle || !navMenu) return;
 
     menuToggle.addEventListener('click', () => {
         navMenu.classList.toggle('active');
@@ -273,8 +273,8 @@ function initMobileMenu() {
         document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
     });
 
-    // Close menu on link click
-    document.querySelectorAll('.nav-link').forEach(link => {
+    // Close menu on link click (mobile menu links only)
+    navMenu.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', () => {
             navMenu.classList.remove('active');
             menuToggle.classList.remove('active');
