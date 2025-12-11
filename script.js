@@ -977,3 +977,71 @@ console.log('Award-winning portfolio initialized');
 
     console.log('Video gallery initialized');
 })();
+
+// =========================================
+// Page Views Counter with Persistence
+// =========================================
+
+(function initPageViewsCounter() {
+    const STORAGE_KEY = 'erwinesener_page_views';
+    const INITIAL_COUNT = 1377;
+    const countElement = document.getElementById('pageViewCount');
+
+    if (!countElement) return;
+
+    // Get current count from localStorage or start at initial value
+    let currentCount = localStorage.getItem(STORAGE_KEY);
+
+    if (currentCount === null) {
+        // First visit - start at initial count
+        currentCount = INITIAL_COUNT;
+    } else {
+        currentCount = parseInt(currentCount, 10);
+    }
+
+    // Increment for this page view
+    currentCount++;
+
+    // Save to localStorage
+    localStorage.setItem(STORAGE_KEY, currentCount.toString());
+
+    // Animate the counter display
+    function animateCount(target) {
+        const duration = 1500;
+        const startTime = performance.now();
+        const startValue = Math.max(0, target - 50);
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Ease out cubic
+            const easeProgress = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(startValue + (target - startValue) * easeProgress);
+
+            countElement.textContent = current.toLocaleString();
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            } else {
+                countElement.textContent = target.toLocaleString();
+            }
+        }
+
+        requestAnimationFrame(update);
+    }
+
+    // Start animation when element is in view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCount(currentCount);
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    observer.observe(countElement);
+
+    console.log('Page views counter initialized:', currentCount);
+})();
