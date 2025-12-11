@@ -356,6 +356,23 @@ body {
     opacity: 0.8;
 }
 
+.badge-icon .profile-image {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    border: 2px solid rgba(255, 107, 53, 0.4);
+    box-shadow: 0 4px 20px rgba(255, 107, 53, 0.2);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.professional-badge:hover .profile-image {
+    border-color: rgba(255, 107, 53, 0.7);
+    box-shadow: 0 6px 30px rgba(255, 107, 53, 0.3);
+    transform: scale(1.05);
+}
+
 .badge-text {
     display: flex;
     flex-direction: column;
