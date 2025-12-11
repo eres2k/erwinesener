@@ -686,12 +686,15 @@ body {
 }
 
 .screenshot-image {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    transform: scale(1.02);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(1.05);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1;
 }
 
 .screenshot-image.loaded {
@@ -699,8 +702,9 @@ body {
     transform: scale(1);
 }
 
-.project-card.in-view .screenshot-image.loaded + .screenshot-placeholder {
+.screenshot-image.loaded ~ .screenshot-placeholder {
     opacity: 0;
+    pointer-events: none;
 }
 
 /* Screenshot Feature Tags */
