@@ -107,7 +107,8 @@ function initScrollReveal() {
         .section-header,
         .project-card,
         .skill-category,
-        .contact-card
+        .contact-card,
+        .video-card
     `);
 
     // Observer with staggered reveal
@@ -855,4 +856,124 @@ console.log('Award-winning portfolio initialized');
     });
 
     console.log('Music player initialized');
+})();
+
+// =========================================
+// Video Gallery with Modal Player
+// =========================================
+
+(function initVideoGallery() {
+    const videoCards = document.querySelectorAll('.video-card');
+    const videoModal = document.getElementById('videoModal');
+    const modalVideo = document.getElementById('modalVideo');
+    const modalTitle = document.querySelector('.modal-title');
+    const modalDescription = document.querySelector('.modal-description');
+    const modalClose = document.querySelector('.modal-close');
+    const modalBackdrop = document.querySelector('.modal-backdrop');
+
+    if (!videoCards.length || !videoModal) return;
+
+    // Format time
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return '-:--';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Load video durations
+    videoCards.forEach(card => {
+        const video = card.querySelector('.video-thumbnail');
+        const durationEl = card.querySelector('.video-duration');
+
+        if (video && durationEl) {
+            video.addEventListener('loadedmetadata', () => {
+                durationEl.textContent = formatTime(video.duration);
+            });
+
+            // Trigger load
+            video.load();
+        }
+    });
+
+    // Hover preview for video cards
+    videoCards.forEach(card => {
+        const video = card.querySelector('.video-thumbnail');
+
+        card.addEventListener('mouseenter', () => {
+            if (video) {
+                video.currentTime = 0;
+                video.play().catch(() => {});
+            }
+        });
+
+        card.addEventListener('mouseleave', () => {
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+            }
+        });
+    });
+
+    // Open modal
+    function openModal(card) {
+        const src = card.dataset.src;
+        const title = card.dataset.title;
+        const description = card.dataset.description;
+
+        modalVideo.querySelector('source').src = src;
+        modalVideo.load();
+        modalTitle.textContent = title;
+        modalDescription.textContent = description;
+
+        videoModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Auto-play video after modal opens
+        setTimeout(() => {
+            modalVideo.play().catch(() => {});
+        }, 400);
+    }
+
+    // Close modal
+    function closeModal() {
+        modalVideo.pause();
+        modalVideo.currentTime = 0;
+        videoModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // Event listeners
+    videoCards.forEach(card => {
+        card.addEventListener('click', () => openModal(card));
+    });
+
+    if (modalClose) {
+        modalClose.addEventListener('click', closeModal);
+    }
+
+    if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', closeModal);
+    }
+
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    // Scroll reveal for video cards
+    const videoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                videoObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    videoCards.forEach(card => videoObserver.observe(card));
+
+    console.log('Video gallery initialized');
 })();

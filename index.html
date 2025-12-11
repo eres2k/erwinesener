@@ -33,6 +33,7 @@
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link active">Home</a></li>
                 <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#visuals" class="nav-link">Visuals</a></li>
                 <li><a href="#music" class="nav-link">Music</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
@@ -62,8 +63,8 @@
                 </div>
 
                 <p class="hero-description">
-                    Building safety intelligence tools and applications that help teams
-                    work more efficiently while maintaining the highest safety standards.
+                    Building safety intelligence tools, creating striking visual art,
+                    and producing music remixes with passion and precision.
                 </p>
 
                 <div class="cta-group">
@@ -393,6 +394,127 @@
         </div>
     </section>
 
+    <!-- Visual Creations Section -->
+    <section id="visuals" class="visuals-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">visuals</span>
+                <h2 class="section-title">Visual Creations</h2>
+                <p class="section-description">
+                    Transforming ideas into striking visuals using advanced creative tools and techniques
+                </p>
+            </div>
+
+            <!-- Video Gallery -->
+            <div class="video-gallery">
+                <div class="video-card" data-src="clips/Erwin Selfielo.mp4" data-title="Selfie Transformation" data-description="Creative portrait metamorphosis">
+                    <div class="video-number">01</div>
+                    <div class="video-preview">
+                        <video class="video-thumbnail" muted loop playsinline preload="metadata">
+                            <source src="clips/Erwin Selfielo.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-overlay">
+                            <div class="play-button">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="video-duration">-:--</div>
+                    </div>
+                    <div class="video-info">
+                        <h4>Selfie Transformation</h4>
+                        <p>Creative portrait metamorphosis</p>
+                    </div>
+                </div>
+
+                <div class="video-card" data-src="clips/Erwin Statuelo.mp4" data-title="Statue Effect" data-description="Living sculpture visualization">
+                    <div class="video-number">02</div>
+                    <div class="video-preview">
+                        <video class="video-thumbnail" muted loop playsinline preload="metadata">
+                            <source src="clips/Erwin Statuelo.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-overlay">
+                            <div class="play-button">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="video-duration">-:--</div>
+                    </div>
+                    <div class="video-info">
+                        <h4>Statue Effect</h4>
+                        <p>Living sculpture visualization</p>
+                    </div>
+                </div>
+
+                <div class="video-card" data-src="clips/Erwin Transformlo.mp4" data-title="Transform Vision" data-description="Dynamic visual transformation">
+                    <div class="video-number">03</div>
+                    <div class="video-preview">
+                        <video class="video-thumbnail" muted loop playsinline preload="metadata">
+                            <source src="clips/Erwin Transformlo.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-overlay">
+                            <div class="play-button">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="video-duration">-:--</div>
+                    </div>
+                    <div class="video-info">
+                        <h4>Transform Vision</h4>
+                        <p>Dynamic visual transformation</p>
+                    </div>
+                </div>
+
+                <div class="video-card" data-src="clips/Erwin Trucklo.mp4" data-title="Truck Scene" data-description="Cinematic vehicle sequence">
+                    <div class="video-number">04</div>
+                    <div class="video-preview">
+                        <video class="video-thumbnail" muted loop playsinline preload="metadata">
+                            <source src="clips/Erwin Trucklo.mp4" type="video/mp4">
+                        </video>
+                        <div class="video-overlay">
+                            <div class="play-button">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="video-duration">-:--</div>
+                    </div>
+                    <div class="video-info">
+                        <h4>Truck Scene</h4>
+                        <p>Cinematic vehicle sequence</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Video Modal -->
+            <div class="video-modal" id="videoModal">
+                <div class="modal-backdrop"></div>
+                <div class="modal-content">
+                    <button class="modal-close" aria-label="Close video">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12"/>
+                        </svg>
+                    </button>
+                    <div class="modal-video-container">
+                        <video id="modalVideo" controls playsinline>
+                            <source src="" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="modal-info">
+                        <h3 class="modal-title"></h3>
+                        <p class="modal-description"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Music Remixes Section -->
     <section id="music" class="music-section">
         <div class="container">
@@ -575,7 +697,7 @@
                 <span class="section-label">about</span>
                 <h2 class="section-title">Skills & Technologies</h2>
                 <p class="section-description">
-                    The tools and technologies I use to build safety and analytics applications
+                    The tools and technologies I use for development, visual creation, and audio production
                 </p>
             </div>
 
@@ -605,13 +727,13 @@
                 </div>
 
                 <div class="skill-category">
-                    <h3 class="skill-category-title">Backend & Data</h3>
+                    <h3 class="skill-category-title">Visual & Audio Production</h3>
                     <div class="skill-tags">
-                        <span class="skill-tag">Supabase</span>
-                        <span class="skill-tag">Auth0</span>
-                        <span class="skill-tag">REST APIs</span>
-                        <span class="skill-tag">IndexedDB</span>
-                        <span class="skill-tag">CSV/Data Processing</span>
+                        <span class="skill-tag">Video Editing</span>
+                        <span class="skill-tag">Visual Effects</span>
+                        <span class="skill-tag">Motion Graphics</span>
+                        <span class="skill-tag">Audio Production</span>
+                        <span class="skill-tag">Music Remixing</span>
                     </div>
                 </div>
 
@@ -698,16 +820,16 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h4>About</h4>
-                    <p>Erwin Esener - WHS Manager Austria at Amazon Logistics, developing innovative safety and analytics solutions for warehouse operations.</p>
+                    <p>Erwin Esener - WHS Manager Austria at Amazon Logistics. Building safety solutions, creating visual art, and producing music remixes.</p>
                 </div>
                 <div class="footer-links">
                     <div class="footer-column">
-                        <h4>projects</h4>
+                        <h4>portfolio</h4>
                         <ul>
-                            <li><a href="https://safety-analytics.netlify.app" target="_blank">safety-analytics</a></li>
-                            <li><a href="https://safety-hub.netlify.app" target="_blank">safety-hub</a></li>
-                            <li><a href="https://amzlwhsquest.netlify.app" target="_blank">amzl whs quest</a></li>
-                            <li><a href="https://healthybrunchclub.at" target="_blank">healthy brunch club</a></li>
+                            <li><a href="#projects">projects</a></li>
+                            <li><a href="#visuals">visuals</a></li>
+                            <li><a href="#music">music</a></li>
+                            <li><a href="#about">about</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
