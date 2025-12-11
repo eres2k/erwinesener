@@ -403,12 +403,14 @@ body {
     font-weight: 500;
     color: var(--accent-orange);
     margin: 0 0 0.25rem 0;
+    text-transform: lowercase;
 }
 
 .hero-company {
     font-size: 1rem;
     color: var(--text-tertiary);
     margin: 0;
+    text-transform: lowercase;
 }
 
 .hero-description {
@@ -421,6 +423,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    text-transform: lowercase;
 }
 
 /* CTA Buttons */
@@ -587,6 +590,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
     transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
+    text-transform: lowercase;
 }
 
 .section-header.in-view .section-description {
@@ -837,6 +841,7 @@ body {
     font-size: 0.95rem;
     color: var(--text-secondary);
     line-height: 1.8;
+    text-transform: lowercase;
 }
 
 /* Project Highlights - Staggered Reveal */
@@ -899,6 +904,7 @@ body {
     border-radius: 100px;
     color: var(--accent-purple-bright);
     transition: all 0.3s ease;
+    text-transform: lowercase;
 }
 
 /* Project Links */
@@ -1026,6 +1032,7 @@ body {
     border-radius: 100px;
     color: var(--accent-purple-bright);
     transition: all 0.3s ease;
+    text-transform: lowercase;
 }
 
 .skill-tag:hover {
@@ -1100,11 +1107,13 @@ body {
     color: var(--text-primary);
     margin-bottom: 0.25rem;
     font-size: 0.95rem;
+    text-transform: lowercase;
 }
 
 .contact-info p {
     font-size: 0.8rem;
     color: var(--text-tertiary);
+    text-transform: lowercase;
 }
 
 .contact-arrow {
@@ -1152,6 +1161,7 @@ body {
     color: var(--text-tertiary);
     font-size: 0.85rem;
     line-height: 1.7;
+    text-transform: lowercase;
 }
 
 .footer-links {
@@ -1188,6 +1198,37 @@ body {
 .footer-bottom p {
     color: var(--text-tertiary);
     font-size: 0.8rem;
+    text-transform: lowercase;
+}
+
+/* Page Views Counter */
+.page-views-counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: var(--spacing-md) 0;
+    margin-top: var(--spacing-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.page-views-counter svg {
+    color: var(--accent-orange);
+    opacity: 0.7;
+}
+
+.page-views-counter span {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    text-transform: lowercase;
+    letter-spacing: 0.05em;
+}
+
+.page-views-counter .view-count {
+    font-family: var(--font-primary);
+    font-weight: 600;
+    color: var(--accent-orange);
+    font-variant-numeric: tabular-nums;
 }
 
 /* =========================================
@@ -1882,12 +1923,14 @@ body {
     font-weight: 600;
     color: var(--text-primary);
     margin: 0;
+    text-transform: lowercase;
 }
 
 .track-info p {
     font-size: 0.8rem;
     color: var(--text-tertiary);
     margin: 0;
+    text-transform: lowercase;
 }
 
 .track-card.active .track-info h4 {
@@ -2134,6 +2177,7 @@ body {
     font-size: 0.9rem;
     color: var(--text-tertiary);
     margin: 0;
+    text-transform: lowercase;
 }
 
 /* Video Modal */
@@ -2231,6 +2275,7 @@ body {
     font-size: 1rem;
     color: var(--text-tertiary);
     margin: 0;
+    text-transform: lowercase;
 }
 
 /* Responsive Visuals Section */
