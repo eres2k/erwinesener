@@ -104,18 +104,23 @@ erwinesener/
 ├── script.js           # Interactive features and animations
 ├── netlify.toml        # Netlify deployment configuration
 ├── README.md           # Project documentation
+├── images/             # Project screenshots
+│   ├── screenshot-hero.png
+│   ├── screenshot-dashboard.png
+│   ├── screenshot-mobile.png
+│   ├── screenshot-game.png
+│   └── screenshot-brunch.png
 ├── clips/              # Video clips for visual creations
 │   ├── Erwin Selfielo.mp4
 │   ├── Erwin Statuelo.mp4
 │   ├── Erwin Transformlo.mp4
 │   └── Erwin Trucklo.mp4
-├── music/              # Music remixes and covers
-│   ├── Elton John - Rocket Man (cover)...
-│   ├── New York - Trettmann (Fingerstyle cover)...
-│   ├── Tesla in the Mirror.mp3
-│   ├── Söhne Mannheims - Und Wenn ein Lied.mp3
-│   └── Xavier Naidoo - Nicht von dieser Welt.mp3
-└── screenshot-*.png    # Project screenshots
+└── music/              # Music remixes and covers
+    ├── Elton John - Rocket Man (cover)...
+    ├── New York - Trettmann (Fingerstyle cover)...
+    ├── Tesla in the Mirror.mp3
+    ├── Söhne Mannheims - Und Wenn ein Lied.mp3
+    └── Xavier Naidoo - Nicht von dieser Welt.mp3
 ```
 
 ## Local Development
