@@ -106,9 +106,8 @@ function initScrollReveal() {
     const animatedElements = document.querySelectorAll(`
         .section-header,
         .project-card,
-        .impact-card,
-        .contact-card,
-        .testimonial-card
+        .skill-category,
+        .contact-card
     `);
 
     // Observer with staggered reveal
@@ -135,10 +134,10 @@ function initScrollReveal() {
         revealObserver.observe(el);
     });
 
-    // Special handling for impact cards with staggered delays
-    const impactCards = document.querySelectorAll('.impact-card');
-    impactCards.forEach((card, index) => {
-        card.dataset.delay = index * 80;
+    // Special handling for skill categories with staggered delays
+    const skillCategories = document.querySelectorAll('.skill-category');
+    skillCategories.forEach((card, index) => {
+        card.dataset.delay = index * 100;
     });
 
     // Special handling for contact cards
@@ -392,27 +391,27 @@ function throttle(func, limit) {
 }
 
 // =========================================
-// Intersection Observer for Impact Bars
+// Intersection Observer for Skills Grid
 // =========================================
 
-const impactGrid = document.querySelector('.impact-grid');
+const skillsGrid = document.querySelector('.skills-grid');
 
-if (impactGrid) {
-    const barsObserver = new IntersectionObserver((entries) => {
+if (skillsGrid) {
+    const skillsObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const cards = entry.target.querySelectorAll('.impact-card');
-                cards.forEach((card, index) => {
+                const categories = entry.target.querySelectorAll('.skill-category');
+                categories.forEach((category, index) => {
                     setTimeout(() => {
-                        card.classList.add('in-view');
-                    }, index * 80);
+                        category.classList.add('in-view');
+                    }, index * 100);
                 });
-                barsObserver.unobserve(entry.target);
+                skillsObserver.unobserve(entry.target);
             }
         });
     }, { threshold: 0.2 });
 
-    barsObserver.observe(impactGrid);
+    skillsObserver.observe(skillsGrid);
 }
 
 // =========================================
