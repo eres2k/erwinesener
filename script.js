@@ -546,3 +546,313 @@ if (window.location.hostname === 'localhost') {
 
 // Log initialization
 console.log('Award-winning portfolio initialized');
+
+// =========================================
+// Music Player with Audio Visualization
+// =========================================
+
+(function initMusicPlayer() {
+    const musicPlayer = document.querySelector('.music-player');
+    const trackCards = document.querySelectorAll('.track-card');
+    const playBtn = document.querySelector('.play-btn');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const progressFill = document.querySelector('.progress-fill');
+    const progressInput = document.querySelector('.progress-input');
+    const timeCurrent = document.querySelector('.time-current');
+    const timeDuration = document.querySelector('.time-duration');
+    const volumeSlider = document.querySelector('.volume-slider');
+    const trackTitle = document.querySelector('.now-playing .track-title');
+    const trackArtist = document.querySelector('.now-playing .track-artist');
+    const playIcon = document.querySelector('.play-icon');
+    const pauseIcon = document.querySelector('.pause-icon');
+    const canvas = document.getElementById('audioVisualizer');
+
+    if (!musicPlayer || !canvas) return;
+
+    // Audio setup
+    let audio = new Audio();
+    let audioContext = null;
+    let analyser = null;
+    let source = null;
+    let currentTrackIndex = -1;
+    let isPlaying = false;
+    let animationId = null;
+
+    // Canvas setup
+    const ctx = canvas.getContext('2d');
+    let canvasWidth, canvasHeight;
+
+    function resizeCanvas() {
+        const rect = canvas.parentElement.getBoundingClientRect();
+        canvas.width = rect.width * window.devicePixelRatio;
+        canvas.height = rect.height * window.devicePixelRatio;
+        canvasWidth = canvas.width;
+        canvasHeight = canvas.height;
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    }
+
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Initialize audio context on first interaction
+    function initAudioContext() {
+        if (audioContext) return;
+
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        source = audioContext.createMediaElementSource(audio);
+        source.connect(analyser);
+        analyser.connect(audioContext.destination);
+    }
+
+    // Format time
+    function formatTime(seconds) {
+        if (isNaN(seconds)) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    // Load track
+    function loadTrack(index) {
+        if (index < 0 || index >= trackCards.length) return;
+
+        const card = trackCards[index];
+        const src = card.dataset.src;
+        const title = card.dataset.title;
+        const artist = card.dataset.artist;
+
+        // Update UI
+        trackCards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+
+        trackTitle.textContent = title;
+        trackArtist.textContent = artist;
+
+        // Load audio
+        audio.src = src;
+        currentTrackIndex = index;
+
+        audio.addEventListener('loadedmetadata', () => {
+            timeDuration.textContent = formatTime(audio.duration);
+            card.querySelector('.track-duration').textContent = formatTime(audio.duration);
+        }, { once: true });
+    }
+
+    // Play/Pause
+    function togglePlay() {
+        if (currentTrackIndex === -1) {
+            loadTrack(0);
+        }
+
+        initAudioContext();
+
+        if (audioContext.state === 'suspended') {
+            audioContext.resume();
+        }
+
+        if (isPlaying) {
+            audio.pause();
+            isPlaying = false;
+            musicPlayer.classList.remove('playing');
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+            cancelAnimationFrame(animationId);
+        } else {
+            audio.play();
+            isPlaying = true;
+            musicPlayer.classList.add('playing');
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+            visualize();
+        }
+    }
+
+    // Previous track
+    function prevTrack() {
+        let newIndex = currentTrackIndex - 1;
+        if (newIndex < 0) newIndex = trackCards.length - 1;
+        loadTrack(newIndex);
+        if (isPlaying) {
+            audio.play();
+            visualize();
+        }
+    }
+
+    // Next track
+    function nextTrack() {
+        let newIndex = currentTrackIndex + 1;
+        if (newIndex >= trackCards.length) newIndex = 0;
+        loadTrack(newIndex);
+        if (isPlaying) {
+            audio.play();
+            visualize();
+        }
+    }
+
+    // Audio visualization
+    function visualize() {
+        if (!analyser) return;
+
+        const bufferLength = analyser.frequencyBinCount;
+        const dataArray = new Uint8Array(bufferLength);
+
+        function draw() {
+            animationId = requestAnimationFrame(draw);
+
+            analyser.getByteFrequencyData(dataArray);
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvasWidth / window.devicePixelRatio, canvasHeight / window.devicePixelRatio);
+
+            const centerX = canvasWidth / (2 * window.devicePixelRatio);
+            const centerY = canvasHeight / (2 * window.devicePixelRatio);
+            const radius = Math.min(centerX, centerY) * 0.75;
+
+            // Draw circular bars
+            const bars = 64;
+            const barWidth = 3;
+
+            for (let i = 0; i < bars; i++) {
+                const dataIndex = Math.floor(i * bufferLength / bars);
+                const value = dataArray[dataIndex];
+                const barHeight = (value / 255) * radius * 0.5;
+
+                const angle = (i / bars) * Math.PI * 2 - Math.PI / 2;
+
+                const x1 = centerX + Math.cos(angle) * (radius - 10);
+                const y1 = centerY + Math.sin(angle) * (radius - 10);
+                const x2 = centerX + Math.cos(angle) * (radius - 10 + barHeight);
+                const y2 = centerY + Math.sin(angle) * (radius - 10 + barHeight);
+
+                // Gradient color based on frequency
+                const hue = (i / bars) * 60 + 15; // Orange to purple range
+                const saturation = 80 + (value / 255) * 20;
+                const lightness = 50 + (value / 255) * 20;
+
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.strokeStyle = `hsla(${hue}, ${saturation}%, ${lightness}%, ${0.6 + (value / 255) * 0.4})`;
+                ctx.lineWidth = barWidth;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+            }
+
+            // Inner glow effect
+            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius * 0.6);
+            gradient.addColorStop(0, 'rgba(255, 107, 53, 0.1)');
+            gradient.addColorStop(0.5, 'rgba(124, 58, 237, 0.05)');
+            gradient.addColorStop(1, 'transparent');
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius * 0.6, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+        }
+
+        draw();
+    }
+
+    // Update progress
+    audio.addEventListener('timeupdate', () => {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = `${progress}%`;
+        progressInput.value = progress;
+        timeCurrent.textContent = formatTime(audio.currentTime);
+    });
+
+    // Track ended
+    audio.addEventListener('ended', () => {
+        nextTrack();
+    });
+
+    // Progress seek
+    progressInput.addEventListener('input', (e) => {
+        const time = (e.target.value / 100) * audio.duration;
+        audio.currentTime = time;
+    });
+
+    // Volume control
+    volumeSlider.addEventListener('input', (e) => {
+        audio.volume = e.target.value / 100;
+    });
+
+    // Set initial volume
+    audio.volume = 0.8;
+
+    // Event listeners
+    playBtn.addEventListener('click', togglePlay);
+    prevBtn.addEventListener('click', prevTrack);
+    nextBtn.addEventListener('click', nextTrack);
+
+    // Track card click
+    trackCards.forEach((card, index) => {
+        card.addEventListener('click', () => {
+            const wasPlaying = isPlaying && currentTrackIndex === index;
+
+            if (currentTrackIndex !== index) {
+                loadTrack(index);
+                initAudioContext();
+
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+
+                audio.play();
+                isPlaying = true;
+                musicPlayer.classList.add('playing');
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+                visualize();
+            } else {
+                togglePlay();
+            }
+        });
+    });
+
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+        // Only handle if music section is in view
+        const musicSection = document.querySelector('#music');
+        const rect = musicSection.getBoundingClientRect();
+        const inView = rect.top < window.innerHeight && rect.bottom > 0;
+
+        if (!inView) return;
+
+        if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
+            e.preventDefault();
+            togglePlay();
+        } else if (e.code === 'ArrowLeft') {
+            prevTrack();
+        } else if (e.code === 'ArrowRight') {
+            nextTrack();
+        }
+    });
+
+    // Scroll reveal for music elements
+    const musicObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                musicObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    musicObserver.observe(musicPlayer);
+    trackCards.forEach(card => musicObserver.observe(card));
+
+    // Load track durations
+    trackCards.forEach((card, index) => {
+        const tempAudio = new Audio();
+        tempAudio.src = card.dataset.src;
+        tempAudio.addEventListener('loadedmetadata', () => {
+            card.querySelector('.track-duration').textContent = formatTime(tempAudio.duration);
+        });
+    });
+
+    console.log('Music player initialized');
+})();
