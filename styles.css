@@ -260,6 +260,11 @@ body {
     align-items: center;
 }
 
+/* Mobile menu - hidden on desktop */
+.nav-menu-mobile {
+    display: none;
+}
+
 .nav-link {
     text-decoration: none;
     color: var(--text-tertiary);
@@ -1391,7 +1396,14 @@ body {
         height: 250px;
     }
 
-    .nav-menu {
+    /* Hide desktop menu on mobile */
+    .nav-menu-desktop {
+        display: none;
+    }
+
+    /* Mobile menu - fullscreen overlay outside navbar to avoid backdrop-filter issues */
+    .nav-menu-mobile {
+        display: flex;
         position: fixed;
         top: 0;
         left: 0;
@@ -1408,12 +1420,12 @@ body {
         z-index: 1000;
     }
 
-    .nav-menu.active {
+    .nav-menu-mobile.active {
         opacity: 1;
         visibility: visible;
     }
 
-    .nav-link {
+    .nav-menu-mobile .nav-link {
         font-size: 1.5rem;
     }
 
