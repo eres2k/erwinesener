@@ -4,7 +4,8 @@
  * Updates data/content.json with AI-generated metadata
  *
  * Usage: npm run analyze
- * Requires: GEMINI_API_KEY in .env file
+ * Optional: GEMINI_API_KEY (from .env file or Netlify environment variables)
+ *           Without API key, uses basic metadata from filenames
  */
 
 require('dotenv').config();
