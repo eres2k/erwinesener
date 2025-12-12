@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initSmoothScroll();
     initMobileMenu();
     initCounterAnimation();
+    initProfileEffects();
 
     // Load dynamic content from JSON, then initialize media players
     await loadDynamicContent();
@@ -1220,3 +1221,109 @@ function initVideoGallery() {
     // Show fallback immediately, will be updated when API responds
     observer.observe(countElement);
 })();
+
+// =========================================
+// Profile Image Effects - 3D Tilt & Magnetic
+// =========================================
+
+function initProfileEffects() {
+    const wrapper = document.querySelector('.profile-image-wrapper[data-tilt]');
+    if (!wrapper) return;
+
+    const heroProfile = document.querySelector('.hero-profile');
+
+    // 3D Tilt Effect
+    wrapper.addEventListener('mousemove', (e) => {
+        const rect = wrapper.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const mouseX = e.clientX - centerX;
+        const mouseY = e.clientY - centerY;
+
+        // Calculate rotation (max 15 degrees)
+        const rotateX = (mouseY / (rect.height / 2)) * -15;
+        const rotateY = (mouseX / (rect.width / 2)) * 15;
+
+        wrapper.style.setProperty('--tilt-x', `${rotateY}deg`);
+        wrapper.style.setProperty('--tilt-y', `${rotateX}deg`);
+    });
+
+    wrapper.addEventListener('mouseleave', () => {
+        wrapper.style.setProperty('--tilt-x', '0deg');
+        wrapper.style.setProperty('--tilt-y', '0deg');
+    });
+
+    // Magnetic Cursor Effect
+    if (heroProfile) {
+        const magnetStrength = 0.3;
+
+        heroProfile.addEventListener('mousemove', (e) => {
+            const rect = heroProfile.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const deltaX = (e.clientX - centerX) * magnetStrength;
+            const deltaY = (e.clientY - centerY) * magnetStrength;
+
+            // Apply subtle magnetic pull
+            wrapper.style.transform = `
+                translate(${deltaX * 0.1}px, ${deltaY * 0.1}px)
+                rotateY(var(--tilt-x, 0deg))
+                rotateX(var(--tilt-y, 0deg))
+            `;
+        });
+
+        heroProfile.addEventListener('mouseleave', () => {
+            wrapper.style.transform = '';
+            wrapper.style.setProperty('--tilt-x', '0deg');
+            wrapper.style.setProperty('--tilt-y', '0deg');
+        });
+    }
+
+    // Sparkle effect on click
+    wrapper.addEventListener('click', createSparkles);
+}
+
+function createSparkles(e) {
+    const wrapper = e.currentTarget;
+    const rect = wrapper.getBoundingClientRect();
+
+    for (let i = 0; i < 12; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.cssText = `
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: ${['#FF6B35', '#7C3AED', '#10B981'][Math.floor(Math.random() * 3)]};
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+            left: 50%;
+            top: 50%;
+            box-shadow: 0 0 6px currentColor;
+        `;
+
+        wrapper.appendChild(sparkle);
+
+        const angle = (i / 12) * Math.PI * 2;
+        const velocity = 50 + Math.random() * 50;
+        const targetX = Math.cos(angle) * velocity;
+        const targetY = Math.sin(angle) * velocity;
+
+        sparkle.animate([
+            {
+                transform: 'translate(-50%, -50%) scale(1)',
+                opacity: 1
+            },
+            {
+                transform: `translate(calc(-50% + ${targetX}px), calc(-50% + ${targetY}px)) scale(0)`,
+                opacity: 0
+            }
+        ], {
+            duration: 600 + Math.random() * 400,
+            easing: 'cubic-bezier(0, 0.5, 0.5, 1)'
+        }).onfinish = () => sparkle.remove();
+    }
+}
