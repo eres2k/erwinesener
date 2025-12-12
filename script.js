@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     initSmoothScroll();
     initMobileMenu();
     initCounterAnimation();
+    initProfileEffects();
+    initCustomCursor();
+    initButtonEffects();
+    initCardTilt();
 
     // Load dynamic content from JSON, then initialize media players
     await loadDynamicContent();
@@ -1220,3 +1224,247 @@ function initVideoGallery() {
     // Show fallback immediately, will be updated when API responds
     observer.observe(countElement);
 })();
+
+// =========================================
+// Profile Image Effects - 3D Tilt & Magnetic
+// =========================================
+
+function initProfileEffects() {
+    const wrapper = document.querySelector('.profile-image-wrapper[data-tilt]');
+    if (!wrapper) return;
+
+    const heroProfile = document.querySelector('.hero-profile');
+
+    // 3D Tilt Effect
+    wrapper.addEventListener('mousemove', (e) => {
+        const rect = wrapper.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const mouseX = e.clientX - centerX;
+        const mouseY = e.clientY - centerY;
+
+        // Calculate rotation (max 15 degrees)
+        const rotateX = (mouseY / (rect.height / 2)) * -15;
+        const rotateY = (mouseX / (rect.width / 2)) * 15;
+
+        wrapper.style.setProperty('--tilt-x', `${rotateY}deg`);
+        wrapper.style.setProperty('--tilt-y', `${rotateX}deg`);
+    });
+
+    wrapper.addEventListener('mouseleave', () => {
+        wrapper.style.setProperty('--tilt-x', '0deg');
+        wrapper.style.setProperty('--tilt-y', '0deg');
+    });
+
+    // Magnetic Cursor Effect
+    if (heroProfile) {
+        const magnetStrength = 0.3;
+
+        heroProfile.addEventListener('mousemove', (e) => {
+            const rect = heroProfile.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            const deltaX = (e.clientX - centerX) * magnetStrength;
+            const deltaY = (e.clientY - centerY) * magnetStrength;
+
+            // Apply subtle magnetic pull
+            wrapper.style.transform = `
+                translate(${deltaX * 0.1}px, ${deltaY * 0.1}px)
+                rotateY(var(--tilt-x, 0deg))
+                rotateX(var(--tilt-y, 0deg))
+            `;
+        });
+
+        heroProfile.addEventListener('mouseleave', () => {
+            wrapper.style.transform = '';
+            wrapper.style.setProperty('--tilt-x', '0deg');
+            wrapper.style.setProperty('--tilt-y', '0deg');
+        });
+    }
+
+    // Sparkle effect on click
+    wrapper.addEventListener('click', createSparkles);
+}
+
+function createSparkles(e) {
+    const wrapper = e.currentTarget;
+    const rect = wrapper.getBoundingClientRect();
+
+    for (let i = 0; i < 12; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.cssText = `
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: ${['#FF6B35', '#7C3AED', '#10B981'][Math.floor(Math.random() * 3)]};
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+            left: 50%;
+            top: 50%;
+            box-shadow: 0 0 6px currentColor;
+        `;
+
+        wrapper.appendChild(sparkle);
+
+        const angle = (i / 12) * Math.PI * 2;
+        const velocity = 50 + Math.random() * 50;
+        const targetX = Math.cos(angle) * velocity;
+        const targetY = Math.sin(angle) * velocity;
+
+        sparkle.animate([
+            {
+                transform: 'translate(-50%, -50%) scale(1)',
+                opacity: 1
+            },
+            {
+                transform: `translate(calc(-50% + ${targetX}px), calc(-50% + ${targetY}px)) scale(0)`,
+                opacity: 0
+            }
+        ], {
+            duration: 600 + Math.random() * 400,
+            easing: 'cubic-bezier(0, 0.5, 0.5, 1)'
+        }).onfinish = () => sparkle.remove();
+    }
+}
+
+// =========================================
+// Custom Cursor Effects
+// =========================================
+
+function initCustomCursor() {
+    // Skip on mobile/touch devices
+    if ('ontouchstart' in window || window.innerWidth < 768) return;
+
+    const cursorGlow = document.querySelector('.cursor-glow');
+    const cursorDot = document.querySelector('.cursor-dot');
+
+    if (!cursorGlow || !cursorDot) return;
+
+    let mouseX = 0, mouseY = 0;
+    let glowX = 0, glowY = 0;
+    let dotX = 0, dotY = 0;
+
+    // Track mouse position
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    // Smooth animation loop
+    function animate() {
+        // Glow follows slowly
+        glowX += (mouseX - glowX) * 0.08;
+        glowY += (mouseY - glowY) * 0.08;
+        cursorGlow.style.left = glowX + 'px';
+        cursorGlow.style.top = glowY + 'px';
+
+        // Dot follows quickly
+        dotX += (mouseX - dotX) * 0.2;
+        dotY += (mouseY - dotY) * 0.2;
+        cursorDot.style.left = dotX + 'px';
+        cursorDot.style.top = dotY + 'px';
+
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Add hover effect for interactive elements
+    const interactiveElements = document.querySelectorAll(
+        'a, button, .btn, .project-card, .skill-tag, .contact-card, .track-card, .video-card, .nav-link'
+    );
+
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursorDot.classList.add('hovering');
+        });
+        el.addEventListener('mouseleave', () => {
+            cursorDot.classList.remove('hovering');
+        });
+    });
+
+    // Hide when leaving window
+    document.addEventListener('mouseleave', () => {
+        cursorGlow.style.opacity = '0';
+        cursorDot.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+        cursorGlow.style.opacity = '1';
+        cursorDot.style.opacity = '1';
+    });
+}
+
+// =========================================
+// Button Ripple Effects
+// =========================================
+
+function initButtonEffects() {
+    const buttons = document.querySelectorAll('.btn');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const ripple = document.createElement('span');
+            ripple.className = 'btn-ripple';
+            ripple.style.cssText = `
+                position: absolute;
+                width: 0;
+                height: 0;
+                background: rgba(255, 255, 255, 0.4);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+                left: ${x}px;
+                top: ${y}px;
+            `;
+
+            this.appendChild(ripple);
+
+            ripple.animate([
+                { width: '0px', height: '0px', opacity: 1 },
+                { width: '300px', height: '300px', opacity: 0 }
+            ], {
+                duration: 600,
+                easing: 'ease-out'
+            }).onfinish = () => ripple.remove();
+        });
+    });
+}
+
+// =========================================
+// Card Tilt Effects
+// =========================================
+
+function initCardTilt() {
+    const cards = document.querySelectorAll('.project-card, .skill-category, .contact-card');
+
+    // Skip on mobile
+    if ('ontouchstart' in window || window.innerWidth < 768) return;
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
+}
