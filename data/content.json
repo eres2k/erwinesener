@@ -1,0 +1,70 @@
+{
+  "music": [
+    {
+      "filename": "Elton John - Rocket Man (cover) - brodyworld (Remastered) (Cover)(6).mp3",
+      "path": "music/Elton John - Rocket Man (cover) - brodyworld (Remastered) (Cover)(6).mp3",
+      "title": "Erwin Man",
+      "artist": "Elton John - Rocket Man Cover",
+      "description": "A soaring reinterpretation of the classic space ballad with heartfelt vocals",
+      "icon": "rocket"
+    },
+    {
+      "filename": "New York - Trettmann (Fingerstyle cover)_2 (Remastered) (Cover).mp3",
+      "path": "music/New York - Trettmann (Fingerstyle cover)_2 (Remastered) (Cover).mp3",
+      "title": "Wien",
+      "artist": "Trettmann - New York Cover",
+      "description": "Intimate fingerstyle guitar cover with a European twist",
+      "icon": "city"
+    },
+    {
+      "filename": "Tesla in the Mirror.mp3",
+      "path": "music/Tesla in the Mirror.mp3",
+      "title": "Tesla in the Mirror",
+      "artist": "Michael Jackson - Man in the Mirror Cover",
+      "description": "Electrifying cover blending iconic pop with modern innovation themes",
+      "icon": "mirror"
+    },
+    {
+      "filename": "Söhne Mannheims - Und Wenn ein Lied.mp3",
+      "path": "music/Söhne Mannheims - Und Wenn ein Lied.mp3",
+      "title": "Ein Lied",
+      "artist": "Söhne Mannheims - Und Wenn ein Lied",
+      "description": "Soulful German ballad celebrating the power of music",
+      "icon": "music"
+    },
+    {
+      "filename": "Xavier Naidoo - Nicht von dieser Welt.mp3",
+      "path": "music/Xavier Naidoo - Nicht von dieser Welt.mp3",
+      "title": "Nicht von dieser Welt",
+      "artist": "Xavier Naidoo - Nicht von dieser Welt",
+      "description": "Ethereal soul vocals exploring otherworldly themes",
+      "icon": "globe"
+    }
+  ],
+  "videos": [
+    {
+      "filename": "Erwin Selfielo.mp4",
+      "path": "clips/Erwin Selfielo.mp4",
+      "title": "Selfie Transformation",
+      "description": "Creative portrait metamorphosis"
+    },
+    {
+      "filename": "Erwin Statuelo.mp4",
+      "path": "clips/Erwin Statuelo.mp4",
+      "title": "Statue Effect",
+      "description": "Living sculpture visualization"
+    },
+    {
+      "filename": "Erwin Transformlo.mp4",
+      "path": "clips/Erwin Transformlo.mp4",
+      "title": "Transform Vision",
+      "description": "Dynamic visual transformation"
+    },
+    {
+      "filename": "Erwin Trucklo.mp4",
+      "path": "clips/Erwin Trucklo.mp4",
+      "title": "Truck Scene",
+      "description": "Cinematic vehicle sequence"
+    }
+  ]
+}
