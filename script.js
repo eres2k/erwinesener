@@ -2,7 +2,7 @@
 // Award-Winning Portfolio - Apple-Style Scroll Animations
 // =========================================
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // Initialize all animations
     initScrollProgress();
     initNavigation();
@@ -13,9 +13,158 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
     initCounterAnimation();
 
+    // Load dynamic content from JSON, then initialize media players
+    await loadDynamicContent();
+
     // Add loaded class for initial animations
     document.body.classList.add('loaded');
 });
+
+// =========================================
+// Dynamic Content Loader (AI-Powered)
+// =========================================
+
+async function loadDynamicContent() {
+    try {
+        const response = await fetch('./data/content.json');
+        if (!response.ok) throw new Error("Content data not found");
+        const data = await response.json();
+
+        // Render content from JSON
+        renderMusic(data.music);
+        renderVideos(data.videos);
+
+        // Initialize players after DOM injection
+        initMusicPlayer();
+        initVideoGallery();
+
+        console.log('Dynamic content loaded successfully');
+    } catch (error) {
+        console.log("Using static fallback content:", error.message);
+        // If JSON fails, still try to initialize with existing HTML
+        initMusicPlayer();
+        initVideoGallery();
+    }
+}
+
+function renderMusic(tracks) {
+    const container = document.querySelector('.track-list');
+    if (!container || !tracks || tracks.length === 0) return;
+
+    container.innerHTML = tracks.map((track, index) => `
+        <div class="track-card" data-src="${track.path}" data-title="${track.title}" data-artist="${track.artist}">
+            <div class="track-number">${(index + 1).toString().padStart(2, '0')}</div>
+            <div class="track-artwork">
+                <div class="artwork-placeholder ${getIconClass(track.icon)}">
+                    ${getIconSVG(track.icon)}
+                </div>
+                <div class="play-overlay">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                </div>
+            </div>
+            <div class="track-info">
+                <h4>${track.title}</h4>
+                <p>${track.artist}${track.description ? ' - ' + track.description : ''}</p>
+            </div>
+            <div class="track-duration">-:--</div>
+        </div>
+    `).join('');
+}
+
+function renderVideos(videos) {
+    const container = document.querySelector('.video-gallery');
+    if (!container || !videos || videos.length === 0) return;
+
+    container.innerHTML = videos.map((vid, index) => `
+        <div class="video-card" data-src="${vid.path}" data-title="${vid.title}" data-description="${vid.description}">
+            <div class="video-number">${(index + 1).toString().padStart(2, '0')}</div>
+            <div class="video-preview">
+                <video class="video-thumbnail" muted loop playsinline preload="metadata">
+                    <source src="${vid.path}" type="video/mp4">
+                </video>
+                <div class="video-overlay">
+                    <div class="play-button">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="video-duration">-:--</div>
+            </div>
+            <div class="video-info">
+                <h4>${vid.title}</h4>
+                <p>${vid.description}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+function getIconClass(icon) {
+    const iconClasses = {
+        'rocket': 'rocket-man',
+        'city': 'new-york',
+        'mirror': 'tesla',
+        'music': 'lied',
+        'globe': 'welt',
+        'heart': 'heart',
+        'star': 'star',
+        'wave': 'wave'
+    };
+    return iconClasses[icon] || 'lied';
+}
+
+function getIconSVG(icon) {
+    const icons = {
+        'rocket': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/>
+            <path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/>
+            <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
+            <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
+        </svg>`,
+        'city': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 21h18"/>
+            <path d="M5 21V7l8-4v18"/>
+            <path d="M19 21V11l-6-4"/>
+            <path d="M9 9v.01"/>
+            <path d="M9 12v.01"/>
+            <path d="M9 15v.01"/>
+            <path d="M9 18v.01"/>
+        </svg>`,
+        'mirror': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2v4"/>
+            <path d="M12 18v4"/>
+            <path d="M4.93 4.93l2.83 2.83"/>
+            <path d="M16.24 16.24l2.83 2.83"/>
+            <path d="M2 12h4"/>
+            <path d="M18 12h4"/>
+            <path d="M4.93 19.07l2.83-2.83"/>
+            <path d="M16.24 7.76l2.83-2.83"/>
+        </svg>`,
+        'music': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 18V5l12-2v13"/>
+            <circle cx="6" cy="18" r="3"/>
+            <circle cx="18" cy="16" r="3"/>
+        </svg>`,
+        'globe': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20"/>
+            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+        </svg>`,
+        'heart': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>`,
+        'star': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>`,
+        'wave': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 12h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h2"/>
+        </svg>`
+    };
+    return icons[icon] || icons['music'];
+}
 
 // =========================================
 // Scroll Progress Indicator
@@ -552,7 +701,7 @@ console.log('Award-winning portfolio initialized');
 // Music Player with Audio Visualization
 // =========================================
 
-(function initMusicPlayer() {
+function initMusicPlayer() {
     const musicPlayer = document.querySelector('.music-player');
     const trackCards = document.querySelectorAll('.track-card');
     const playBtn = document.querySelector('.play-btn');
@@ -856,13 +1005,13 @@ console.log('Award-winning portfolio initialized');
     });
 
     console.log('Music player initialized');
-})();
+}
 
 // =========================================
 // Video Gallery with Modal Player
 // =========================================
 
-(function initVideoGallery() {
+function initVideoGallery() {
     const videoCards = document.querySelectorAll('.video-card');
     const videoModal = document.getElementById('videoModal');
     const modalVideo = document.getElementById('modalVideo');
@@ -976,7 +1125,7 @@ console.log('Award-winning portfolio initialized');
     videoCards.forEach(card => videoObserver.observe(card));
 
     console.log('Video gallery initialized');
-})();
+}
 
 // =========================================
 // Page Views Counter with Persistent Backend
