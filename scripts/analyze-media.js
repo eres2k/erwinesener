@@ -4,25 +4,28 @@
  * Updates data/content.json with AI-generated metadata
  *
  * Usage: npm run analyze
- * Requires: GEMINI_API_KEY in .env file
+ * Optional: GEMINI_API_KEY (from .env file or Netlify environment variables)
+ *           Without API key, uses basic metadata from filenames
  */
 
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const { GoogleAIFileManager } = require("@google/generative-ai/server");
 
-// Validate API key
-if (!process.env.GEMINI_API_KEY) {
-    console.error("Error: GEMINI_API_KEY not found in environment variables.");
-    console.error("Please create a .env file with GEMINI_API_KEY=your_key_here");
-    process.exit(1);
+// Check if Gemini API is available
+const HAS_GEMINI = !!process.env.GEMINI_API_KEY;
+let genAI, fileManager, model;
+
+if (HAS_GEMINI) {
+    const { GoogleGenerativeAI } = require("@google/generative-ai");
+    const { GoogleAIFileManager } = require("@google/generative-ai/server");
+    genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+    fileManager = new GoogleAIFileManager(process.env.GEMINI_API_KEY);
+    model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+    console.log("Gemini API enabled - will generate AI descriptions");
+} else {
+    console.log("No GEMINI_API_KEY found - using basic metadata from filenames");
 }
-
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const fileManager = new GoogleAIFileManager(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
 const DATA_FILE = path.join(__dirname, '../data/content.json');
 const MUSIC_DIR = path.join(__dirname, '../music');
@@ -79,11 +82,54 @@ function getMimeType(filePath, type) {
 }
 
 /**
- * Analyze a media file using Gemini AI
+ * Generate basic metadata from filename (fallback when no API)
+ */
+function generateBasicMetadata(filePath, type) {
+    const filename = path.basename(filePath);
+    // Clean up filename: remove extension, replace separators with spaces
+    let title = filename
+        .replace(/\.[^/.]+$/, '')  // remove extension
+        .replace(/[-_]/g, ' ')     // replace dashes/underscores with spaces
+        .replace(/\s+/g, ' ')      // normalize spaces
+        .trim();
+
+    // If filename is a UUID, use a generic title
+    if (/^[a-f0-9-]{36}$/i.test(title.replace(/\s/g, ''))) {
+        title = `New ${type === 'music' ? 'Track' : 'Clip'}`;
+    }
+
+    if (type === 'music') {
+        return {
+            filename,
+            path: `music/${filename}`,
+            title,
+            artist: 'Erwin Esener',
+            description: 'Audio track',
+            icon: 'music'
+        };
+    } else {
+        return {
+            filename,
+            path: `clips/${filename}`,
+            title,
+            description: 'Video clip'
+        };
+    }
+}
+
+/**
+ * Analyze a media file using Gemini AI (or fallback to basic metadata)
  */
 async function analyzeFile(filePath, type) {
     const filename = path.basename(filePath);
     console.log(`\nAnalyzing ${type}: ${filename}...`);
+
+    // Fallback mode: generate basic metadata from filename
+    if (!HAS_GEMINI) {
+        const metadata = generateBasicMetadata(filePath, type);
+        console.log(`  Generated basic metadata: "${metadata.title}"`);
+        return metadata;
+    }
 
     try {
         // 1. Upload to Gemini

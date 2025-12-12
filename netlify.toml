@@ -8,8 +8,8 @@
   # Directory that contains the deploy-ready HTML files and assets
   publish = "/"
 
-  # Default build command (not needed for static HTML)
-  command = ""
+  # Build command - analyze media to update content.json
+  command = "npm install && npm run analyze"
 
 # Production context
 [context.production]
