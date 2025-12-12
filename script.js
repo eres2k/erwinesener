@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     initMobileMenu();
     initCounterAnimation();
     initProfileEffects();
+    initCustomCursor();
+    initButtonEffects();
+    initCardTilt();
 
     // Load dynamic content from JSON, then initialize media players
     await loadDynamicContent();
@@ -1326,4 +1329,142 @@ function createSparkles(e) {
             easing: 'cubic-bezier(0, 0.5, 0.5, 1)'
         }).onfinish = () => sparkle.remove();
     }
+}
+
+// =========================================
+// Custom Cursor Effects
+// =========================================
+
+function initCustomCursor() {
+    // Skip on mobile/touch devices
+    if ('ontouchstart' in window || window.innerWidth < 768) return;
+
+    const cursorGlow = document.querySelector('.cursor-glow');
+    const cursorDot = document.querySelector('.cursor-dot');
+
+    if (!cursorGlow || !cursorDot) return;
+
+    let mouseX = 0, mouseY = 0;
+    let glowX = 0, glowY = 0;
+    let dotX = 0, dotY = 0;
+
+    // Track mouse position
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+    });
+
+    // Smooth animation loop
+    function animate() {
+        // Glow follows slowly
+        glowX += (mouseX - glowX) * 0.08;
+        glowY += (mouseY - glowY) * 0.08;
+        cursorGlow.style.left = glowX + 'px';
+        cursorGlow.style.top = glowY + 'px';
+
+        // Dot follows quickly
+        dotX += (mouseX - dotX) * 0.2;
+        dotY += (mouseY - dotY) * 0.2;
+        cursorDot.style.left = dotX + 'px';
+        cursorDot.style.top = dotY + 'px';
+
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Add hover effect for interactive elements
+    const interactiveElements = document.querySelectorAll(
+        'a, button, .btn, .project-card, .skill-tag, .contact-card, .track-card, .video-card, .nav-link'
+    );
+
+    interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            cursorDot.classList.add('hovering');
+        });
+        el.addEventListener('mouseleave', () => {
+            cursorDot.classList.remove('hovering');
+        });
+    });
+
+    // Hide when leaving window
+    document.addEventListener('mouseleave', () => {
+        cursorGlow.style.opacity = '0';
+        cursorDot.style.opacity = '0';
+    });
+
+    document.addEventListener('mouseenter', () => {
+        cursorGlow.style.opacity = '1';
+        cursorDot.style.opacity = '1';
+    });
+}
+
+// =========================================
+// Button Ripple Effects
+// =========================================
+
+function initButtonEffects() {
+    const buttons = document.querySelectorAll('.btn');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const ripple = document.createElement('span');
+            ripple.className = 'btn-ripple';
+            ripple.style.cssText = `
+                position: absolute;
+                width: 0;
+                height: 0;
+                background: rgba(255, 255, 255, 0.4);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                pointer-events: none;
+                left: ${x}px;
+                top: ${y}px;
+            `;
+
+            this.appendChild(ripple);
+
+            ripple.animate([
+                { width: '0px', height: '0px', opacity: 1 },
+                { width: '300px', height: '300px', opacity: 0 }
+            ], {
+                duration: 600,
+                easing: 'ease-out'
+            }).onfinish = () => ripple.remove();
+        });
+    });
+}
+
+// =========================================
+// Card Tilt Effects
+// =========================================
+
+function initCardTilt() {
+    const cards = document.querySelectorAll('.project-card, .skill-category, .contact-card');
+
+    // Skip on mobile
+    if ('ontouchstart' in window || window.innerWidth < 768) return;
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = ((y - centerY) / centerY) * -5;
+            const rotateY = ((x - centerX) / centerX) * 5;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = '';
+        });
+    });
 }
