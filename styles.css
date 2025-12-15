@@ -108,6 +108,7 @@ body {
     background: linear-gradient(90deg, var(--accent-orange), var(--accent-purple), var(--accent-green));
     z-index: 10000;
     transition: none;
+    pointer-events: none;
 }
 
 /* =========================================
@@ -1605,7 +1606,7 @@ body {
         opacity: 0;
         visibility: hidden;
         transition: all 0.4s ease;
-        z-index: 1000;
+        z-index: 1002;
     }
 
     .nav-menu-mobile.active {
@@ -2776,6 +2777,7 @@ body {
     mask-composite: exclude;
     opacity: 0;
     transition: opacity 0.5s ease;
+    pointer-events: none;
 }
 
 .project-card:hover::before {
@@ -2797,6 +2799,7 @@ body {
     );
     transform: skewX(-25deg);
     transition: left 0.8s ease;
+    pointer-events: none;
 }
 
 .project-card:hover::after {
@@ -2890,6 +2893,7 @@ body {
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     transition: background 0.5s ease;
+    pointer-events: none;
 }
 
 .contact-card:hover::before {
