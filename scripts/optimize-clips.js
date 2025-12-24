@@ -5,16 +5,22 @@
  *
  * Features:
  * - Transcodes videos to 720p (1280x720) for optimal web streaming
+ * - Auto-detects GPU acceleration (NVIDIA NVENC, AMD AMF, Intel QSV)
+ * - Falls back to CPU encoding (libx264) if no GPU available
  * - Uses H.264 codec with web-optimized settings
  * - Adds faststart flag for progressive playback
  * - Preserves originals in clips/originals/ folder
  * - Updates content.json paths automatically
  *
  * Requirements:
- * - FFmpeg must be installed (sudo apt install ffmpeg)
+ * - FFmpeg must be installed
+ *   Windows: winget install FFmpeg
+ *   Linux:   sudo apt install ffmpeg
+ *   macOS:   brew install ffmpeg
  *
  * Usage:
- *   node scripts/optimize-clips.js           # Optimize all clips
+ *   node scripts/optimize-clips.js           # Optimize all clips (auto-detect GPU)
+ *   node scripts/optimize-clips.js --cpu     # Force CPU encoding
  *   node scripts/optimize-clips.js --dry-run # Preview what would be optimized
  *   node scripts/optimize-clips.js --status  # Show optimization status
  *   node scripts/optimize-clips.js --force   # Re-optimize all clips
@@ -31,31 +37,85 @@ const CONFIG = {
     dataFile: path.join(__dirname, '../data/content.json'),
     videoExtensions: ['.mp4', '.webm', '.mov', '.avi', '.mkv'],
 
-    // FFmpeg settings for web optimization
-    ffmpeg: {
-        // Target resolution (720p)
-        width: 1280,
-        height: 720,
+    // Target resolution (720p)
+    width: 1280,
+    height: 720,
 
-        // Video codec settings
-        videoCodec: 'libx264',
-        preset: 'slow',        // Better compression (slow/medium/fast)
-        crf: 23,               // Quality (18-28, lower = better quality, bigger file)
-        profile: 'high',       // H.264 profile for compatibility
-        level: '4.0',          // H.264 level for web compatibility
+    // Audio codec settings (same for all encoders)
+    audio: {
+        codec: 'aac',
+        bitrate: '128k',
+        sampleRate: '44100',
+    },
 
-        // Audio codec settings
-        audioCodec: 'aac',
-        audioBitrate: '128k',
-        audioSampleRate: '44100',
+    // Encoder configurations (in priority order)
+    encoders: {
+        // NVIDIA NVENC (GPU) - 5-10x faster
+        nvenc: {
+            name: 'NVIDIA NVENC (GPU)',
+            codec: 'h264_nvenc',
+            testArgs: ['-f', 'lavfi', '-i', 'nullsrc=s=256x256:d=1', '-c:v', 'h264_nvenc', '-f', 'null', '-'],
+            args: [
+                '-c:v', 'h264_nvenc',
+                '-preset', 'p4',           // p1 (fastest) to p7 (slowest/best)
+                '-tune', 'hq',             // High quality tuning
+                '-rc', 'vbr',              // Variable bitrate
+                '-cq', '23',               // Constant quality (similar to CRF)
+                '-b:v', '0',               // Let CQ control quality
+                '-profile:v', 'high',
+                '-level', '4.0',
+            ]
+        },
+        // AMD AMF (GPU)
+        amf: {
+            name: 'AMD AMF (GPU)',
+            codec: 'h264_amf',
+            testArgs: ['-f', 'lavfi', '-i', 'nullsrc=s=256x256:d=1', '-c:v', 'h264_amf', '-f', 'null', '-'],
+            args: [
+                '-c:v', 'h264_amf',
+                '-quality', 'quality',     // quality, balanced, speed
+                '-rc', 'vbr_peak',
+                '-qp_i', '23',
+                '-qp_p', '23',
+                '-profile:v', 'high',
+                '-level', '4.0',
+            ]
+        },
+        // Intel Quick Sync (GPU)
+        qsv: {
+            name: 'Intel Quick Sync (GPU)',
+            codec: 'h264_qsv',
+            testArgs: ['-f', 'lavfi', '-i', 'nullsrc=s=256x256:d=1', '-c:v', 'h264_qsv', '-f', 'null', '-'],
+            args: [
+                '-c:v', 'h264_qsv',
+                '-preset', 'slow',
+                '-global_quality', '23',
+                '-profile:v', 'high',
+                '-level', '4.0',
+            ]
+        },
+        // CPU fallback (libx264) - always available
+        cpu: {
+            name: 'CPU (libx264)',
+            codec: 'libx264',
+            testArgs: null, // Always available
+            args: [
+                '-c:v', 'libx264',
+                '-preset', 'slow',         // Better compression
+                '-crf', '23',              // Quality (18-28)
+                '-profile:v', 'high',
+                '-level', '4.0',
+            ]
+        }
+    },
 
-        // Output format
-        format: 'mp4',
-
-        // Web optimization
-        movflags: '+faststart', // Move moov atom to start for streaming
-    }
+    // Output format and web optimization
+    format: 'mp4',
+    movflags: '+faststart',
 };
+
+// Cache for detected encoder
+let detectedEncoder = null;
 
 /**
  * Check if FFmpeg is installed
@@ -67,6 +127,46 @@ function checkFFmpeg() {
     } catch {
         return false;
     }
+}
+
+/**
+ * Detect the best available encoder (GPU > CPU)
+ * Tests encoders in priority order: NVENC > AMF > QSV > CPU
+ */
+function detectEncoder(forceCpu = false) {
+    if (forceCpu) {
+        console.log('  Forcing CPU encoder (--cpu flag)');
+        return { key: 'cpu', ...CONFIG.encoders.cpu };
+    }
+
+    if (detectedEncoder) {
+        return detectedEncoder;
+    }
+
+    console.log('  Detecting available encoders...');
+
+    // Test GPU encoders in priority order
+    const gpuEncoders = ['nvenc', 'amf', 'qsv'];
+
+    for (const key of gpuEncoders) {
+        const encoder = CONFIG.encoders[key];
+        try {
+            execSync(`ffmpeg ${encoder.testArgs.join(' ')} 2>&1`, {
+                stdio: 'pipe',
+                timeout: 10000
+            });
+            console.log(`  ✓ ${encoder.name} available`);
+            detectedEncoder = { key, ...encoder };
+            return detectedEncoder;
+        } catch {
+            // Encoder not available, try next
+        }
+    }
+
+    // Fallback to CPU
+    console.log('  No GPU encoder found, using CPU');
+    detectedEncoder = { key: 'cpu', ...CONFIG.encoders.cpu };
+    return detectedEncoder;
 }
 
 /**
@@ -151,7 +251,7 @@ function needsOptimization(filePath, force = false) {
  * Optimize a single video file
  */
 function optimizeVideo(filename, options = {}) {
-    const { dryRun = false } = options;
+    const { dryRun = false, encoder = null } = options;
 
     const inputPath = path.join(CONFIG.clipsDir, filename);
     const outputFilename = path.basename(filename, path.extname(filename)) + '.mp4';
@@ -172,31 +272,27 @@ function optimizeVideo(filename, options = {}) {
         return { filename, skipped: false, dryRun: true };
     }
 
-    // Build FFmpeg command
+    // Build FFmpeg command with detected encoder
     const ffmpegArgs = [
         '-i', inputPath,
         '-y',  // Overwrite output
         '-v', 'warning',
         '-stats',
 
-        // Video settings
-        '-c:v', CONFIG.ffmpeg.videoCodec,
-        '-preset', CONFIG.ffmpeg.preset,
-        '-crf', CONFIG.ffmpeg.crf.toString(),
-        '-profile:v', CONFIG.ffmpeg.profile,
-        '-level', CONFIG.ffmpeg.level,
+        // Video encoder settings (from detected encoder)
+        ...encoder.args,
 
         // Scale to 720p (maintain aspect ratio, ensure even dimensions)
-        '-vf', `scale='min(${CONFIG.ffmpeg.width},iw)':min'(${CONFIG.ffmpeg.height},ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2`,
+        '-vf', `scale='min(${CONFIG.width},iw)':min'(${CONFIG.height},ih)':force_original_aspect_ratio=decrease,scale=trunc(iw/2)*2:trunc(ih/2)*2`,
 
         // Audio settings
-        '-c:a', CONFIG.ffmpeg.audioCodec,
-        '-b:a', CONFIG.ffmpeg.audioBitrate,
-        '-ar', CONFIG.ffmpeg.audioSampleRate,
+        '-c:a', CONFIG.audio.codec,
+        '-b:a', CONFIG.audio.bitrate,
+        '-ar', CONFIG.audio.sampleRate,
 
         // Output format and web optimization
-        '-f', CONFIG.ffmpeg.format,
-        '-movflags', CONFIG.ffmpeg.movflags,
+        '-f', CONFIG.format,
+        '-movflags', CONFIG.movflags,
         '-pix_fmt', 'yuv420p',  // Maximum compatibility
 
         tempPath
@@ -352,7 +448,7 @@ function showStatus() {
  * Main optimization function
  */
 async function optimizeAll(options = {}) {
-    const { dryRun = false, force = false } = options;
+    const { dryRun = false, force = false, forceCpu = false } = options;
 
     console.log('\n' + '='.repeat(50));
     console.log('Web Video Optimizer - 720p');
@@ -361,13 +457,20 @@ async function optimizeAll(options = {}) {
     // Check FFmpeg
     if (!checkFFmpeg()) {
         console.error('\nError: FFmpeg is not installed!');
-        console.error('Install it with: sudo apt install ffmpeg');
+        console.error('Install with:');
+        console.error('  Windows: winget install FFmpeg');
+        console.error('  Linux:   sudo apt install ffmpeg');
+        console.error('  macOS:   brew install ffmpeg');
         process.exit(1);
     }
     console.log('\n✓ FFmpeg found');
 
+    // Detect best available encoder
+    const encoder = detectEncoder(forceCpu);
+    console.log(`\n🎬 Using encoder: ${encoder.name}`);
+
     if (dryRun) {
-        console.log('🔍 DRY RUN MODE - No files will be modified\n');
+        console.log('\n🔍 DRY RUN MODE - No files will be modified');
     }
 
     const videos = getVideoFiles();
@@ -381,6 +484,7 @@ async function optimizeAll(options = {}) {
 
     const results = [];
     let totalSavings = 0;
+    const startTime = Date.now();
 
     for (const filename of videos) {
         const filePath = path.join(CONFIG.clipsDir, filename);
@@ -390,12 +494,14 @@ async function optimizeAll(options = {}) {
             continue;
         }
 
-        const result = optimizeVideo(filename, { dryRun });
+        const result = optimizeVideo(filename, { dryRun, encoder });
         if (result) {
             results.push(result);
             if (result.savings) totalSavings += result.savings;
         }
     }
+
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
 
     // Update content.json
     if (!dryRun && results.length > 0) {
@@ -412,6 +518,8 @@ async function optimizeAll(options = {}) {
     if (optimized.length > 0) {
         console.log(`\nOptimized: ${optimized.length} video(s)`);
         console.log(`Total saved: ${formatSize(totalSavings)}`);
+        console.log(`Time elapsed: ${elapsed}s`);
+        console.log(`Encoder used: ${encoder.name}`);
     } else if (dryRun) {
         console.log(`\n[DRY RUN] Would optimize ${results.length} video(s)`);
     } else {
@@ -427,6 +535,9 @@ if (require.main === module) {
         console.log(`
 Web Video Optimizer for 720p
 
+Automatically optimizes videos to 720p for web delivery.
+Auto-detects GPU acceleration (NVIDIA/AMD/Intel) for 5-10x faster encoding.
+
 Usage:
   node scripts/optimize-clips.js [options]
 
@@ -434,10 +545,19 @@ Options:
   --dry-run    Preview what would be optimized (no changes)
   --status     Show current optimization status
   --force      Re-optimize all videos (even if already optimized)
+  --cpu        Force CPU encoding (skip GPU detection)
   --help       Show this help message
 
+GPU Acceleration:
+  The script automatically detects and uses:
+  - NVIDIA NVENC (CUDA) - fastest
+  - AMD AMF
+  - Intel Quick Sync
+  - CPU (libx264) - fallback
+
 Examples:
-  node scripts/optimize-clips.js              # Optimize all clips
+  node scripts/optimize-clips.js              # Optimize with auto GPU detection
+  node scripts/optimize-clips.js --cpu        # Force CPU encoding
   node scripts/optimize-clips.js --dry-run    # Preview changes
   node scripts/optimize-clips.js --status     # Check status
   npm run optimize                            # Run via npm
@@ -450,7 +570,8 @@ Examples:
     } else {
         optimizeAll({
             dryRun: args.includes('--dry-run') || args.includes('-n'),
-            force: args.includes('--force') || args.includes('-f')
+            force: args.includes('--force') || args.includes('-f'),
+            forceCpu: args.includes('--cpu') || args.includes('-c')
         });
     }
 }
@@ -461,6 +582,7 @@ module.exports = {
     optimizeVideo,
     getVideoInfo,
     needsOptimization,
+    detectEncoder,
     showStatus,
     CONFIG
 };
