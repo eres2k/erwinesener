@@ -5,7 +5,7 @@
       "path": "music/Elton John - Rocket Man (cover) - brodyworld (Remastered) (Cover)(6).mp3",
       "title": "Erwin Man",
       "artist": "Elton John - Rocket Man Cover",
-      "description": "A soaring reinterpretation of the classic space ballad with heartfelt vocals",
+      "description": "A celestial journey through space and solitude, reimagined with raw vocal emotion and atmospheric depth",
       "icon": "rocket"
     },
     {
@@ -13,7 +13,7 @@
       "path": "music/New York - Trettmann (Fingerstyle cover)_2 (Remastered) (Cover).mp3",
       "title": "Wien",
       "artist": "Trettmann - New York Cover",
-      "description": "Intimate fingerstyle guitar cover with a European twist",
+      "description": "Urban melancholy meets European soul in this intimate fingerstyle interpretation",
       "icon": "city"
     },
     {
@@ -21,7 +21,7 @@
       "path": "music/Tesla in the Mirror.mp3",
       "title": "Tesla in the Mirror",
       "artist": "Michael Jackson - Man in the Mirror Cover",
-      "description": "Electrifying cover blending iconic pop with modern innovation themes",
+      "description": "A visionary fusion of classic pop anthems with futuristic innovation, sparking change through music",
       "icon": "mirror"
     },
     {
@@ -29,7 +29,7 @@
       "path": "music/Söhne Mannheims - Und Wenn ein Lied.mp3",
       "title": "Ein Lied",
       "artist": "Söhne Mannheims - Und Wenn ein Lied",
-      "description": "Soulful German ballad celebrating the power of music",
+      "description": "Heartfelt German soul celebrating music's power to heal, connect, and transcend",
       "icon": "music"
     },
     {
@@ -37,40 +37,52 @@
       "path": "music/Xavier Naidoo - Nicht von dieser Welt.mp3",
       "title": "Nicht von dieser Welt",
       "artist": "Xavier Naidoo - Nicht von dieser Welt",
-      "description": "Ethereal soul vocals exploring otherworldly themes",
+      "description": "Otherworldly vocals ascending beyond earthly bounds into spiritual transcendence",
       "icon": "globe"
     }
   ],
   "videos": [
     {
+      "filename": "Childish Gambino - This is America.mp4",
+      "path": "clips/Childish Gambino - This is America.mp4",
+      "title": "This is America",
+      "description": "Bold cultural commentary through explosive choreography and visual storytelling"
+    },
+    {
+      "filename": "Queen - Bohemian Rhapsody.mp4",
+      "path": "clips/Queen - Bohemian Rhapsody.mp4",
+      "title": "Bohemian Rhapsody",
+      "description": "Legendary rock opera brought to life with theatrical grandeur and operatic intensity"
+    },
+    {
       "filename": "Erwin Selfielo.mp4",
       "path": "clips/Erwin Selfielo.mp4",
       "title": "Selfie Transformation",
-      "description": "Creative portrait metamorphosis"
+      "description": "Hypnotic portrait metamorphosis blending identity and digital artistry"
     },
     {
       "filename": "Erwin Statuelo.mp4",
       "path": "clips/Erwin Statuelo.mp4",
       "title": "Statue Effect",
-      "description": "Living sculpture visualization"
+      "description": "Living sculpture frozen in time, bridging human form and marble permanence"
     },
     {
       "filename": "Erwin Transformlo.mp4",
       "path": "clips/Erwin Transformlo.mp4",
       "title": "Transform Vision",
-      "description": "Dynamic visual transformation"
+      "description": "Fluid visual alchemy where reality bends and reshapes in mesmerizing motion"
     },
     {
       "filename": "Erwin Trucklo.mp4",
       "path": "clips/Erwin Trucklo.mp4",
       "title": "Truck Scene",
-      "description": "Cinematic vehicle sequence"
+      "description": "Cinematic road poetry capturing industrial power and open highway dreams"
     },
     {
       "filename": "aed6e27c-b1f3-4059-ba41-ccb2f39ede34.mp4",
       "path": "clips/aed6e27c-b1f3-4059-ba41-ccb2f39ede34.mp4",
-      "title": "New Clip",
-      "description": "Latest video upload"
+      "title": "Abstract Motion",
+      "description": "Experimental visual narrative exploring form, color, and kinetic energy"
     }
   ]
 }
