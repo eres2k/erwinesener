@@ -5,6 +5,9 @@
   "main": "script.js",
   "scripts": {
     "analyze": "node scripts/analyze-media.js",
+    "scan": "node scripts/auto-scan-media.js",
+    "scan:watch": "node scripts/auto-scan-media.js --watch",
+    "scan:status": "node scripts/auto-scan-media.js --status",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
