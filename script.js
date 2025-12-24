@@ -77,6 +77,39 @@ function renderMusic(tracks) {
     `).join('');
 }
 
+// Generate a unique thumbnail cache key from video path
+function getThumbnailCacheKey(videoPath) {
+    return 'thumb_' + videoPath.replace(/[^a-zA-Z0-9]/g, '_');
+}
+
+// SVG placeholder for video thumbnails (works in all browsers including Instagram)
+function getVideoPlaceholderPoster(title) {
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+        <defs>
+            <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#1a1a2e"/>
+                <stop offset="50%" style="stop-color:#16213e"/>
+                <stop offset="100%" style="stop-color:#0f0f23"/>
+            </linearGradient>
+        </defs>
+        <rect width="640" height="360" fill="url(#bg)"/>
+        <circle cx="320" cy="180" r="40" fill="rgba(124,58,237,0.3)" stroke="rgba(124,58,237,0.6)" stroke-width="2"/>
+        <polygon points="310,160 310,200 345,180" fill="rgba(255,255,255,0.8)"/>
+    </svg>`;
+    return 'data:image/svg+xml;base64,' + btoa(svg);
+}
+
+// Get cached thumbnail or return placeholder
+function getCachedThumbnail(videoPath, title) {
+    try {
+        const cached = localStorage.getItem(getThumbnailCacheKey(videoPath));
+        if (cached) return cached;
+    } catch (e) {
+        // localStorage may not be available
+    }
+    return getVideoPlaceholderPoster(title);
+}
+
 function renderVideos(videos) {
     const container = document.querySelector('.video-gallery');
     if (!container || !videos || videos.length === 0) return;
@@ -85,7 +118,7 @@ function renderVideos(videos) {
         <div class="video-card" data-src="${vid.path}" data-title="${vid.title}" data-description="${vid.description}">
             <div class="video-number">${(index + 1).toString().padStart(2, '0')}</div>
             <div class="video-preview">
-                <video class="video-thumbnail" muted loop playsinline preload="metadata">
+                <video class="video-thumbnail" muted loop playsinline preload="metadata" poster="${getCachedThumbnail(vid.path, vid.title)}" crossorigin="anonymous">
                     <source src="${vid.path}" type="video/mp4">
                 </video>
                 <div class="video-overlay">
@@ -1015,6 +1048,38 @@ function initMusicPlayer() {
 // Video Gallery with Modal Player
 // =========================================
 
+// Generate and cache video thumbnail from first frame
+function generateVideoThumbnail(video, videoPath) {
+    return new Promise((resolve) => {
+        try {
+            const canvas = document.createElement('canvas');
+            canvas.width = 640;
+            canvas.height = 360;
+            const ctx = canvas.getContext('2d');
+
+            // Draw video frame to canvas
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert to data URL and cache
+            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+            // Only cache if it's a valid image (not blank)
+            if (dataUrl && dataUrl.length > 1000) {
+                try {
+                    localStorage.setItem(getThumbnailCacheKey(videoPath), dataUrl);
+                    video.poster = dataUrl;
+                } catch (e) {
+                    // localStorage quota exceeded or not available
+                }
+            }
+            resolve(dataUrl);
+        } catch (e) {
+            // Canvas security error (CORS) or other issue
+            resolve(null);
+        }
+    });
+}
+
 function initVideoGallery() {
     const videoCards = document.querySelectorAll('.video-card');
     const videoModal = document.getElementById('videoModal');
@@ -1034,12 +1099,34 @@ function initVideoGallery() {
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
-    // Load video durations
+    // Load video durations and generate thumbnails
     videoCards.forEach(card => {
         const video = card.querySelector('.video-thumbnail');
         const durationEl = card.querySelector('.video-duration');
+        const videoPath = card.dataset.src;
 
         if (video && durationEl) {
+            // Check if we already have a cached thumbnail
+            const cacheKey = getThumbnailCacheKey(videoPath);
+            let cached = null;
+            try {
+                cached = localStorage.getItem(cacheKey);
+            } catch (e) {
+                // localStorage not available
+            }
+
+            if (!cached) {
+                // Generate thumbnail when video data is available
+                video.addEventListener('loadeddata', () => {
+                    // Seek to 1 second for a better thumbnail (not just black frame)
+                    video.currentTime = Math.min(1, video.duration * 0.1);
+                }, { once: true });
+
+                video.addEventListener('seeked', () => {
+                    generateVideoThumbnail(video, videoPath);
+                }, { once: true });
+            }
+
             video.addEventListener('loadedmetadata', () => {
                 durationEl.textContent = formatTime(video.duration);
             });
