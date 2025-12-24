@@ -8,6 +8,9 @@
     "scan": "node scripts/auto-scan-media.js",
     "scan:watch": "node scripts/auto-scan-media.js --watch",
     "scan:status": "node scripts/auto-scan-media.js --status",
+    "optimize": "node scripts/optimize-clips.js",
+    "optimize:status": "node scripts/optimize-clips.js --status",
+    "optimize:dry": "node scripts/optimize-clips.js --dry-run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
