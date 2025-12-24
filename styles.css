@@ -964,9 +964,7 @@ body {
 .project-status {
     font-size: 0.7rem;
     font-weight: 500;
-    color: var(--accent-green);
     padding: 0.4rem 0.8rem;
-    background: rgba(16, 185, 129, 0.08);
     border-radius: 100px;
     display: flex;
     align-items: center;
@@ -978,9 +976,38 @@ body {
     content: '';
     width: 5px;
     height: 5px;
-    background: var(--accent-green);
     border-radius: 50%;
     animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* Production status - Green */
+.project-status.status-production {
+    color: var(--accent-green);
+    background: rgba(16, 185, 129, 0.08);
+}
+
+.project-status.status-production::before {
+    background: var(--accent-green);
+}
+
+/* Under Development status - Orange */
+.project-status.status-development {
+    color: var(--accent-orange);
+    background: rgba(255, 107, 53, 0.08);
+}
+
+.project-status.status-development::before {
+    background: var(--accent-orange);
+}
+
+/* Invite Only status - Purple */
+.project-status.status-invite {
+    color: var(--accent-purple-bright);
+    background: rgba(124, 58, 237, 0.08);
+}
+
+.project-status.status-invite::before {
+    background: var(--accent-purple-bright);
 }
 
 @keyframes pulse-dot {

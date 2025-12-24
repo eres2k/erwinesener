@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // =========================================
-// Dynamic Content Loader (AI-Powered)
+// Dynamic Content Loader
 // =========================================
 
 async function loadDynamicContent() {
