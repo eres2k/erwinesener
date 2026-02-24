@@ -1010,6 +1010,24 @@ body {
     background: var(--accent-purple-bright);
 }
 
+/* Under Review status - Amber */
+.project-status.status-review {
+    color: #F59E0B;
+    background: rgba(245, 158, 11, 0.08);
+}
+
+.project-status.status-review::before {
+    background: #F59E0B;
+}
+
+/* Disabled project link */
+.project-link.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+    cursor: not-allowed;
+    filter: grayscale(0.5);
+}
+
 @keyframes pulse-dot {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.5; transform: scale(0.8); }
