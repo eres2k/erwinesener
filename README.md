@@ -1,6 +1,6 @@
 # Erwin Esener | Personal Portfolio
 
-A personal portfolio website showcasing professional projects, visual creations, and music remixes by Erwin Esener - WHS Manager Austria at Amazon Logistics.
+A personal portfolio website showcasing professional projects, visual creations, and music remixes by Erwin Esener - Software Developer Austria.
 
 **Live Site:** [https://eres2k.github.io/erwinesener/](https://eres2k.github.io/erwinesener/)
 
@@ -9,7 +9,7 @@ A personal portfolio website showcasing professional projects, visual creations,
 ### 1. safety-analytics
 **Enterprise Workplace Safety Intelligence System**
 
-Comprehensive 33,641-line enterprise-grade safety intelligence platform for Amazon WHS Austria featuring revolutionary 4-tier progressive disclosure for GDPR/HIPAA compliance.
+Comprehensive 33,641-line enterprise-grade safety intelligence platform featuring revolutionary 4-tier progressive disclosure for GDPR/HIPAA compliance.
 
 - 4-tier privacy system
 - Interactive charts and visualizations
@@ -34,19 +34,19 @@ Next-generation PWA revolutionizing workplace safety auditing with offline-first
 
 [Launch Application](https://safety-hub.netlify.app)
 
-### 3. AMZL WHS Quest
-**Retro 16-Bit Warehouse Safety Educational Game**
+### 3. Safety Quest
+**Retro 16-Bit Safety Educational Game**
 
 Innovative educational game transforming OSHA compliance training into an engaging retro gaming experience with procedurally generated 16-bit aesthetics.
 
 - 16-bit retro graphics
 - 12 chiptune tracks
 - 9 boss battles
-- 100+ real warehouse hazard scenarios
+- 100+ real workplace hazard scenarios
 
 **Tech:** JavaScript, HTML5 Canvas, Web Audio API, PWA, Cordova
 
-[Launch Game](https://amzlwhsquest.netlify.app)
+[Launch Game](https://safetyquest.netlify.app)
 
 ### 4. Healthy Brunch Club
 **Progressive Web App for Bio-Brunch Restaurant**
@@ -161,7 +161,7 @@ The site is deployed via GitHub Pages and automatically updates on push to the m
 
 - **GitHub:** [@eres2k](https://github.com/eres2k)
 - **LinkedIn:** [Erwin Esener](https://www.linkedin.com/in/erwin-esener-539b45155/)
-- **Email:** eeesener@amazon.com
+- **Email:** erwin.esener@gmail.com
 
 ## License
 
