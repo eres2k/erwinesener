@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initCustomCursor();
     initButtonEffects();
     initCardTilt();
+    initProjectTabs();
 
     // Load dynamic content from JSON, then initialize media players
     await loadDynamicContent();
@@ -1521,6 +1522,34 @@ function initButtonEffects() {
                 duration: 600,
                 easing: 'ease-out'
             }).onfinish = () => ripple.remove();
+        });
+    });
+}
+
+// =========================================
+// Project Tabs
+// =========================================
+
+function initProjectTabs() {
+    const tabs = document.querySelectorAll('.project-tab');
+    const cards = document.querySelectorAll('.project-card');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const category = tab.dataset.tab;
+
+            // Update active tab
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.classList.remove('tab-hidden');
+                } else {
+                    card.classList.add('tab-hidden');
+                }
+            });
         });
     });
 }
