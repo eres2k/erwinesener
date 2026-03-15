@@ -768,6 +768,49 @@ body {
     transform: translateY(0);
 }
 
+/* Project Tabs */
+.project-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+
+.project-tab {
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 0.6rem 1.5rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-transform: lowercase;
+    letter-spacing: 0.05em;
+}
+
+.project-tab:hover {
+    border-color: rgba(255, 107, 53, 0.3);
+    color: var(--text-primary);
+}
+
+.project-tab.active {
+    background: linear-gradient(135deg, rgba(255, 107, 53, 0.15), rgba(124, 58, 237, 0.15));
+    border-color: rgba(255, 107, 53, 0.3);
+    color: var(--accent-orange);
+}
+
+.project-list {
+    transition: all 0.3s ease;
+}
+
+.project-card.tab-hidden {
+    display: none;
+}
+
 /* Project Cards - Scroll Reveal */
 .project-card {
     display: flex;
@@ -1387,6 +1430,111 @@ body {
     line-height: 1.7;
     max-width: 600px;
     margin: 0 auto;
+    text-transform: lowercase;
+}
+
+/* Supported Models */
+.supported-models {
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+}
+
+.models-title {
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: lowercase;
+    letter-spacing: 0.15em;
+    color: var(--text-tertiary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.models-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.model-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-base);
+}
+
+.model-tag:hover {
+    border-color: rgba(255, 107, 53, 0.3);
+    background: rgba(255, 107, 53, 0.05);
+}
+
+.model-name {
+    font-family: var(--font-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.model-type {
+    font-size: 0.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.15rem 0.5rem;
+    border-radius: 100px;
+    background: rgba(124, 58, 237, 0.15);
+    color: var(--accent-purple-bright);
+}
+
+/* Hardware Specs */
+.hardware-specs {
+    text-align: center;
+    padding: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-lg);
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-md);
+    margin: var(--spacing-md) 0;
+}
+
+.spec-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.spec-label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent-orange);
+}
+
+.spec-value {
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.spec-detail {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
     text-transform: lowercase;
 }
 
@@ -3723,6 +3871,31 @@ a:not(.btn):not(.nav-link):not(.contact-card):not(.project-link):hover::after {
     .tech-badge {
         font-size: 0.65rem;
         padding: 0.35rem 0.65rem;
+    }
+
+    .project-tabs {
+        gap: 0.35rem;
+    }
+
+    .project-tab {
+        font-size: 0.7rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .specs-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .models-grid {
+        gap: 0.5rem;
+    }
+
+    .model-tag {
+        padding: 0.4rem 0.75rem;
+    }
+
+    .model-name {
+        font-size: 0.75rem;
     }
 
     .project-links {
