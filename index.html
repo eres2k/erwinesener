@@ -438,7 +438,14 @@
                 <button class="project-tab" data-tab="web">web apps</button>
             </div>
 
-            <div class="project-list">
+            <div class="project-carousel-wrapper">
+                <button class="carousel-arrow carousel-prev" aria-label="Previous project">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                </button>
+                <div class="carousel-viewport">
+                    <div class="project-list carousel-track">
             <!-- Project 01: Nexus Monitor -->
             <div class="project-card" data-project="nexus" data-category="ai">
                 <div class="project-header">
@@ -1035,7 +1042,15 @@
                     </div>
                 </div>
             </div>
-            </div><!-- /project-list -->
+                    </div><!-- /carousel-track -->
+                </div><!-- /carousel-viewport -->
+                <button class="carousel-arrow carousel-next" aria-label="Next project">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </button>
+            </div><!-- /project-carousel-wrapper -->
+            <div class="carousel-dots"></div>
         </div>
     </section>
 
