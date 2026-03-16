@@ -1,28 +1,19 @@
 // =========================================
-// Award-Winning Portfolio - Apple-Style Scroll Animations
+// Erwin Esener Portfolio - Revamped 2025
+// Lightweight, Performant, Accessible
 // =========================================
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // Initialize all animations
     initScrollProgress();
     initNavigation();
-    initScrollReveal();
-    initParallax();
-    initTextSplit();
-    initSmoothScroll();
     initMobileMenu();
+    initRevealAnimations();
     initCounterAnimation();
-    initProfileEffects();
-    initCustomCursor();
-    initButtonEffects();
-    initCardTilt();
-    initProjectTabs();
-    initProjectCarousel();
+    initProjectFilters();
+    initCreativeTabs();
 
-    // Load dynamic content from JSON, then initialize media players
     await loadDynamicContent();
 
-    // Add loaded class for initial animations
     document.body.classList.add('loaded');
 });
 
@@ -33,198 +24,88 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadDynamicContent() {
     try {
         const response = await fetch('./data/content.json');
-        if (!response.ok) throw new Error("Content data not found");
+        if (!response.ok) throw new Error('Content data not found');
         const data = await response.json();
 
-        // Render content from JSON
-        renderMusic(data.music);
         renderVideos(data.videos);
-
-        // Initialize players after DOM injection
+        renderTracks(data.music);
+        initVideoModal();
         initMusicPlayer();
-        initVideoGallery();
-        initVideoCarousel();
-
-        console.log('Dynamic content loaded successfully');
     } catch (error) {
-        console.log("Using static fallback content:", error.message);
-        // If JSON fails, still try to initialize with existing HTML
-        initMusicPlayer();
-        initVideoGallery();
-        initVideoCarousel();
+        console.log('Using static fallback:', error.message);
     }
-}
-
-function renderMusic(tracks) {
-    const container = document.querySelector('.track-list');
-    if (!container || !tracks || tracks.length === 0) return;
-
-    container.innerHTML = tracks.map((track, index) => `
-        <div class="track-card" data-src="${track.path}" data-title="${track.title}" data-artist="${track.artist}">
-            <div class="track-number">${(index + 1).toString().padStart(2, '0')}</div>
-            <div class="track-artwork">
-                <div class="artwork-placeholder ${getIconClass(track.icon)}">
-                    ${getIconSVG(track.icon)}
-                </div>
-                <div class="play-overlay">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                </div>
-            </div>
-            <div class="track-info">
-                <h4>${track.title}</h4>
-                <p>${track.artist}${track.description ? ' - ' + track.description : ''}</p>
-            </div>
-            <div class="track-duration">-:--</div>
-        </div>
-    `).join('');
-}
-
-// Generate a unique thumbnail cache key from video path
-function getThumbnailCacheKey(videoPath) {
-    return 'thumb_' + videoPath.replace(/[^a-zA-Z0-9]/g, '_');
-}
-
-// SVG placeholder for video thumbnails (works in all browsers including Instagram)
-function getVideoPlaceholderPoster(title) {
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
-        <defs>
-            <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#1a1a2e"/>
-                <stop offset="50%" style="stop-color:#16213e"/>
-                <stop offset="100%" style="stop-color:#0f0f23"/>
-            </linearGradient>
-        </defs>
-        <rect width="640" height="360" fill="url(#bg)"/>
-        <circle cx="320" cy="180" r="40" fill="rgba(124,58,237,0.3)" stroke="rgba(124,58,237,0.6)" stroke-width="2"/>
-        <polygon points="310,160 310,200 345,180" fill="rgba(255,255,255,0.8)"/>
-    </svg>`;
-    return 'data:image/svg+xml;base64,' + btoa(svg);
-}
-
-// Get cached thumbnail or return placeholder
-function getCachedThumbnail(videoPath, title) {
-    try {
-        const cached = localStorage.getItem(getThumbnailCacheKey(videoPath));
-        if (cached) return cached;
-    } catch (e) {
-        // localStorage may not be available
-    }
-    return getVideoPlaceholderPoster(title);
-}
-
-function renderVideos(videos) {
-    const container = document.querySelector('.video-carousel-track');
-    if (!container || !videos || videos.length === 0) return;
-
-    container.innerHTML = videos.map((vid, index) => `
-        <div class="video-card" data-src="${vid.path}" data-title="${vid.title}" data-description="${vid.description}">
-            <div class="video-number">${(index + 1).toString().padStart(2, '0')}</div>
-            <div class="video-preview">
-                <video class="video-thumbnail" muted loop playsinline preload="metadata" poster="${getCachedThumbnail(vid.path, vid.title)}" crossorigin="anonymous">
-                    <source src="${vid.path}" type="video/mp4">
-                </video>
-                <div class="video-overlay">
-                    <div class="play-button">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
-                    </div>
-                </div>
-                <div class="video-duration">-:--</div>
-            </div>
-            <div class="video-info">
-                <h4>${vid.title}</h4>
-                <p>${vid.description}</p>
-            </div>
-        </div>
-    `).join('');
-}
-
-function getIconClass(icon) {
-    const iconClasses = {
-        'rocket': 'rocket-man',
-        'city': 'new-york',
-        'mirror': 'tesla',
-        'music': 'lied',
-        'globe': 'welt',
-        'heart': 'heart',
-        'star': 'star',
-        'wave': 'wave'
-    };
-    return iconClasses[icon] || 'lied';
-}
-
-function getIconSVG(icon) {
-    const icons = {
-        'rocket': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/>
-            <path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/>
-            <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/>
-            <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/>
-        </svg>`,
-        'city': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M3 21h18"/>
-            <path d="M5 21V7l8-4v18"/>
-            <path d="M19 21V11l-6-4"/>
-            <path d="M9 9v.01"/>
-            <path d="M9 12v.01"/>
-            <path d="M9 15v.01"/>
-            <path d="M9 18v.01"/>
-        </svg>`,
-        'mirror': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 2v4"/>
-            <path d="M12 18v4"/>
-            <path d="M4.93 4.93l2.83 2.83"/>
-            <path d="M16.24 16.24l2.83 2.83"/>
-            <path d="M2 12h4"/>
-            <path d="M18 12h4"/>
-            <path d="M4.93 19.07l2.83-2.83"/>
-            <path d="M16.24 7.76l2.83-2.83"/>
-        </svg>`,
-        'music': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M9 18V5l12-2v13"/>
-            <circle cx="6" cy="18" r="3"/>
-            <circle cx="18" cy="16" r="3"/>
-        </svg>`,
-        'globe': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M2 12h20"/>
-            <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-        </svg>`,
-        'heart': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-        </svg>`,
-        'star': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-        </svg>`,
-        'wave': `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M2 12h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h2"/>
-        </svg>`
-    };
-    return icons[icon] || icons['music'];
 }
 
 // =========================================
-// Scroll Progress Indicator
+// Render Videos
+// =========================================
+
+function renderVideos(videos) {
+    const grid = document.getElementById('video-grid');
+    if (!grid || !videos) return;
+
+    grid.innerHTML = videos.map((v, i) => `
+        <div class="video-card reveal-up" style="--delay: ${0.05 * i}s" data-src="${v.path}" data-title="${v.title}" tabindex="0" role="button" aria-label="Play ${v.title}">
+            <div class="video-thumb">
+                <video src="${v.path}" muted preload="metadata" aria-hidden="true"></video>
+                <div class="video-play-icon">
+                    <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                </div>
+            </div>
+            <div class="video-meta">
+                <h3 class="video-title">${v.title}</h3>
+                <p class="video-description">${v.description}</p>
+            </div>
+        </div>
+    `).join('');
+
+    // Re-observe new elements for reveal
+    observeRevealElements(grid);
+}
+
+// =========================================
+// Render Music Tracks
+// =========================================
+
+function renderTracks(tracks) {
+    const list = document.getElementById('track-list');
+    if (!list || !tracks) return;
+
+    const icons = {
+        rocket: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>',
+        city: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="6" width="7" height="18"/><rect x="10" y="2" width="7" height="22"/><rect x="19" y="10" width="4" height="14"/></svg>',
+        mirror: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"/></svg>',
+        music: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+        globe: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+    };
+
+    list.innerHTML = tracks.map((t, i) => `
+        <div class="track-item" data-src="${t.path}" data-title="${t.title}" data-artist="${t.artist}" tabindex="0" role="button" aria-label="Play ${t.title} by ${t.artist}">
+            <span class="track-number">${i + 1}</span>
+            <div class="track-info">
+                <span class="track-name">${t.title}</span>
+                <span class="track-artist">${t.artist}</span>
+            </div>
+            <span class="track-icon">${icons[t.icon] || icons.music}</span>
+        </div>
+    `).join('');
+}
+
+// =========================================
+// Scroll Progress
 // =========================================
 
 function initScrollProgress() {
-    const progressBar = document.createElement('div');
-    progressBar.className = 'scroll-progress';
-    document.body.prepend(progressBar);
+    const bar = document.querySelector('.scroll-progress');
+    if (!bar) return;
 
     let ticking = false;
-
     window.addEventListener('scroll', () => {
         if (!ticking) {
             requestAnimationFrame(() => {
                 const scrollTop = window.scrollY;
                 const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const progress = (scrollTop / docHeight) * 100;
-                progressBar.style.width = `${progress}%`;
+                bar.style.width = docHeight > 0 ? (scrollTop / docHeight * 100) + '%' : '0%';
                 ticking = false;
             });
             ticking = true;
@@ -233,216 +114,53 @@ function initScrollProgress() {
 }
 
 // =========================================
-// Navigation with Scroll Detection
+// Navigation
 // =========================================
 
 function initNavigation() {
     const navbar = document.querySelector('.navbar');
-    const navLinks = document.querySelectorAll('.nav-link');
+    const links = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('section[id]');
 
-    // Scroll effect for navbar
-    let lastScrollY = 0;
+    // Scroll state
     let ticking = false;
-
     window.addEventListener('scroll', () => {
         if (!ticking) {
             requestAnimationFrame(() => {
-                const scrollY = window.scrollY;
-
-                // Add/remove scrolled class
-                if (scrollY > 50) {
-                    navbar.classList.add('scrolled');
-                } else {
-                    navbar.classList.remove('scrolled');
-                }
-
-                lastScrollY = scrollY;
+                navbar.classList.toggle('scrolled', window.scrollY > 50);
+                updateActiveLink(links, sections);
                 ticking = false;
             });
             ticking = true;
         }
     }, { passive: true });
 
-    // Active section tracking
-    const observerOptions = {
-        threshold: 0.3,
-        rootMargin: '-100px 0px -50% 0px'
-    };
-
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const currentId = entry.target.getAttribute('id');
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === `#${currentId}`) {
-                        link.classList.add('active');
-                    }
-                });
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                e.preventDefault();
+                const offset = 80;
+                const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({ top, behavior: 'smooth' });
             }
         });
-    }, observerOptions);
-
-    sections.forEach(section => sectionObserver.observe(section));
-}
-
-// =========================================
-// Apple-Style Scroll Reveal Animations
-// =========================================
-
-function initScrollReveal() {
-    // Elements to animate on scroll
-    const animatedElements = document.querySelectorAll(`
-        .section-header,
-        .project-card,
-        .skill-category,
-        .contact-card,
-        .video-card
-    `);
-
-    // Observer with staggered reveal
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry, index) => {
-            if (entry.isIntersecting) {
-                // Add delay based on element's position in the viewport
-                const delay = entry.target.dataset.delay || 0;
-
-                setTimeout(() => {
-                    entry.target.classList.add('in-view');
-                }, delay);
-
-                // Unobserve after animation
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    animatedElements.forEach((el, index) => {
-        revealObserver.observe(el);
-    });
-
-    // Special handling for skill categories with staggered delays
-    const skillCategories = document.querySelectorAll('.skill-category');
-    skillCategories.forEach((card, index) => {
-        card.dataset.delay = index * 100;
-    });
-
-    // Special handling for contact cards
-    const contactCards = document.querySelectorAll('.contact-card');
-    contactCards.forEach((card, index) => {
-        card.dataset.delay = index * 100;
     });
 }
 
-// =========================================
-// Parallax Depth Effect
-// =========================================
+function updateActiveLink(links, sections) {
+    const scrollPos = window.scrollY + 100;
+    let currentSection = '';
 
-function initParallax() {
-    const parallaxElements = document.querySelectorAll('[data-parallax]');
-    const orbs = document.querySelectorAll('.gradient-orb');
-
-    let ticking = false;
-
-    // Parallax on scroll
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                const scrollY = window.scrollY;
-
-                // Move gradient orbs based on scroll
-                orbs.forEach((orb, index) => {
-                    const speed = (index + 1) * 0.05;
-                    const yPos = scrollY * speed;
-                    orb.style.transform = `translate(0, ${yPos}px)`;
-                });
-
-                // Move parallax elements
-                parallaxElements.forEach(el => {
-                    const speed = el.dataset.parallax || 0.1;
-                    const yPos = scrollY * speed;
-                    el.style.transform = `translateY(${yPos}px)`;
-                });
-
-                ticking = false;
-            });
-            ticking = true;
+    sections.forEach(section => {
+        if (scrollPos >= section.offsetTop) {
+            currentSection = section.getAttribute('id');
         }
-    }, { passive: true });
-
-    // Subtle mouse parallax for orbs
-    let mouseX = 0, mouseY = 0;
-    let currentX = 0, currentY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / window.innerWidth - 0.5) * 30;
-        mouseY = (e.clientY / window.innerHeight - 0.5) * 30;
-    }, { passive: true });
-
-    function animateOrbs() {
-        currentX += (mouseX - currentX) * 0.05;
-        currentY += (mouseY - currentY) * 0.05;
-
-        orbs.forEach((orb, index) => {
-            const factor = (index + 1) * 0.3;
-            orb.style.marginLeft = `${currentX * factor}px`;
-            orb.style.marginTop = `${currentY * factor}px`;
-        });
-
-        requestAnimationFrame(animateOrbs);
-    }
-
-    animateOrbs();
-}
-
-// =========================================
-// Text Split Animation
-// =========================================
-
-function initTextSplit() {
-    const splitTitles = document.querySelectorAll('.section-title');
-
-    splitTitles.forEach(title => {
-        const text = title.textContent;
-        const words = text.split(' ');
-
-        title.innerHTML = words.map(word => {
-            const chars = word.split('').map((char, i) =>
-                `<span class="char" style="transition-delay: ${i * 0.03}s">${char}</span>`
-            ).join('');
-            return `<span class="word">${chars}</span>`;
-        }).join(' ');
     });
-}
 
-// =========================================
-// Smooth Scroll
-// =========================================
-
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href');
-
-            if (targetId === '#') return;
-
-            const targetElement = document.querySelector(targetId);
-
-            if (targetElement) {
-                const navbarHeight = document.querySelector('.navbar').offsetHeight;
-                const targetPosition = targetElement.offsetTop - navbarHeight;
-
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
+    links.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + currentSection);
     });
 }
 
@@ -451,35 +169,71 @@ function initSmoothScroll() {
 // =========================================
 
 function initMobileMenu() {
-    const menuToggle = document.querySelector('.mobile-menu-toggle');
-    const navMenu = document.querySelector('.nav-menu-mobile');
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    const menu = document.querySelector('.mobile-menu');
+    const links = document.querySelectorAll('.mobile-link');
 
-    if (!menuToggle || !navMenu) return;
+    if (!toggle || !menu) return;
 
-    menuToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        menuToggle.classList.toggle('active');
+    function closeMenu() {
+        toggle.classList.remove('active');
+        toggle.setAttribute('aria-expanded', 'false');
+        menu.classList.remove('open');
+        menu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    }
 
-        document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
+    toggle.addEventListener('click', () => {
+        const isOpen = menu.classList.contains('open');
+        if (isOpen) {
+            closeMenu();
+        } else {
+            toggle.classList.add('active');
+            toggle.setAttribute('aria-expanded', 'true');
+            menu.classList.add('open');
+            menu.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
     });
 
-    // Close menu on link click (mobile menu links only)
-    navMenu.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            menuToggle.classList.remove('active');
-            document.body.style.overflow = '';
-        });
+    links.forEach(link => {
+        link.addEventListener('click', closeMenu);
     });
 
     // Close on escape
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
-            navMenu.classList.remove('active');
-            menuToggle.classList.remove('active');
-            document.body.style.overflow = '';
+        if (e.key === 'Escape' && menu.classList.contains('open')) {
+            closeMenu();
+            toggle.focus();
         }
     });
+}
+
+// =========================================
+// Reveal Animations (Intersection Observer)
+// =========================================
+
+function initRevealAnimations() {
+    observeRevealElements(document);
+}
+
+function observeRevealElements(root) {
+    const elements = root.querySelectorAll('.reveal-up:not(.visible)');
+    if (!elements.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    elements.forEach(el => observer.observe(el));
 }
 
 // =========================================
@@ -487,1289 +241,304 @@ function initMobileMenu() {
 // =========================================
 
 function initCounterAnimation() {
-    const counters = document.querySelectorAll('.stat-number, .impact-stat');
-
-    const counterObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !entry.target.dataset.animated) {
-                animateCounter(entry.target);
-                entry.target.dataset.animated = 'true';
-            }
-        });
-    }, { threshold: 0.5 });
-
-    counters.forEach(counter => counterObserver.observe(counter));
-}
-
-function animateCounter(element) {
-    const text = element.textContent.trim();
-
-    // Handle special cases
-    if (text.toLowerCase() === 'zero') {
-        element.textContent = '0';
-        setTimeout(() => {
-            element.textContent = 'zero';
-        }, 1500);
-        return;
-    }
-
-    const match = text.match(/^(\d+)(.*)$/);
-    if (!match) return;
-
-    const target = parseInt(match[1]);
-    const suffix = match[2];
-    const duration = 2000;
-    const startTime = performance.now();
-
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Ease out cubic
-        const easeProgress = 1 - Math.pow(1 - progress, 3);
-        const current = Math.floor(easeProgress * target);
-
-        element.textContent = current + suffix;
-
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            element.textContent = target + suffix;
-        }
-    }
-
-    element.textContent = '0' + suffix;
-    requestAnimationFrame(update);
-}
-
-// =========================================
-// Scroll-Linked Opacity Effect
-// =========================================
-
-function initScrollLinkedEffects() {
-    const hero = document.querySelector('.hero');
-
-    if (!hero) return;
-
-    window.addEventListener('scroll', () => {
-        const scrollY = window.scrollY;
-        const heroHeight = hero.offsetHeight;
-        const opacity = 1 - (scrollY / heroHeight) * 1.5;
-        const scale = 1 - (scrollY / heroHeight) * 0.1;
-
-        hero.style.opacity = Math.max(0, Math.min(1, opacity));
-        hero.querySelector('.hero-content').style.transform =
-            `scale(${Math.max(0.9, scale)}) translateY(${scrollY * 0.3}px)`;
-    }, { passive: true });
-}
-
-// Initialize scroll-linked effects
-initScrollLinkedEffects();
-
-// =========================================
-// Performance: Throttle Utility
-// =========================================
-
-function throttle(func, limit) {
-    let inThrottle;
-    return function(...args) {
-        if (!inThrottle) {
-            func.apply(this, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    };
-}
-
-// =========================================
-// Intersection Observer for Skills Grid
-// =========================================
-
-const skillsGrid = document.querySelector('.skills-grid');
-
-if (skillsGrid) {
-    const skillsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const categories = entry.target.querySelectorAll('.skill-category');
-                categories.forEach((category, index) => {
-                    setTimeout(() => {
-                        category.classList.add('in-view');
-                    }, index * 100);
-                });
-                skillsObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.2 });
-
-    skillsObserver.observe(skillsGrid);
-}
-
-// =========================================
-// Magnetic Button Effect (Subtle)
-// =========================================
-
-document.querySelectorAll('.btn, .project-link').forEach(btn => {
-    btn.addEventListener('mousemove', function(e) {
-        const rect = this.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
-
-        this.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
-    });
-
-    btn.addEventListener('mouseleave', function() {
-        this.style.transform = '';
-    });
-});
-
-// =========================================
-// Cursor Glow Effect
-// =========================================
-
-function initCursorGlow() {
-    const glow = document.createElement('div');
-    glow.style.cssText = `
-        position: fixed;
-        width: 400px;
-        height: 400px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(255, 107, 53, 0.08) 0%, transparent 70%);
-        pointer-events: none;
-        z-index: 0;
-        transform: translate(-50%, -50%);
-        transition: opacity 0.3s ease;
-        opacity: 0;
-    `;
-    document.body.appendChild(glow);
-
-    let glowX = 0, glowY = 0;
-    let currentGlowX = 0, currentGlowY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-        glowX = e.clientX;
-        glowY = e.clientY;
-        glow.style.opacity = '1';
-    }, { passive: true });
-
-    document.addEventListener('mouseleave', () => {
-        glow.style.opacity = '0';
-    });
-
-    function animateGlow() {
-        currentGlowX += (glowX - currentGlowX) * 0.1;
-        currentGlowY += (glowY - currentGlowY) * 0.1;
-
-        glow.style.left = `${currentGlowX}px`;
-        glow.style.top = `${currentGlowY}px`;
-
-        requestAnimationFrame(animateGlow);
-    }
-
-    animateGlow();
-}
-
-// Initialize cursor glow on desktop only
-if (window.matchMedia('(min-width: 1024px)').matches) {
-    initCursorGlow();
-}
-
-// =========================================
-// Scroll Velocity Effect
-// =========================================
-
-let scrollVelocity = 0;
-let lastScrollTop = 0;
-
-window.addEventListener('scroll', throttle(() => {
-    const scrollTop = window.scrollY;
-    scrollVelocity = Math.abs(scrollTop - lastScrollTop);
-    lastScrollTop = scrollTop;
-
-    // Apply velocity-based effects
-    const projectCards = document.querySelectorAll('.project-card.in-view');
-    const velocityScale = Math.min(scrollVelocity * 0.001, 0.02);
-
-    projectCards.forEach(card => {
-        card.style.transform = `translateY(0) scale(${1 - velocityScale})`;
-    });
-
-    // Reset after scroll stops
-    setTimeout(() => {
-        projectCards.forEach(card => {
-            card.style.transform = '';
-        });
-    }, 150);
-}, 16), { passive: true });
-
-// =========================================
-// Section Reveal with Blur
-// =========================================
-
-const blurSections = document.querySelectorAll('.section-header');
-
-const blurObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-        }
-    });
-}, {
-    threshold: 0.2,
-    rootMargin: '0px 0px -100px 0px'
-});
-
-blurSections.forEach(section => blurObserver.observe(section));
-
-// =========================================
-// Performance Monitor (Development Only)
-// =========================================
-
-if (window.location.hostname === 'localhost') {
-    window.addEventListener('load', () => {
-        if (window.performance && window.performance.timing) {
-            const perfData = window.performance.timing;
-            const pageLoadTime = perfData.loadEventEnd - perfData.navigationStart;
-            console.log(`Page loaded in ${pageLoadTime}ms`);
-        }
-    });
-}
-
-// Log initialization
-console.log('Award-winning portfolio initialized');
-
-// =========================================
-// Music Player with Audio Visualization
-// =========================================
-
-function initMusicPlayer() {
-    const musicPlayer = document.querySelector('.music-player');
-    const trackCards = document.querySelectorAll('.track-card');
-    const playBtn = document.querySelector('.play-btn');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    const progressFill = document.querySelector('.progress-fill');
-    const progressInput = document.querySelector('.progress-input');
-    const timeCurrent = document.querySelector('.time-current');
-    const timeDuration = document.querySelector('.time-duration');
-    const volumeSlider = document.querySelector('.volume-slider');
-    const trackTitle = document.querySelector('.now-playing .track-title');
-    const trackArtist = document.querySelector('.now-playing .track-artist');
-    const playIcon = document.querySelector('.play-icon');
-    const pauseIcon = document.querySelector('.pause-icon');
-    const canvas = document.getElementById('audioVisualizer');
-
-    if (!musicPlayer || !canvas) return;
-
-    // Audio setup
-    let audio = new Audio();
-    let audioContext = null;
-    let analyser = null;
-    let source = null;
-    let currentTrackIndex = -1;
-    let isPlaying = false;
-    let animationId = null;
-
-    // Canvas setup
-    const ctx = canvas.getContext('2d');
-    let canvasWidth, canvasHeight;
-
-    function resizeCanvas() {
-        const rect = canvas.parentElement.getBoundingClientRect();
-        canvas.width = rect.width * window.devicePixelRatio;
-        canvas.height = rect.height * window.devicePixelRatio;
-        canvasWidth = canvas.width;
-        canvasHeight = canvas.height;
-        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
-    }
-
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    // Initialize audio context on first interaction
-    function initAudioContext() {
-        if (audioContext) return;
-
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        analyser.fftSize = 256;
-        source = audioContext.createMediaElementSource(audio);
-        source.connect(analyser);
-        analyser.connect(audioContext.destination);
-    }
-
-    // Format time
-    function formatTime(seconds) {
-        if (isNaN(seconds)) return '0:00';
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
-    }
-
-    // Load track
-    function loadTrack(index) {
-        if (index < 0 || index >= trackCards.length) return;
-
-        const card = trackCards[index];
-        const src = card.dataset.src;
-        const title = card.dataset.title;
-        const artist = card.dataset.artist;
-
-        // Update UI
-        trackCards.forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-
-        trackTitle.textContent = title;
-        trackArtist.textContent = artist;
-
-        // Load audio
-        audio.src = src;
-        currentTrackIndex = index;
-
-        audio.addEventListener('loadedmetadata', () => {
-            timeDuration.textContent = formatTime(audio.duration);
-            card.querySelector('.track-duration').textContent = formatTime(audio.duration);
-        }, { once: true });
-    }
-
-    // Play/Pause
-    function togglePlay() {
-        if (currentTrackIndex === -1) {
-            loadTrack(0);
-        }
-
-        initAudioContext();
-
-        if (audioContext.state === 'suspended') {
-            audioContext.resume();
-        }
-
-        if (isPlaying) {
-            audio.pause();
-            isPlaying = false;
-            musicPlayer.classList.remove('playing');
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
-            cancelAnimationFrame(animationId);
-        } else {
-            audio.play();
-            isPlaying = true;
-            musicPlayer.classList.add('playing');
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'block';
-            visualize();
-        }
-    }
-
-    // Previous track
-    function prevTrack() {
-        let newIndex = currentTrackIndex - 1;
-        if (newIndex < 0) newIndex = trackCards.length - 1;
-        loadTrack(newIndex);
-        if (isPlaying) {
-            audio.play();
-            visualize();
-        }
-    }
-
-    // Next track
-    function nextTrack() {
-        let newIndex = currentTrackIndex + 1;
-        if (newIndex >= trackCards.length) newIndex = 0;
-        loadTrack(newIndex);
-        if (isPlaying) {
-            audio.play();
-            visualize();
-        }
-    }
-
-    // Audio visualization
-    function visualize() {
-        if (!analyser) return;
-
-        const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
-
-        function draw() {
-            animationId = requestAnimationFrame(draw);
-
-            analyser.getByteFrequencyData(dataArray);
-
-            // Clear canvas
-            ctx.clearRect(0, 0, canvasWidth / window.devicePixelRatio, canvasHeight / window.devicePixelRatio);
-
-            const centerX = canvasWidth / (2 * window.devicePixelRatio);
-            const centerY = canvasHeight / (2 * window.devicePixelRatio);
-            const radius = Math.min(centerX, centerY) * 0.75;
-
-            // Draw circular bars
-            const bars = 64;
-            const barWidth = 3;
-
-            for (let i = 0; i < bars; i++) {
-                const dataIndex = Math.floor(i * bufferLength / bars);
-                const value = dataArray[dataIndex];
-                const barHeight = (value / 255) * radius * 0.5;
-
-                const angle = (i / bars) * Math.PI * 2 - Math.PI / 2;
-
-                const x1 = centerX + Math.cos(angle) * (radius - 10);
-                const y1 = centerY + Math.sin(angle) * (radius - 10);
-                const x2 = centerX + Math.cos(angle) * (radius - 10 + barHeight);
-                const y2 = centerY + Math.sin(angle) * (radius - 10 + barHeight);
-
-                // Gradient color based on frequency
-                const hue = (i / bars) * 60 + 15; // Orange to purple range
-                const saturation = 80 + (value / 255) * 20;
-                const lightness = 50 + (value / 255) * 20;
-
-                ctx.beginPath();
-                ctx.moveTo(x1, y1);
-                ctx.lineTo(x2, y2);
-                ctx.strokeStyle = `hsla(${hue}, ${saturation}%, ${lightness}%, ${0.6 + (value / 255) * 0.4})`;
-                ctx.lineWidth = barWidth;
-                ctx.lineCap = 'round';
-                ctx.stroke();
-            }
-
-            // Inner glow effect
-            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius * 0.6);
-            gradient.addColorStop(0, 'rgba(255, 107, 53, 0.1)');
-            gradient.addColorStop(0.5, 'rgba(124, 58, 237, 0.05)');
-            gradient.addColorStop(1, 'transparent');
-
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, radius * 0.6, 0, Math.PI * 2);
-            ctx.fillStyle = gradient;
-            ctx.fill();
-        }
-
-        draw();
-    }
-
-    // Update progress
-    audio.addEventListener('timeupdate', () => {
-        const progress = (audio.currentTime / audio.duration) * 100;
-        progressFill.style.width = `${progress}%`;
-        progressInput.value = progress;
-        timeCurrent.textContent = formatTime(audio.currentTime);
-    });
-
-    // Track ended
-    audio.addEventListener('ended', () => {
-        nextTrack();
-    });
-
-    // Progress seek
-    progressInput.addEventListener('input', (e) => {
-        const time = (e.target.value / 100) * audio.duration;
-        audio.currentTime = time;
-    });
-
-    // Volume control
-    volumeSlider.addEventListener('input', (e) => {
-        audio.volume = e.target.value / 100;
-    });
-
-    // Set initial volume
-    audio.volume = 0.8;
-
-    // Event listeners
-    playBtn.addEventListener('click', togglePlay);
-    prevBtn.addEventListener('click', prevTrack);
-    nextBtn.addEventListener('click', nextTrack);
-
-    // Track card click
-    trackCards.forEach((card, index) => {
-        card.addEventListener('click', () => {
-            const wasPlaying = isPlaying && currentTrackIndex === index;
-
-            if (currentTrackIndex !== index) {
-                loadTrack(index);
-                initAudioContext();
-
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-
-                audio.play();
-                isPlaying = true;
-                musicPlayer.classList.add('playing');
-                playIcon.style.display = 'none';
-                pauseIcon.style.display = 'block';
-                visualize();
-            } else {
-                togglePlay();
-            }
-        });
-    });
-
-    // Keyboard controls
-    document.addEventListener('keydown', (e) => {
-        // Only handle if music section is in view
-        const musicSection = document.querySelector('#music');
-        const rect = musicSection.getBoundingClientRect();
-        const inView = rect.top < window.innerHeight && rect.bottom > 0;
-
-        if (!inView) return;
-
-        if (e.code === 'Space' && e.target.tagName !== 'INPUT') {
-            e.preventDefault();
-            togglePlay();
-        } else if (e.code === 'ArrowLeft') {
-            prevTrack();
-        } else if (e.code === 'ArrowRight') {
-            nextTrack();
-        }
-    });
-
-    // Scroll reveal for music elements
-    const musicObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('in-view');
-                musicObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-
-    musicObserver.observe(musicPlayer);
-    trackCards.forEach(card => musicObserver.observe(card));
-
-    // Load track durations
-    trackCards.forEach((card, index) => {
-        const tempAudio = new Audio();
-        tempAudio.src = card.dataset.src;
-        tempAudio.addEventListener('loadedmetadata', () => {
-            card.querySelector('.track-duration').textContent = formatTime(tempAudio.duration);
-        });
-    });
-
-    console.log('Music player initialized');
-}
-
-// =========================================
-// Video Gallery with Modal Player
-// =========================================
-
-// Generate and cache video thumbnail from first frame
-function generateVideoThumbnail(video, videoPath) {
-    return new Promise((resolve) => {
-        try {
-            const canvas = document.createElement('canvas');
-            canvas.width = 640;
-            canvas.height = 360;
-            const ctx = canvas.getContext('2d');
-
-            // Draw video frame to canvas
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            // Convert to data URL and cache
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-
-            // Only cache if it's a valid image (not blank)
-            if (dataUrl && dataUrl.length > 1000) {
-                try {
-                    localStorage.setItem(getThumbnailCacheKey(videoPath), dataUrl);
-                    video.poster = dataUrl;
-                } catch (e) {
-                    // localStorage quota exceeded or not available
-                }
-            }
-            resolve(dataUrl);
-        } catch (e) {
-            // Canvas security error (CORS) or other issue
-            resolve(null);
-        }
-    });
-}
-
-function initVideoGallery() {
-    const videoCards = document.querySelectorAll('.video-card');
-    const videoModal = document.getElementById('videoModal');
-    const modalVideo = document.getElementById('modalVideo');
-    const modalTitle = document.querySelector('.modal-title');
-    const modalDescription = document.querySelector('.modal-description');
-    const modalClose = document.querySelector('.modal-close');
-    const modalBackdrop = document.querySelector('.modal-backdrop');
-
-    if (!videoCards.length || !videoModal) return;
-
-    // Format time
-    function formatTime(seconds) {
-        if (isNaN(seconds)) return '-:--';
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
-    }
-
-    // Load video durations and generate thumbnails
-    videoCards.forEach(card => {
-        const video = card.querySelector('.video-thumbnail');
-        const durationEl = card.querySelector('.video-duration');
-        const videoPath = card.dataset.src;
-
-        if (video && durationEl) {
-            // Check if we already have a cached thumbnail
-            const cacheKey = getThumbnailCacheKey(videoPath);
-            let cached = null;
-            try {
-                cached = localStorage.getItem(cacheKey);
-            } catch (e) {
-                // localStorage not available
-            }
-
-            if (!cached) {
-                // Generate thumbnail when video data is available
-                video.addEventListener('loadeddata', () => {
-                    // Seek to 1 second for a better thumbnail (not just black frame)
-                    video.currentTime = Math.min(1, video.duration * 0.1);
-                }, { once: true });
-
-                video.addEventListener('seeked', () => {
-                    generateVideoThumbnail(video, videoPath);
-                }, { once: true });
-            }
-
-            video.addEventListener('loadedmetadata', () => {
-                durationEl.textContent = formatTime(video.duration);
-            });
-
-            // Trigger load
-            video.load();
-        }
-    });
-
-    // Hover preview for video cards
-    videoCards.forEach(card => {
-        const video = card.querySelector('.video-thumbnail');
-
-        card.addEventListener('mouseenter', () => {
-            if (video) {
-                video.currentTime = 0;
-                video.play().catch(() => {});
-            }
-        });
-
-        card.addEventListener('mouseleave', () => {
-            if (video) {
-                video.pause();
-                video.currentTime = 0;
-            }
-        });
-    });
-
-    // Open modal
-    function openModal(card) {
-        const src = card.dataset.src;
-        const title = card.dataset.title;
-        const description = card.dataset.description;
-
-        modalVideo.querySelector('source').src = src;
-        modalVideo.load();
-        modalTitle.textContent = title;
-        modalDescription.textContent = description;
-
-        videoModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-
-        // Auto-play video after modal opens
-        setTimeout(() => {
-            modalVideo.play().catch(() => {});
-        }, 400);
-    }
-
-    // Close modal
-    function closeModal() {
-        modalVideo.pause();
-        modalVideo.currentTime = 0;
-        videoModal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    // Event listeners
-    videoCards.forEach(card => {
-        card.addEventListener('click', () => openModal(card));
-    });
-
-    if (modalClose) {
-        modalClose.addEventListener('click', closeModal);
-    }
-
-    if (modalBackdrop) {
-        modalBackdrop.addEventListener('click', closeModal);
-    }
-
-    // Keyboard controls
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && videoModal.classList.contains('active')) {
-            closeModal();
-        }
-    });
-
-    // Scroll reveal for video cards
-    const videoObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('in-view');
-                videoObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-
-    videoCards.forEach(card => videoObserver.observe(card));
-
-    console.log('Video gallery initialized');
-}
-
-// =========================================
-// Page Views Counter with Persistent Backend
-// =========================================
-
-(function initPageViewsCounter() {
-    const countElement = document.getElementById('pageViewCount');
-    const COUNTER_API = 'https://api.counterapi.dev/v1/erwinesener-portfolio/pageviews/up';
-    const FALLBACK_COUNT = 1377;
-
-    if (!countElement) return;
-
-    // Animate the counter display
-    function animateCount(target) {
-        const duration = 1500;
-        const startTime = performance.now();
-        const startValue = Math.max(0, target - 50);
-
-        function update(currentTime) {
-            const elapsed = currentTime - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-
-            // Ease out cubic
-            const easeProgress = 1 - Math.pow(1 - progress, 3);
-            const current = Math.floor(startValue + (target - startValue) * easeProgress);
-
-            countElement.textContent = current.toLocaleString();
-
-            if (progress < 1) {
-                requestAnimationFrame(update);
-            } else {
-                countElement.textContent = target.toLocaleString();
-            }
-        }
-
-        requestAnimationFrame(update);
-    }
-
-    // Fetch and increment the counter from the backend
-    async function fetchAndIncrementCount() {
-        try {
-            const response = await fetch(COUNTER_API);
-            if (!response.ok) throw new Error('Counter API unavailable');
-            const data = await response.json();
-            // The API returns { count: number } - add to our base count
-            return FALLBACK_COUNT + (data.count || 0);
-        } catch (error) {
-            console.warn('Counter API error, using fallback:', error);
-            // Fallback to localStorage if API fails
-            const localCount = localStorage.getItem('erwinesener_page_views');
-            if (localCount) {
-                const count = parseInt(localCount, 10) + 1;
-                localStorage.setItem('erwinesener_page_views', count.toString());
-                return count;
-            }
-            return FALLBACK_COUNT;
-        }
-    }
-
-    // Start animation when element is in view
-    let hasAnimated = false;
-    let currentCount = FALLBACK_COUNT;
+    const counters = document.querySelectorAll('.stat-number[data-count]');
+    if (!counters.length) return;
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && !hasAnimated) {
-                hasAnimated = true;
-                animateCount(currentCount);
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
                 observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.5 });
 
-    // Fetch count from backend and update
-    fetchAndIncrementCount().then(count => {
-        currentCount = count;
-        // If already in view, animate now
-        const rect = countElement.getBoundingClientRect();
-        const inView = rect.top < window.innerHeight && rect.bottom > 0;
-        if (inView && !hasAnimated) {
-            hasAnimated = true;
-            animateCount(currentCount);
-        } else if (!hasAnimated) {
-            observer.observe(countElement);
-        } else {
-            // Already animated with fallback, update to real count
-            countElement.textContent = currentCount.toLocaleString();
+    counters.forEach(el => observer.observe(el));
+}
+
+function animateCounter(el) {
+    const target = parseInt(el.dataset.count);
+    const duration = 1500;
+    const start = performance.now();
+
+    function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(target * eased);
+
+        el.textContent = target > 1000 ? current.toLocaleString() : current;
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
         }
-        console.log('Page views counter initialized:', currentCount);
-    });
-
-    // Show fallback immediately, will be updated when API responds
-    observer.observe(countElement);
-})();
-
-// =========================================
-// Profile Image Effects - 3D Tilt & Magnetic
-// =========================================
-
-function initProfileEffects() {
-    const wrapper = document.querySelector('.profile-image-wrapper[data-tilt]');
-    if (!wrapper) return;
-
-    const heroProfile = document.querySelector('.hero-profile');
-
-    // 3D Tilt Effect
-    wrapper.addEventListener('mousemove', (e) => {
-        const rect = wrapper.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-
-        const mouseX = e.clientX - centerX;
-        const mouseY = e.clientY - centerY;
-
-        // Calculate rotation (max 15 degrees)
-        const rotateX = (mouseY / (rect.height / 2)) * -15;
-        const rotateY = (mouseX / (rect.width / 2)) * 15;
-
-        wrapper.style.setProperty('--tilt-x', `${rotateY}deg`);
-        wrapper.style.setProperty('--tilt-y', `${rotateX}deg`);
-    });
-
-    wrapper.addEventListener('mouseleave', () => {
-        wrapper.style.setProperty('--tilt-x', '0deg');
-        wrapper.style.setProperty('--tilt-y', '0deg');
-    });
-
-    // Magnetic Cursor Effect
-    if (heroProfile) {
-        const magnetStrength = 0.3;
-
-        heroProfile.addEventListener('mousemove', (e) => {
-            const rect = heroProfile.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-
-            const deltaX = (e.clientX - centerX) * magnetStrength;
-            const deltaY = (e.clientY - centerY) * magnetStrength;
-
-            // Apply subtle magnetic pull
-            wrapper.style.transform = `
-                translate(${deltaX * 0.1}px, ${deltaY * 0.1}px)
-                rotateY(var(--tilt-x, 0deg))
-                rotateX(var(--tilt-y, 0deg))
-            `;
-        });
-
-        heroProfile.addEventListener('mouseleave', () => {
-            wrapper.style.transform = '';
-            wrapper.style.setProperty('--tilt-x', '0deg');
-            wrapper.style.setProperty('--tilt-y', '0deg');
-        });
     }
 
-    // Sparkle effect on click
-    wrapper.addEventListener('click', createSparkles);
-}
-
-function createSparkles(e) {
-    const wrapper = e.currentTarget;
-    const rect = wrapper.getBoundingClientRect();
-
-    for (let i = 0; i < 12; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.style.cssText = `
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: ${['#FF6B35', '#7C3AED', '#10B981'][Math.floor(Math.random() * 3)]};
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 100;
-            left: 50%;
-            top: 50%;
-            box-shadow: 0 0 6px currentColor;
-        `;
-
-        wrapper.appendChild(sparkle);
-
-        const angle = (i / 12) * Math.PI * 2;
-        const velocity = 50 + Math.random() * 50;
-        const targetX = Math.cos(angle) * velocity;
-        const targetY = Math.sin(angle) * velocity;
-
-        sparkle.animate([
-            {
-                transform: 'translate(-50%, -50%) scale(1)',
-                opacity: 1
-            },
-            {
-                transform: `translate(calc(-50% + ${targetX}px), calc(-50% + ${targetY}px)) scale(0)`,
-                opacity: 0
-            }
-        ], {
-            duration: 600 + Math.random() * 400,
-            easing: 'cubic-bezier(0, 0.5, 0.5, 1)'
-        }).onfinish = () => sparkle.remove();
-    }
+    requestAnimationFrame(update);
 }
 
 // =========================================
-// Custom Cursor Effects
+// Project Filters
 // =========================================
 
-function initCustomCursor() {
-    // Skip on mobile/touch devices
-    if ('ontouchstart' in window || window.innerWidth < 768) return;
+function initProjectFilters() {
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.project-card');
 
-    const cursorGlow = document.querySelector('.cursor-glow');
-    const cursorDot = document.querySelector('.cursor-dot');
-
-    if (!cursorGlow || !cursorDot) return;
-
-    let mouseX = 0, mouseY = 0;
-    let glowX = 0, glowY = 0;
-    let dotX = 0, dotY = 0;
-
-    // Track mouse position
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-    });
-
-    // Smooth animation loop
-    function animate() {
-        // Glow follows slowly
-        glowX += (mouseX - glowX) * 0.08;
-        glowY += (mouseY - glowY) * 0.08;
-        cursorGlow.style.left = glowX + 'px';
-        cursorGlow.style.top = glowY + 'px';
-
-        // Dot follows quickly
-        dotX += (mouseX - dotX) * 0.2;
-        dotY += (mouseY - dotY) * 0.2;
-        cursorDot.style.left = dotX + 'px';
-        cursorDot.style.top = dotY + 'px';
-
-        requestAnimationFrame(animate);
-    }
-    animate();
-
-    // Add hover effect for interactive elements
-    const interactiveElements = document.querySelectorAll(
-        'a, button, .btn, .project-card, .skill-tag, .contact-card, .track-card, .video-card, .nav-link'
-    );
-
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            cursorDot.classList.add('hovering');
-        });
-        el.addEventListener('mouseleave', () => {
-            cursorDot.classList.remove('hovering');
-        });
-    });
-
-    // Hide when leaving window
-    document.addEventListener('mouseleave', () => {
-        cursorGlow.style.opacity = '0';
-        cursorDot.style.opacity = '0';
-    });
-
-    document.addEventListener('mouseenter', () => {
-        cursorGlow.style.opacity = '1';
-        cursorDot.style.opacity = '1';
-    });
-}
-
-// =========================================
-// Button Ripple Effects
-// =========================================
-
-function initButtonEffects() {
-    const buttons = document.querySelectorAll('.btn');
+    if (!buttons.length || !cards.length) return;
 
     buttons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+        btn.addEventListener('click', () => {
+            const filter = btn.dataset.filter;
 
-            const ripple = document.createElement('span');
-            ripple.className = 'btn-ripple';
-            ripple.style.cssText = `
-                position: absolute;
-                width: 0;
-                height: 0;
-                background: rgba(255, 255, 255, 0.4);
-                border-radius: 50%;
-                transform: translate(-50%, -50%);
-                pointer-events: none;
-                left: ${x}px;
-                top: ${y}px;
-            `;
+            buttons.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
 
-            this.appendChild(ripple);
-
-            ripple.animate([
-                { width: '0px', height: '0px', opacity: 1 },
-                { width: '300px', height: '300px', opacity: 0 }
-            ], {
-                duration: 600,
-                easing: 'ease-out'
-            }).onfinish = () => ripple.remove();
+            cards.forEach(card => {
+                const category = card.dataset.category;
+                const show = filter === 'all' || category === filter;
+                card.classList.toggle('hidden', !show);
+            });
         });
     });
 }
 
 // =========================================
-// Project Tabs
+// Creative Tabs (Visuals / Music)
 // =========================================
 
-function initProjectTabs() {
-    const tabs = document.querySelectorAll('.project-tab');
-    const cards = document.querySelectorAll('.project-card');
+function initCreativeTabs() {
+    const tabs = document.querySelectorAll('.creative-tab');
+    const panels = document.querySelectorAll('.creative-panel');
+
+    if (!tabs.length) return;
 
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
-            const category = tab.dataset.tab;
+            const target = tab.dataset.tab;
 
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-
-            cards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.classList.remove('tab-hidden');
-                } else {
-                    card.classList.add('tab-hidden');
-                }
+            tabs.forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
             });
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
 
-            // Reset carousel to first visible card after filtering
-            if (window._projectCarousel) {
-                window._projectCarousel.rebuild();
-            }
+            panels.forEach(p => {
+                p.classList.toggle('active', p.id === 'panel-' + target);
+            });
         });
     });
 }
 
 // =========================================
-// Reusable Carousel Engine
+// Video Modal
 // =========================================
 
-function createCarousel({ track, viewport, prevBtn, nextBtn, dotsContainer, getItems, perView = 1, autoPlayMs = 6000, loop = true }) {
-    if (!track || !viewport) return null;
+function initVideoModal() {
+    const modal = document.getElementById('video-modal');
+    const modalVideo = document.getElementById('modal-video');
+    const modalTitle = document.getElementById('modal-title');
+    const closeBtn = document.getElementById('modal-close');
+    const backdrop = document.getElementById('modal-backdrop');
 
-    let currentIndex = 0;
-    let autoPlayTimer = null;
+    if (!modal || !modalVideo) return;
 
-    function items() {
-        return typeof getItems === 'function' ? getItems() : Array.from(track.children);
+    function openModal(src, title) {
+        modalVideo.src = src;
+        modalTitle.textContent = title;
+        modal.hidden = false;
+        // Force reflow for transition
+        modal.offsetHeight;
+        modal.classList.add('open');
+        modalVideo.play().catch(() => {});
+        document.body.style.overflow = 'hidden';
     }
 
-    function getSlideCount() {
-        return Math.max(0, items().length - perView + 1);
+    function closeModal() {
+        modal.classList.remove('open');
+        modalVideo.pause();
+        modalVideo.src = '';
+        document.body.style.overflow = '';
+        setTimeout(() => { modal.hidden = true; }, 300);
     }
 
-    function buildDots() {
-        if (!dotsContainer) return;
-        dotsContainer.innerHTML = '';
-        const total = getSlideCount();
-        for (let i = 0; i < total; i++) {
-            const dot = document.createElement('button');
-            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', `Slide ${i + 1}`);
-            dot.addEventListener('click', () => goTo(i));
-            dotsContainer.appendChild(dot);
+    // Click on video cards
+    document.addEventListener('click', (e) => {
+        const card = e.target.closest('.video-card');
+        if (card) {
+            openModal(card.dataset.src, card.dataset.title);
         }
-    }
-
-    function updateDots() {
-        if (!dotsContainer) return;
-        const dots = dotsContainer.querySelectorAll('.carousel-dot');
-        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
-    }
-
-    function goTo(index) {
-        const total = getSlideCount();
-        if (total <= 0) { track.style.transform = ''; return; }
-        currentIndex = Math.max(0, Math.min(index, total - 1));
-
-        // Use pixel offset - works reliably for both single and multi-card carousels
-        const target = items()[currentIndex];
-        if (target) {
-            const offset = target.offsetLeft - track.offsetLeft;
-            track.style.transform = `translateX(-${offset}px)`;
-        }
-
-        updateDots();
-        resetAutoPlay();
-    }
-
-    function next() {
-        const total = getSlideCount();
-        if (currentIndex < total - 1) goTo(currentIndex + 1);
-        else if (loop) goTo(0);
-    }
-
-    function prev() {
-        const total = getSlideCount();
-        if (currentIndex > 0) goTo(currentIndex - 1);
-        else if (loop) goTo(total - 1);
-    }
-
-    // Arrows
-    if (prevBtn) prevBtn.addEventListener('click', prev);
-    if (nextBtn) nextBtn.addEventListener('click', next);
-
-    // Touch / swipe
-    let touchStartX = 0, isSwiping = false;
-    viewport.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; isSwiping = false; }, { passive: true });
-    viewport.addEventListener('touchmove', (e) => {
-        const dx = e.touches[0].clientX - touchStartX;
-        if (Math.abs(dx) > 10) isSwiping = true;
-    }, { passive: true });
-    viewport.addEventListener('touchend', (e) => {
-        if (!isSwiping) return;
-        const dx = e.changedTouches[0].clientX - touchStartX;
-        if (dx < -50) next(); else if (dx > 50) prev();
-        touchStartX = 0; isSwiping = false;
     });
 
-    // Auto-play
-    function startAutoPlay() { if (autoPlayMs > 0) autoPlayTimer = setInterval(next, autoPlayMs); }
-    function stopAutoPlay() { clearInterval(autoPlayTimer); }
-    function resetAutoPlay() { stopAutoPlay(); startAutoPlay(); }
-
-    viewport.addEventListener('mouseenter', stopAutoPlay);
-    viewport.addEventListener('mouseleave', startAutoPlay);
-    viewport.addEventListener('touchstart', stopAutoPlay, { passive: true });
-
-    // Recalculate on resize
-    let resizeRaf;
-    window.addEventListener('resize', () => {
-        cancelAnimationFrame(resizeRaf);
-        resizeRaf = requestAnimationFrame(() => goTo(currentIndex));
-    });
-
-    // Public API
-    const api = {
-        goTo, next, prev,
-        rebuild() { currentIndex = 0; buildDots(); requestAnimationFrame(() => goTo(0)); },
-        updatePerView(n) { perView = n; this.rebuild(); }
-    };
-
-    buildDots();
-    goTo(0);
-    startAutoPlay();
-    return api;
-}
-
-// =========================================
-// Project Carousel
-// =========================================
-
-function initProjectCarousel() {
-    const track = document.querySelector('.carousel-track');
-    const viewport = track && track.closest('.carousel-viewport');
-    if (!track || !viewport) return;
-
-    const carousel = createCarousel({
-        track,
-        viewport,
-        prevBtn: document.querySelector('.carousel-prev'),
-        nextBtn: document.querySelector('.carousel-next'),
-        dotsContainer: document.querySelector('.project-carousel-dots'),
-        getItems: () => Array.from(track.querySelectorAll('.project-card:not(.tab-hidden)')),
-        perView: 1,
-        autoPlayMs: 6000,
-        loop: true
-    });
-
-    // Keyboard navigation when projects section is in view
+    // Keyboard activation for video cards
     document.addEventListener('keydown', (e) => {
-        const section = document.getElementById('projects');
-        if (!section) return;
-        const rect = section.getBoundingClientRect();
-        if (rect.top >= window.innerHeight || rect.bottom <= 0) return;
-        if (e.key === 'ArrowLeft') { carousel.prev(); e.preventDefault(); }
-        if (e.key === 'ArrowRight') { carousel.next(); e.preventDefault(); }
+        if (e.key === 'Enter' || e.key === ' ') {
+            const card = e.target.closest('.video-card');
+            if (card) {
+                e.preventDefault();
+                openModal(card.dataset.src, card.dataset.title);
+            }
+        }
     });
 
-    window._projectCarousel = carousel;
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('open')) {
+            closeModal();
+        }
+    });
 }
 
 // =========================================
-// Video Carousel
+// Music Player
 // =========================================
 
-function initVideoCarousel() {
-    const track = document.querySelector('.video-carousel-track');
-    const viewport = document.querySelector('.video-carousel-viewport');
-    if (!track || !viewport) return;
+function initMusicPlayer() {
+    const audio = document.getElementById('audio-player');
+    const playBtn = document.getElementById('btn-play');
+    const prevBtn = document.getElementById('btn-prev');
+    const nextBtn = document.getElementById('btn-next');
+    const progressBar = document.getElementById('progress-bar');
+    const volumeSlider = document.getElementById('volume-slider');
+    const volumeBtn = document.getElementById('btn-volume');
+    const currentTimeEl = document.getElementById('current-time');
+    const totalTimeEl = document.getElementById('total-time');
+    const titleEl = document.getElementById('player-title');
+    const artistEl = document.getElementById('player-artist');
+    const artEl = document.getElementById('player-art');
+    const trackItems = document.querySelectorAll('.track-item');
 
-    // Determine cards per view based on screen width
-    function getPerView() {
-        if (window.innerWidth <= 768) return 1;
-        if (window.innerWidth <= 1024) return 2;
-        return 3;
+    if (!audio || !playBtn || !trackItems.length) return;
+
+    let currentTrackIndex = -1;
+    let isPlaying = false;
+
+    function loadTrack(index) {
+        const item = trackItems[index];
+        if (!item) return;
+
+        currentTrackIndex = index;
+        audio.src = item.dataset.src;
+        titleEl.textContent = item.dataset.title;
+        artistEl.textContent = item.dataset.artist;
+
+        trackItems.forEach(t => t.classList.remove('active'));
+        item.classList.add('active');
+        artEl.classList.add('playing');
+
+        audio.play().then(() => {
+            isPlaying = true;
+            updatePlayIcon();
+        }).catch(() => {});
     }
 
-    const carousel = createCarousel({
-        track,
-        viewport,
-        prevBtn: document.querySelector('.video-carousel-prev'),
-        nextBtn: document.querySelector('.video-carousel-next'),
-        dotsContainer: document.querySelector('.video-carousel-dots'),
-        perView: getPerView(),
-        autoPlayMs: 5000,
-        loop: true
+    function togglePlay() {
+        if (currentTrackIndex === -1) {
+            loadTrack(0);
+            return;
+        }
+
+        if (isPlaying) {
+            audio.pause();
+        } else {
+            audio.play().catch(() => {});
+        }
+    }
+
+    function updatePlayIcon() {
+        const iconPlay = playBtn.querySelector('.icon-play');
+        const iconPause = playBtn.querySelector('.icon-pause');
+        if (iconPlay && iconPause) {
+            iconPlay.style.display = isPlaying ? 'none' : 'block';
+            iconPause.style.display = isPlaying ? 'block' : 'none';
+        }
+        playBtn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+    }
+
+    function formatTime(s) {
+        if (isNaN(s)) return '0:00';
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60);
+        return m + ':' + (sec < 10 ? '0' : '') + sec;
+    }
+
+    // Events
+    audio.addEventListener('play', () => { isPlaying = true; updatePlayIcon(); });
+    audio.addEventListener('pause', () => { isPlaying = false; updatePlayIcon(); });
+
+    audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+            progressBar.value = (audio.currentTime / audio.duration) * 100;
+            currentTimeEl.textContent = formatTime(audio.currentTime);
+        }
     });
 
-    // Update perView on resize
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => carousel.updatePerView(getPerView()), 150);
+    audio.addEventListener('loadedmetadata', () => {
+        totalTimeEl.textContent = formatTime(audio.duration);
     });
 
-    window._videoCarousel = carousel;
-}
+    audio.addEventListener('ended', () => {
+        const next = (currentTrackIndex + 1) % trackItems.length;
+        loadTrack(next);
+    });
 
-// =========================================
-// Card Tilt Effects
-// =========================================
+    playBtn.addEventListener('click', togglePlay);
 
-function initCardTilt() {
-    const cards = document.querySelectorAll('.project-card, .skill-category, .contact-card');
+    prevBtn.addEventListener('click', () => {
+        const prev = currentTrackIndex <= 0 ? trackItems.length - 1 : currentTrackIndex - 1;
+        loadTrack(prev);
+    });
 
-    // Skip on mobile
-    if ('ontouchstart' in window || window.innerWidth < 768) return;
+    nextBtn.addEventListener('click', () => {
+        const next = (currentTrackIndex + 1) % trackItems.length;
+        loadTrack(next);
+    });
 
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
+    progressBar.addEventListener('input', () => {
+        if (audio.duration) {
+            audio.currentTime = (progressBar.value / 100) * audio.duration;
+        }
+    });
 
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
+    // Volume
+    audio.volume = 0.8;
 
-            const rotateX = ((y - centerY) / centerY) * -5;
-            const rotateY = ((x - centerX) / centerX) * 5;
+    volumeSlider.addEventListener('input', () => {
+        audio.volume = volumeSlider.value / 100;
+        audio.muted = false;
+        updateVolumeIcon(false);
+    });
 
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-        });
+    volumeBtn.addEventListener('click', () => {
+        audio.muted = !audio.muted;
+        updateVolumeIcon(audio.muted);
+    });
 
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = '';
+    function updateVolumeIcon(muted) {
+        const on = volumeBtn.querySelector('.icon-volume-on');
+        const off = volumeBtn.querySelector('.icon-volume-off');
+        if (on && off) {
+            on.style.display = muted ? 'none' : 'block';
+            off.style.display = muted ? 'block' : 'none';
+        }
+    }
+
+    // Click on track items
+    trackItems.forEach((item, i) => {
+        item.addEventListener('click', () => loadTrack(i));
+        item.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                loadTrack(i);
+            }
         });
     });
 }
