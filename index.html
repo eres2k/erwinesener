@@ -438,7 +438,7 @@
                 <button class="project-tab" data-tab="web">web apps</button>
             </div>
 
-            <div class="project-carousel-wrapper">
+            <div class="carousel-wrapper project-carousel-wrapper">
                 <button class="carousel-arrow carousel-prev" aria-label="Previous project">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="15 18 9 12 15 6"/>
@@ -1050,7 +1050,7 @@
                     </svg>
                 </button>
             </div><!-- /project-carousel-wrapper -->
-            <div class="carousel-dots"></div>
+            <div class="carousel-dots project-carousel-dots"></div>
         </div>
     </section>
 
@@ -1065,9 +1065,26 @@
                 </p>
             </div>
 
-            <!-- Video Gallery - Dynamically loaded from data/content.json -->
+            <!-- Video Gallery Carousel -->
             <div class="video-gallery">
-                <!-- Video cards will be injected by JavaScript -->
+                <div class="carousel-wrapper">
+                    <button class="carousel-arrow video-carousel-prev" aria-label="Previous videos">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"/>
+                        </svg>
+                    </button>
+                    <div class="carousel-viewport video-carousel-viewport">
+                        <div class="video-carousel-track">
+                            <!-- Video cards will be injected by JavaScript -->
+                        </div>
+                    </div>
+                    <button class="carousel-arrow video-carousel-next" aria-label="Next videos">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="carousel-dots video-carousel-dots"></div>
             </div>
 
             <!-- Video Modal -->
