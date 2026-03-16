@@ -43,6 +43,7 @@ async function loadDynamicContent() {
         // Initialize players after DOM injection
         initMusicPlayer();
         initVideoGallery();
+        initVideoCarousel();
 
         console.log('Dynamic content loaded successfully');
     } catch (error) {
@@ -50,6 +51,7 @@ async function loadDynamicContent() {
         // If JSON fails, still try to initialize with existing HTML
         initMusicPlayer();
         initVideoGallery();
+        initVideoCarousel();
     }
 }
 
@@ -113,7 +115,7 @@ function getCachedThumbnail(videoPath, title) {
 }
 
 function renderVideos(videos) {
-    const container = document.querySelector('.video-gallery');
+    const container = document.querySelector('.video-carousel-track');
     if (!container || !videos || videos.length === 0) return;
 
     container.innerHTML = videos.map((vid, index) => `
@@ -1552,10 +1554,122 @@ function initProjectTabs() {
 
             // Reset carousel to first visible card after filtering
             if (window._projectCarousel) {
-                window._projectCarousel.onFilter();
+                window._projectCarousel.rebuild();
             }
         });
     });
+}
+
+// =========================================
+// Reusable Carousel Engine
+// =========================================
+
+function createCarousel({ track, viewport, prevBtn, nextBtn, dotsContainer, getItems, perView = 1, autoPlayMs = 6000, loop = true }) {
+    if (!track || !viewport) return null;
+
+    let currentIndex = 0;
+    let autoPlayTimer = null;
+
+    function items() {
+        return typeof getItems === 'function' ? getItems() : Array.from(track.children);
+    }
+
+    function getSlideCount() {
+        return Math.max(0, items().length - perView + 1);
+    }
+
+    function buildDots() {
+        if (!dotsContainer) return;
+        dotsContainer.innerHTML = '';
+        const total = getSlideCount();
+        for (let i = 0; i < total; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('aria-label', `Slide ${i + 1}`);
+            dot.addEventListener('click', () => goTo(i));
+            dotsContainer.appendChild(dot);
+        }
+    }
+
+    function updateDots() {
+        if (!dotsContainer) return;
+        const dots = dotsContainer.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, i) => dot.classList.toggle('active', i === currentIndex));
+    }
+
+    function goTo(index) {
+        const total = getSlideCount();
+        if (total <= 0) { track.style.transform = ''; return; }
+        currentIndex = Math.max(0, Math.min(index, total - 1));
+
+        // Use pixel offset - works reliably for both single and multi-card carousels
+        const target = items()[currentIndex];
+        if (target) {
+            const offset = target.offsetLeft - track.offsetLeft;
+            track.style.transform = `translateX(-${offset}px)`;
+        }
+
+        updateDots();
+        resetAutoPlay();
+    }
+
+    function next() {
+        const total = getSlideCount();
+        if (currentIndex < total - 1) goTo(currentIndex + 1);
+        else if (loop) goTo(0);
+    }
+
+    function prev() {
+        const total = getSlideCount();
+        if (currentIndex > 0) goTo(currentIndex - 1);
+        else if (loop) goTo(total - 1);
+    }
+
+    // Arrows
+    if (prevBtn) prevBtn.addEventListener('click', prev);
+    if (nextBtn) nextBtn.addEventListener('click', next);
+
+    // Touch / swipe
+    let touchStartX = 0, isSwiping = false;
+    viewport.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; isSwiping = false; }, { passive: true });
+    viewport.addEventListener('touchmove', (e) => {
+        const dx = e.touches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 10) isSwiping = true;
+    }, { passive: true });
+    viewport.addEventListener('touchend', (e) => {
+        if (!isSwiping) return;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (dx < -50) next(); else if (dx > 50) prev();
+        touchStartX = 0; isSwiping = false;
+    });
+
+    // Auto-play
+    function startAutoPlay() { if (autoPlayMs > 0) autoPlayTimer = setInterval(next, autoPlayMs); }
+    function stopAutoPlay() { clearInterval(autoPlayTimer); }
+    function resetAutoPlay() { stopAutoPlay(); startAutoPlay(); }
+
+    viewport.addEventListener('mouseenter', stopAutoPlay);
+    viewport.addEventListener('mouseleave', startAutoPlay);
+    viewport.addEventListener('touchstart', stopAutoPlay, { passive: true });
+
+    // Recalculate on resize
+    let resizeRaf;
+    window.addEventListener('resize', () => {
+        cancelAnimationFrame(resizeRaf);
+        resizeRaf = requestAnimationFrame(() => goTo(currentIndex));
+    });
+
+    // Public API
+    const api = {
+        goTo, next, prev,
+        rebuild() { currentIndex = 0; buildDots(); requestAnimationFrame(() => goTo(0)); },
+        updatePerView(n) { perView = n; this.rebuild(); }
+    };
+
+    buildDots();
+    goTo(0);
+    startAutoPlay();
+    return api;
 }
 
 // =========================================
@@ -1564,162 +1678,69 @@ function initProjectTabs() {
 
 function initProjectCarousel() {
     const track = document.querySelector('.carousel-track');
-    const viewport = document.querySelector('.carousel-viewport');
-    const prevBtn = document.querySelector('.carousel-prev');
-    const nextBtn = document.querySelector('.carousel-next');
-    const dotsContainer = document.querySelector('.carousel-dots');
+    const viewport = track && track.closest('.carousel-viewport');
     if (!track || !viewport) return;
 
-    const allCards = Array.from(track.querySelectorAll('.project-card'));
-    let currentIndex = 0;
-    let autoPlayTimer = null;
+    const carousel = createCarousel({
+        track,
+        viewport,
+        prevBtn: document.querySelector('.carousel-prev'),
+        nextBtn: document.querySelector('.carousel-next'),
+        dotsContainer: document.querySelector('.project-carousel-dots'),
+        getItems: () => Array.from(track.querySelectorAll('.project-card:not(.tab-hidden)')),
+        perView: 1,
+        autoPlayMs: 6000,
+        loop: true
+    });
 
-    function getVisibleCards() {
-        return allCards.filter(c => !c.classList.contains('tab-hidden'));
-    }
-
-    function buildDots() {
-        dotsContainer.innerHTML = '';
-        const visible = getVisibleCards();
-        visible.forEach((_, i) => {
-            const dot = document.createElement('button');
-            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
-            dot.setAttribute('aria-label', `Go to project ${i + 1}`);
-            dot.addEventListener('click', () => goTo(i));
-            dotsContainer.appendChild(dot);
-        });
-    }
-
-    function updateDots() {
-        const dots = dotsContainer.querySelectorAll('.carousel-dot');
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentIndex);
-        });
-    }
-
-    function updateArrows() {
-        const visible = getVisibleCards();
-        if (prevBtn) prevBtn.disabled = currentIndex <= 0;
-        if (nextBtn) nextBtn.disabled = currentIndex >= visible.length - 1;
-    }
-
-    function goTo(index) {
-        const visible = getVisibleCards();
-        if (visible.length === 0) return;
-        currentIndex = Math.max(0, Math.min(index, visible.length - 1));
-
-        // Calculate offset: find the position of the target card within all cards
-        const targetCard = visible[currentIndex];
-        const cardIndex = allCards.indexOf(targetCard);
-
-        // Count only non-hidden cards before this one to calculate position
-        // Since hidden cards have display:none, we use the visible index directly
-        // But the track still contains all cards, so we need the actual DOM offset
-        const offset = targetCard.offsetLeft - track.offsetLeft;
-        track.style.transform = `translateX(-${offset}px)`;
-
-        updateDots();
-        updateArrows();
-        resetAutoPlay();
-    }
-
-    function next() {
-        const visible = getVisibleCards();
-        if (currentIndex < visible.length - 1) {
-            goTo(currentIndex + 1);
-        } else {
-            goTo(0); // Loop back
-        }
-    }
-
-    function prev() {
-        const visible = getVisibleCards();
-        if (currentIndex > 0) {
-            goTo(currentIndex - 1);
-        } else {
-            goTo(visible.length - 1); // Loop to end
-        }
-    }
-
-    // Arrow buttons
-    if (prevBtn) prevBtn.addEventListener('click', prev);
-    if (nextBtn) nextBtn.addEventListener('click', next);
-
-    // Keyboard navigation when section is in view
+    // Keyboard navigation when projects section is in view
     document.addEventListener('keydown', (e) => {
         const section = document.getElementById('projects');
         if (!section) return;
         const rect = section.getBoundingClientRect();
-        const inView = rect.top < window.innerHeight && rect.bottom > 0;
-        if (!inView) return;
-
-        if (e.key === 'ArrowLeft') { prev(); e.preventDefault(); }
-        if (e.key === 'ArrowRight') { next(); e.preventDefault(); }
+        if (rect.top >= window.innerHeight || rect.bottom <= 0) return;
+        if (e.key === 'ArrowLeft') { carousel.prev(); e.preventDefault(); }
+        if (e.key === 'ArrowRight') { carousel.next(); e.preventDefault(); }
     });
 
-    // Touch/swipe support
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let isSwiping = false;
+    window._projectCarousel = carousel;
+}
 
-    viewport.addEventListener('touchstart', (e) => {
-        touchStartX = e.touches[0].clientX;
-        touchStartY = e.touches[0].clientY;
-        isSwiping = false;
-    }, { passive: true });
+// =========================================
+// Video Carousel
+// =========================================
 
-    viewport.addEventListener('touchmove', (e) => {
-        if (!touchStartX) return;
-        const dx = e.touches[0].clientX - touchStartX;
-        const dy = e.touches[0].clientY - touchStartY;
-        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) {
-            isSwiping = true;
-        }
-    }, { passive: true });
+function initVideoCarousel() {
+    const track = document.querySelector('.video-carousel-track');
+    const viewport = document.querySelector('.video-carousel-viewport');
+    if (!track || !viewport) return;
 
-    viewport.addEventListener('touchend', (e) => {
-        if (!isSwiping) return;
-        const dx = e.changedTouches[0].clientX - touchStartX;
-        if (Math.abs(dx) > 50) {
-            if (dx < 0) next();
-            else prev();
-        }
-        touchStartX = 0;
-        isSwiping = false;
+    // Determine cards per view based on screen width
+    function getPerView() {
+        if (window.innerWidth <= 768) return 1;
+        if (window.innerWidth <= 1024) return 2;
+        return 3;
+    }
+
+    const carousel = createCarousel({
+        track,
+        viewport,
+        prevBtn: document.querySelector('.video-carousel-prev'),
+        nextBtn: document.querySelector('.video-carousel-next'),
+        dotsContainer: document.querySelector('.video-carousel-dots'),
+        perView: getPerView(),
+        autoPlayMs: 5000,
+        loop: true
     });
 
-    // Auto-play (pause on hover/touch)
-    function startAutoPlay() {
-        autoPlayTimer = setInterval(next, 6000);
-    }
+    // Update perView on resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => carousel.updatePerView(getPerView()), 150);
+    });
 
-    function stopAutoPlay() {
-        clearInterval(autoPlayTimer);
-    }
-
-    function resetAutoPlay() {
-        stopAutoPlay();
-        startAutoPlay();
-    }
-
-    viewport.addEventListener('mouseenter', stopAutoPlay);
-    viewport.addEventListener('mouseleave', startAutoPlay);
-    viewport.addEventListener('touchstart', stopAutoPlay, { passive: true });
-
-    // Expose for tab filtering integration
-    window._projectCarousel = {
-        onFilter() {
-            currentIndex = 0;
-            buildDots();
-            // Use requestAnimationFrame to let display:none take effect first
-            requestAnimationFrame(() => goTo(0));
-        }
-    };
-
-    // Initial setup
-    buildDots();
-    updateArrows();
-    startAutoPlay();
+    window._videoCarousel = carousel;
 }
 
 // =========================================
