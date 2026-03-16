@@ -3,47 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no, viewport-fit=cover">
-    <title>Erwin Esener | Software Developer Austria</title>
-    <meta name="description" content="Professional portfolio of Erwin Esener - Software Developer Austria, showcasing safety analytics and operational excellence projects">
-    <link rel="stylesheet" href="styles.css">
+    <title>Erwin Esener | Software Developer & AI Creative - Austria</title>
+    <meta name="description" content="Erwin Esener - Software Developer from Austria. Building AI-powered applications, creative media generation, and enterprise safety solutions. Local AI pipelines on RTX 5090.">
+    <meta name="keywords" content="software developer, AI, Austria, ComfyUI, web development, React, safety analytics, creative AI">
+    <meta name="author" content="Erwin Esener">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Erwin Esener | Software Developer & AI Creative">
+    <meta property="og:description" content="Software Developer from Austria. Building AI-powered applications, creative media generation, and enterprise safety solutions.">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Performance: Preconnect to external origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor-glow"></div>
-    <div class="cursor-dot"></div>
+    <!-- Accessibility: Skip to main content -->
+    <a href="#main" class="skip-link">Skip to main content</a>
 
-    <!-- Animated Background -->
-    <div class="animated-background">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" aria-hidden="true"></div>
+
+    <!-- Ambient Background -->
+    <div class="ambient-bg" aria-hidden="true">
         <div class="gradient-orb orb-1"></div>
         <div class="gradient-orb orb-2"></div>
-        <div class="gradient-orb orb-3"></div>
     </div>
 
     <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-brand">
-                <h1>Erwin Esener</h1>
-                <span class="subtitle">Software Developer Austria</span>
-            </div>
-            <ul class="nav-menu nav-menu-desktop">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#services" class="nav-link">Services</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#visuals" class="nav-link">Visuals</a></li>
-                <li><a href="#music" class="nav-link">Music</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container nav-container">
+            <a href="#hero" class="nav-brand" aria-label="Erwin Esener - Home">
+                <span class="brand-name">Erwin Esener</span>
+            </a>
+            <ul class="nav-menu" role="menubar">
+                <li role="none"><a href="#services" class="nav-link" role="menuitem">Services</a></li>
+                <li role="none"><a href="#projects" class="nav-link" role="menuitem">Projects</a></li>
+                <li role="none"><a href="#creative" class="nav-link" role="menuitem">Creative</a></li>
+                <li role="none"><a href="#about" class="nav-link" role="menuitem">About</a></li>
+                <li role="none"><a href="#contact" class="nav-link nav-link-cta" role="menuitem">Contact</a></li>
             </ul>
-            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+            <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -51,1316 +55,477 @@
         </div>
     </nav>
 
-    <!-- Mobile Menu (outside navbar to avoid backdrop-filter containing block issue) -->
-    <ul class="nav-menu nav-menu-mobile">
-        <li><a href="#home" class="nav-link active">Home</a></li>
-        <li><a href="#services" class="nav-link">Services</a></li>
-        <li><a href="#projects" class="nav-link">Projects</a></li>
-        <li><a href="#visuals" class="nav-link">Visuals</a></li>
-        <li><a href="#music" class="nav-link">Music</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
-        <li><a href="#contact" class="nav-link">Contact</a></li>
-    </ul>
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+        <ul class="mobile-menu-list">
+            <li><a href="#services" class="mobile-link">Services</a></li>
+            <li><a href="#projects" class="mobile-link">Projects</a></li>
+            <li><a href="#creative" class="mobile-link">Creative</a></li>
+            <li><a href="#about" class="mobile-link">About</a></li>
+            <li><a href="#contact" class="mobile-link">Contact</a></li>
+        </ul>
+    </div>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-background"></div>
-        <div class="container">
-            <div class="hero-content fade-in-up">
-                <div class="hero-profile">
-                    <div class="profile-image-wrapper" data-tilt>
-                        <!-- Orbiting rings -->
-                        <div class="orbit-ring orbit-ring-1">
-                            <div class="orbit-dot"></div>
-                            <div class="orbit-dot"></div>
-                            <div class="orbit-dot"></div>
-                        </div>
-                        <div class="orbit-ring orbit-ring-2">
-                            <div class="orbit-dot"></div>
-                            <div class="orbit-dot"></div>
-                        </div>
-                        <div class="orbit-ring orbit-ring-3">
-                            <div class="orbit-dot"></div>
-                        </div>
-                        <!-- Morphing glow -->
-                        <div class="morph-glow"></div>
-                        <!-- Rotating gradient border -->
-                        <div class="rotating-border"></div>
-                        <!-- Inner glow -->
-                        <div class="inner-glow"></div>
-                        <img src="images/screenshot-hero.png" alt="Erwin Esener" class="hero-profile-image">
-                    </div>
-                    <div class="hero-text">
-                        <h1 class="hero-name">Erwin Esener</h1>
-                        <p class="hero-title">Software Developer Austria</p>
-                    </div>
-                </div>
+    <main id="main">
 
-                <p class="hero-description">
-                    AI media generation on local hardware — 4K images, custom songs, HD video —
-                    plus web app development with passion and precision.
-                </p>
-
-                <div class="cta-group">
-                    <a href="#services" class="btn btn-primary">
-                        <span>view services</span>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 10h10M10 5l5 5-5 5"/>
-                        </svg>
-                    </a>
-                    <a href="#projects" class="btn btn-secondary">
-                        <span>view projects</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="scroll-indicator">
-            <div class="mouse">
-                <div class="wheel"></div>
-            </div>
-            <span>scroll to explore</span>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="services-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">services</span>
-                <h2 class="section-title">AI Media Services</h2>
-                <p class="section-description">
-                    unrestricted ai-generated media on local hardware — no cloud dependencies, no content filters, full creative freedom
-                </p>
-            </div>
-
-            <div class="services-grid">
-                <!-- Service 01: AI Images -->
-                <div class="service-card" data-tilt>
-                    <div class="service-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <rect x="2" y="2" width="20" height="20" rx="2"/>
-                            <circle cx="8.5" cy="8.5" r="1.5"/>
-                            <path d="M21 15l-5-5L5 21"/>
-                        </svg>
-                    </div>
-                    <div class="service-number">01</div>
-                    <h3 class="service-title">AI Image Generation & Editing</h3>
-                    <p class="service-description">
-                        high-quality 4K images generated locally via ComfyUI with custom workflows.
-                        photorealistic, artistic, or conceptual — plus advanced editing: inpainting,
-                        outpainting, style transfer, face swap, background removal, and upscaling.
+        <!-- ====== HERO ====== -->
+        <section id="hero" class="hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <p class="hero-label reveal-up">Software Developer &middot; Austria</p>
+                    <h1 class="hero-title reveal-up" style="--delay: 0.1s">
+                        I build software<br>
+                        <span class="gradient-text">& create with AI</span>
+                    </h1>
+                    <p class="hero-description reveal-up" style="--delay: 0.2s">
+                        From enterprise safety platforms to AI-generated media &mdash; I combine modern web development with local AI pipelines to build things that matter.
                     </p>
-                    <div class="service-specs">
-                        <span class="spec-badge">4K resolution</span>
-                        <span class="spec-badge">inpainting</span>
-                        <span class="spec-badge">outpainting</span>
-                        <span class="spec-badge">style transfer</span>
-                        <span class="spec-badge">face swap</span>
-                        <span class="spec-badge">upscaling</span>
+                    <div class="hero-cta reveal-up" style="--delay: 0.3s">
+                        <a href="#projects" class="btn btn-primary">View my work</a>
+                        <a href="#contact" class="btn btn-ghost">Get in touch</a>
                     </div>
-                    <div class="service-showcase">
-                        <div class="showcase-placeholder" data-type="image">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="2" y="2" width="20" height="20" rx="2"/>
-                                <circle cx="8.5" cy="8.5" r="1.5"/>
-                                <path d="M21 15l-5-5L5 21"/>
-                            </svg>
-                            <span>sample showcase</span>
+                    <div class="hero-stats reveal-up" style="--delay: 0.4s">
+                        <div class="stat">
+                            <span class="stat-number" data-count="5">0</span><span class="stat-suffix">+</span>
+                            <span class="stat-label">Projects shipped</span>
                         </div>
-                        <div class="showcase-placeholder" data-type="image">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="2" y="2" width="20" height="20" rx="2"/>
-                                <circle cx="8.5" cy="8.5" r="1.5"/>
-                                <path d="M21 15l-5-5L5 21"/>
-                            </svg>
-                            <span>sample showcase</span>
+                        <div class="stat-divider"></div>
+                        <div class="stat">
+                            <span class="stat-number" data-count="33641">0</span>
+                            <span class="stat-label">Lines of code</span>
                         </div>
-                        <div class="showcase-placeholder" data-type="image">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="2" y="2" width="20" height="20" rx="2"/>
-                                <circle cx="8.5" cy="8.5" r="1.5"/>
-                                <path d="M21 15l-5-5L5 21"/>
-                            </svg>
-                            <span>sample showcase</span>
+                        <div class="stat-divider"></div>
+                        <div class="stat">
+                            <span class="stat-number" data-count="32">0</span><span class="stat-suffix">GB</span>
+                            <span class="stat-label">VRAM for AI</span>
                         </div>
                     </div>
                 </div>
+                <div class="scroll-hint reveal-up" style="--delay: 0.6s" aria-hidden="true">
+                    <div class="scroll-line"></div>
+                </div>
+            </div>
+        </section>
 
-                <!-- Service 02: AI Audio -->
-                <div class="service-card" data-tilt>
-                    <div class="service-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M9 18V5l12-2v13"/>
-                            <circle cx="6" cy="18" r="3"/>
-                            <circle cx="18" cy="16" r="3"/>
-                        </svg>
-                    </div>
-                    <div class="service-number">02</div>
-                    <h3 class="service-title">AI Audio & Custom Songs</h3>
-                    <p class="service-description">
-                        original songs, instrumentals, and voice synthesis generated on local hardware.
-                        custom lyrics, any genre, professional quality — from concept to finished track.
+        <!-- ====== SERVICES ====== -->
+        <section id="services" class="section services">
+            <div class="container">
+                <header class="section-header">
+                    <span class="section-label reveal-up">What I do</span>
+                    <h2 class="section-title reveal-up" style="--delay: 0.1s">Services & expertise</h2>
+                    <p class="section-description reveal-up" style="--delay: 0.15s">
+                        Combining software engineering with AI creativity. All AI generation runs locally on dedicated hardware &mdash; no cloud, full privacy.
                     </p>
-                    <div class="service-specs">
-                        <span class="spec-badge">custom songs</span>
-                        <span class="spec-badge">any genre</span>
-                        <span class="spec-badge">voice synthesis</span>
-                        <span class="spec-badge">local pipeline</span>
-                    </div>
-                    <div class="service-showcase">
-                        <div class="showcase-placeholder" data-type="audio">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <polygon points="5 3 19 12 5 21 5 3"/>
+                </header>
+
+                <div class="services-grid">
+                    <!-- Service 1 -->
+                    <article class="service-card reveal-up" style="--delay: 0.1s">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
                             </svg>
-                            <span>audio sample</span>
                         </div>
-                        <div class="showcase-placeholder" data-type="audio">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <polygon points="5 3 19 12 5 21 5 3"/>
+                        <h3 class="service-title">Web Development</h3>
+                        <p class="service-text">React, Vite, TailwindCSS &mdash; modern web apps and PWAs with real-time data, auth, and offline support.</p>
+                        <div class="service-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">TypeScript</span>
+                            <span class="tag">PWA</span>
+                            <span class="tag">Vite</span>
+                        </div>
+                    </article>
+
+                    <!-- Service 2 -->
+                    <article class="service-card featured reveal-up" style="--delay: 0.15s">
+                        <div class="service-badge">Featured</div>
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
                             </svg>
-                            <span>audio sample</span>
+                        </div>
+                        <h3 class="service-title">AI Video Generation</h3>
+                        <p class="service-text">Up to 20 seconds at 1080p, upscalable to 4K. Powered by WAN 2.2, LTX 2.3, and local NVIDIA RTX 5090.</p>
+                        <div class="service-tags">
+                            <span class="tag">ComfyUI</span>
+                            <span class="tag">WAN 2.2</span>
+                            <span class="tag">LTX 2.3</span>
+                            <span class="tag">4K</span>
+                        </div>
+                    </article>
+
+                    <!-- Service 3 -->
+                    <article class="service-card reveal-up" style="--delay: 0.2s">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+                            </svg>
+                        </div>
+                        <h3 class="service-title">AI Image & Audio</h3>
+                        <p class="service-text">4K image generation via ComfyUI &mdash; inpainting, outpainting, style transfer, face swap. Plus AI voice synthesis and audio.</p>
+                        <div class="service-tags">
+                            <span class="tag">Stable Diffusion</span>
+                            <span class="tag">FLUX</span>
+                            <span class="tag">Voice AI</span>
+                        </div>
+                    </article>
+
+                    <!-- Service 4 -->
+                    <article class="service-card reveal-up" style="--delay: 0.25s">
+                        <div class="service-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <h3 class="service-title">AI Setup & Consulting</h3>
+                        <p class="service-text">Expert ComfyUI and LMStudio configuration. Custom workflows, model setup, and hardware optimization for local AI.</p>
+                        <div class="service-tags">
+                            <span class="tag">ComfyUI</span>
+                            <span class="tag">LMStudio</span>
+                            <span class="tag">NVIDIA</span>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Hardware specs -->
+                <div class="hardware-banner reveal-up" style="--delay: 0.3s">
+                    <h3 class="hardware-title">Local AI Hardware</h3>
+                    <div class="hardware-specs">
+                        <div class="spec">
+                            <span class="spec-value">RTX 5090</span>
+                            <span class="spec-label">32GB GDDR7</span>
+                        </div>
+                        <div class="spec-dot"></div>
+                        <div class="spec">
+                            <span class="spec-value">Ryzen 9 9950X</span>
+                            <span class="spec-label">16-Core</span>
+                        </div>
+                        <div class="spec-dot"></div>
+                        <div class="spec">
+                            <span class="spec-value">64GB DDR5</span>
+                            <span class="spec-label">RAM</span>
+                        </div>
+                        <div class="spec-dot"></div>
+                        <div class="spec">
+                            <span class="spec-value">2TB NVMe</span>
+                            <span class="spec-label">PCIe Gen 5</span>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- Service 03: AI Video -->
-                <div class="service-card featured" data-tilt>
-                    <div class="service-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <rect x="2" y="4" width="20" height="16" rx="2"/>
-                            <polygon points="10 9 16 12 10 15 10 9"/>
-                        </svg>
-                    </div>
-                    <div class="service-number">03</div>
-                    <h3 class="service-title">AI Video Generation</h3>
-                    <p class="service-description">
-                        up to 20 seconds of ai-generated video at 1080p 24fps native,
-                        with optional upscaling to 4K 46fps. text-to-video, image-to-video, and style transfer.
+        <!-- ====== PROJECTS ====== -->
+        <section id="projects" class="section projects">
+            <div class="container">
+                <header class="section-header">
+                    <span class="section-label reveal-up">Selected work</span>
+                    <h2 class="section-title reveal-up" style="--delay: 0.1s">Projects</h2>
+                </header>
+
+                <!-- Project Filter Tabs -->
+                <div class="project-filters reveal-up" style="--delay: 0.15s" role="tablist" aria-label="Filter projects by category">
+                    <button class="filter-btn active" role="tab" aria-selected="true" data-filter="all">All</button>
+                    <button class="filter-btn" role="tab" aria-selected="false" data-filter="ai">AI & Creative</button>
+                    <button class="filter-btn" role="tab" aria-selected="false" data-filter="safety">Safety & Enterprise</button>
+                    <button class="filter-btn" role="tab" aria-selected="false" data-filter="web">Web Apps</button>
+                </div>
+
+                <div class="projects-grid" role="tabpanel">
+                    <!-- Project 1: Nexus Monitor -->
+                    <article class="project-card reveal-up" data-category="ai" style="--delay: 0.1s">
+                        <div class="project-image">
+                            <img src="images/screenshot-nexus.jpg" alt="Nexus Monitor - AI workstation control panel showing real-time GPU monitoring" loading="lazy" width="600" height="400">
+                            <div class="project-overlay">
+                                <span class="project-status status-review">Under Review</span>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Nexus Monitor</h3>
+                            <p class="project-subtitle">AI workstation monitor & control panel</p>
+                            <div class="project-tags">
+                                <span class="tag">AI</span>
+                                <span class="tag">Dashboard</span>
+                                <span class="tag">Real-time</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 2: Safety Analytics -->
+                    <article class="project-card reveal-up" data-category="safety" style="--delay: 0.15s">
+                        <div class="project-image">
+                            <img src="images/screenshot-dashboard.png" alt="Safety Analytics dashboard with incident tracking charts and compliance metrics" loading="lazy" width="600" height="400">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Safety Analytics</h3>
+                            <p class="project-subtitle">Enterprise safety intelligence platform &mdash; 33,641 lines, 4-tier privacy, PDF export</p>
+                            <div class="project-tags">
+                                <span class="tag">Enterprise</span>
+                                <span class="tag">Analytics</span>
+                                <span class="tag">GDPR</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 3: Safety Hub -->
+                    <article class="project-card reveal-up" data-category="safety" style="--delay: 0.2s">
+                        <div class="project-image">
+                            <img src="images/screenshot-mobile.png" alt="Safety Hub mobile PWA showing audit checklist interface" loading="lazy" width="600" height="400">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Safety Hub</h3>
+                            <p class="project-subtitle">PWA for safety auditing &mdash; React 18, TypeScript, Auth0, real-time analytics</p>
+                            <div class="project-tags">
+                                <span class="tag">React</span>
+                                <span class="tag">PWA</span>
+                                <span class="tag">Auth0</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 4: Safety Quest -->
+                    <article class="project-card reveal-up" data-category="web" style="--delay: 0.25s">
+                        <div class="project-image">
+                            <img src="images/screenshot-game.png" alt="Safety Quest retro 16-bit game with pixel art hazard scenarios" loading="lazy" width="600" height="400">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Safety Quest</h3>
+                            <p class="project-subtitle">16-bit retro educational game &mdash; 12 chiptune tracks, 9 boss battles, 100+ hazard scenarios</p>
+                            <div class="project-tags">
+                                <span class="tag">Game</span>
+                                <span class="tag">Canvas</span>
+                                <span class="tag">Web Audio</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 5: Healthy Brunch Club -->
+                    <article class="project-card reveal-up" data-category="web" style="--delay: 0.3s">
+                        <div class="project-image">
+                            <img src="images/screenshot-brunch.png" alt="Healthy Brunch Club restaurant website with menu and booking" loading="lazy" width="600" height="400">
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Healthy Brunch Club</h3>
+                            <p class="project-subtitle">Restaurant PWA &mdash; Vue.js, CMS, serverless functions</p>
+                            <div class="project-tags">
+                                <span class="tag">Vue.js</span>
+                                <span class="tag">CMS</span>
+                                <span class="tag">Serverless</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== CREATIVE ====== -->
+        <section id="creative" class="section creative">
+            <div class="container">
+                <header class="section-header">
+                    <span class="section-label reveal-up">Creative work</span>
+                    <h2 class="section-title reveal-up" style="--delay: 0.1s">Visuals & Music</h2>
+                    <p class="section-description reveal-up" style="--delay: 0.15s">
+                        AI-generated visual effects, cinematic clips, and remastered music covers &mdash; all produced locally.
                     </p>
-                    <div class="service-specs">
-                        <span class="spec-badge">up to 20 sec</span>
-                        <span class="spec-badge">1080p native</span>
-                        <span class="spec-badge">4K upscale</span>
-                        <span class="spec-badge">24-46 fps</span>
-                    </div>
-                    <div class="service-showcase">
-                        <div class="showcase-placeholder" data-type="video">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <polygon points="5 3 19 12 5 21 5 3"/>
-                            </svg>
-                            <span>video sample</span>
-                        </div>
-                        <div class="showcase-placeholder" data-type="video">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <polygon points="5 3 19 12 5 21 5 3"/>
-                            </svg>
-                            <span>video sample</span>
-                        </div>
-                        <div class="showcase-placeholder" data-type="video">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <polygon points="5 3 19 12 5 21 5 3"/>
-                            </svg>
-                            <span>video sample</span>
-                        </div>
-                    </div>
-                </div>
+                </header>
 
-                <!-- Service 04: Web Apps -->
-                <div class="service-card" data-tilt>
-                    <div class="service-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <polyline points="16 18 22 12 16 6"/>
-                            <polyline points="8 6 2 12 8 18"/>
-                            <line x1="14" y1="4" x2="10" y2="20"/>
-                        </svg>
-                    </div>
-                    <div class="service-number">04</div>
-                    <h3 class="service-title">Web App Development</h3>
-                    <p class="service-description">
-                        modern, responsive web applications built with react, vite, and tailwind.
-                        from concept to production — PWAs, dashboards, interactive tools, and creative platforms.
-                    </p>
-                    <div class="service-specs">
-                        <span class="spec-badge">react</span>
-                        <span class="spec-badge">vite</span>
-                        <span class="spec-badge">tailwind</span>
-                        <span class="spec-badge">PWA</span>
-                    </div>
-                    <div class="service-showcase">
-                        <div class="showcase-placeholder" data-type="webapp">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="2" y="3" width="20" height="14" rx="2"/>
-                                <line x1="8" y1="21" x2="16" y2="21"/>
-                                <line x1="12" y1="17" x2="12" y2="21"/>
-                            </svg>
-                            <span>app showcase</span>
-                        </div>
-                        <div class="showcase-placeholder" data-type="webapp">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="2" y="3" width="20" height="14" rx="2"/>
-                                <line x1="8" y1="21" x2="16" y2="21"/>
-                                <line x1="12" y1="17" x2="12" y2="21"/>
-                            </svg>
-                            <span>app showcase</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Service 05: ComfyUI & LMStudio Setup -->
-                <div class="service-card" data-tilt>
-                    <div class="service-icon">
-                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-                        </svg>
-                    </div>
-                    <div class="service-number">05</div>
-                    <h3 class="service-title">ComfyUI & LMStudio Setup</h3>
-                    <p class="service-description">
-                        expert setup and configuration of local AI pipelines. ComfyUI workflow design,
-                        LMStudio configuration, model selection, and hardware optimization for your own generation stack.
-                    </p>
-                    <div class="service-specs">
-                        <span class="spec-badge">ComfyUI</span>
-                        <span class="spec-badge">LMStudio</span>
-                        <span class="spec-badge">local setup</span>
-                        <span class="spec-badge">optimization</span>
-                    </div>
-                    <div class="service-showcase">
-                        <div class="showcase-placeholder" data-type="setup">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <rect x="2" y="3" width="20" height="14" rx="2"/>
-                                <line x1="8" y1="21" x2="16" y2="21"/>
-                                <line x1="12" y1="17" x2="12" y2="21"/>
-                                <path d="M7 8h2M7 11h4"/>
-                            </svg>
-                            <span>setup showcase</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Supported Models -->
-            <div class="supported-models">
-                <h3 class="models-title">supported models</h3>
-                <div class="models-grid">
-                    <div class="model-tag">
-                        <span class="model-name">WAN 2.2</span>
-                        <span class="model-type">video</span>
-                    </div>
-                    <div class="model-tag">
-                        <span class="model-name">LTX 2.3</span>
-                        <span class="model-type">video</span>
-                    </div>
-                    <div class="model-tag">
-                        <span class="model-name">QWEN Image 2203</span>
-                        <span class="model-type">image</span>
-                    </div>
-                    <div class="model-tag">
-                        <span class="model-name">FireSide Image</span>
-                        <span class="model-type">image</span>
-                    </div>
-                    <div class="model-tag">
-                        <span class="model-name">Stable Diffusion XL</span>
-                        <span class="model-type">image</span>
-                    </div>
-                    <div class="model-tag">
-                        <span class="model-name">FLUX</span>
-                        <span class="model-type">image</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Hardware Specs -->
-            <div class="hardware-specs">
-                <div class="pipeline-badge">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <rect x="4" y="4" width="16" height="16" rx="2"/>
-                        <rect x="9" y="9" width="6" height="6"/>
-                        <line x1="9" y1="2" x2="9" y2="4"/>
-                        <line x1="15" y1="2" x2="15" y2="4"/>
-                        <line x1="9" y1="20" x2="9" y2="22"/>
-                        <line x1="15" y1="20" x2="15" y2="22"/>
-                        <line x1="2" y1="9" x2="4" y2="9"/>
-                        <line x1="2" y1="15" x2="4" y2="15"/>
-                        <line x1="20" y1="9" x2="22" y2="9"/>
-                        <line x1="20" y1="15" x2="22" y2="15"/>
-                    </svg>
-                    <span>dedicated hardware</span>
-                </div>
-                <div class="specs-grid">
-                    <div class="spec-item">
-                        <span class="spec-label">GPU</span>
-                        <span class="spec-value">NVIDIA RTX 5090</span>
-                        <span class="spec-detail">32 GB GDDR7 VRAM</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">CPU</span>
-                        <span class="spec-value">AMD Ryzen 9 9950X</span>
-                        <span class="spec-detail">16 cores / 32 threads</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">RAM</span>
-                        <span class="spec-value">64 GB DDR5</span>
-                        <span class="spec-detail">6000 MHz CL30</span>
-                    </div>
-                    <div class="spec-item">
-                        <span class="spec-label">Storage</span>
-                        <span class="spec-value">2 TB NVMe SSD</span>
-                        <span class="spec-detail">PCIe Gen 5</span>
-                    </div>
-                </div>
-                <p class="pipeline-description">
-                    all media generated on this dedicated local workstation — no cloud APIs, no usage limits,
-                    no content restrictions. full privacy and creative control over every generation.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects Section -->
-    <section id="projects" class="projects">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">projects</span>
-                <h2 class="section-title">Featured Projects</h2>
-                <p class="section-description">
-                    ai-powered tools, safety platforms, and creative applications
-                </p>
-            </div>
-
-            <!-- Project Tabs -->
-            <div class="project-tabs">
-                <button class="project-tab active" data-tab="all">all</button>
-                <button class="project-tab" data-tab="ai">ai & creative</button>
-                <button class="project-tab" data-tab="safety">safety & enterprise</button>
-                <button class="project-tab" data-tab="web">web apps</button>
-            </div>
-
-            <div class="carousel-wrapper project-carousel-wrapper">
-                <button class="carousel-arrow carousel-prev" aria-label="Previous project">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="15 18 9 12 15 6"/>
-                    </svg>
-                </button>
-                <div class="carousel-viewport">
-                    <div class="project-list carousel-track">
-            <!-- Project 01: Nexus Monitor -->
-            <div class="project-card" data-project="nexus" data-category="ai">
-                <div class="project-header">
-                    <div class="project-number">01</div>
-                    <div class="project-header-info">
-                        <h3 class="project-title">nexus monitor</h3>
-                        <p class="project-subtitle">ai workstation monitor & control panel</p>
-                    </div>
-                    <div class="project-meta">
-                        <span class="project-category">ai monitoring</span>
-                        <span class="project-status status-review">under review</span>
-                    </div>
-                </div>
-                <div class="project-body">
-                    <div class="project-showcase">
-                        <div class="screenshot-container">
-                            <img class="screenshot-image" src="images/screenshot-nexus.png" alt="Nexus Monitor Dashboard" onload="this.classList.add('loaded')">
-                            <div class="screenshot-placeholder" data-label="Nexus Monitor">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <rect x="2" y="3" width="20" height="14" rx="2"/>
-                                    <line x1="8" y1="21" x2="16" y2="21"/>
-                                    <line x1="12" y1="17" x2="12" y2="21"/>
-                                    <path d="M6 8h4M6 11h3"/>
-                                    <circle cx="17" cy="9.5" r="2.5"/>
-                                </svg>
-                                <span>screenshot-nexus.png</span>
-                            </div>
-                        </div>
-                        <div class="screenshot-features">
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="2" y="3" width="20" height="14" rx="2"/>
-                                    <line x1="8" y1="21" x2="16" y2="21"/>
-                                    <line x1="12" y1="17" x2="12" y2="21"/>
-                                </svg>
-                                <span>real-time monitoring</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-                                    <path d="M2 17l10 5 10-5"/>
-                                    <path d="M2 12l10 5 10-5"/>
-                                </svg>
-                                <span>gpu/cpu metrics</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="3"/>
-                                    <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
-                                </svg>
-                                <span>control panel</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-details">
-                        <p class="project-description">
-                            real-time ai workstation monitoring dashboard with gpu/cpu metrics, process management, and system control.
-                            features live hardware telemetry, ai model tracking, task queue visualization, and remote workstation management
-                            through an intuitive control panel interface.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-badge">react</span>
-                            <span class="tech-badge">typescript</span>
-                            <span class="tech-badge">websocket</span>
-                            <span class="tech-badge">node.js</span>
-                            <span class="tech-badge">system apis</span>
-                        </div>
-                        <div class="project-links">
-                            <span class="project-link primary disabled">
-                                <span>under review</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 02: MotionStill -->
-            <div class="project-card" data-project="motionstill" data-category="ai">
-                <div class="project-header">
-                    <div class="project-number">02</div>
-                    <div class="project-header-info">
-                        <h3 class="project-title">motionstill</h3>
-                        <p class="project-subtitle">ai video & image studio powered by comfyui</p>
-                    </div>
-                    <div class="project-meta">
-                        <span class="project-category">ai creative tools</span>
-                        <span class="project-status status-review">under review</span>
-                    </div>
-                </div>
-                <div class="project-body">
-                    <div class="project-showcase">
-                        <div class="screenshot-container">
-                            <img class="screenshot-image" src="images/screenshot-motionstill.png" alt="MotionStill AI Studio" onload="this.classList.add('loaded')">
-                            <div class="screenshot-placeholder" data-label="AI Video Studio">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <polygon points="23 7 16 12 23 17 23 7"/>
-                                    <rect x="1" y="5" width="15" height="14" rx="2"/>
-                                </svg>
-                                <span>screenshot-motionstill.png</span>
-                            </div>
-                        </div>
-                        <div class="screenshot-features">
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polygon points="23 7 16 12 23 17 23 7"/>
-                                    <rect x="1" y="5" width="15" height="14" rx="2"/>
-                                </svg>
-                                <span>video generation</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                                    <polyline points="21 15 16 10 5 21"/>
-                                </svg>
-                                <span>image generation</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M9 18V5l12-2v13"/>
-                                    <circle cx="6" cy="18" r="3"/>
-                                    <circle cx="18" cy="16" r="3"/>
-                                </svg>
-                                <span>audio+video sync</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-details">
-                        <p class="project-description">
-                            static web app for generating videos, images, and audio-visual content using ai models on local hardware via comfyui.
-                            supports text-to-image, text-to-video, image-to-video, image editing, synchronized audio+video generation,
-                            face restoration, video upscaling, and frame interpolation — optimized for nvidia rtx 5090.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-badge">html5</span>
-                            <span class="tech-badge">css3</span>
-                            <span class="tech-badge">vanilla js</span>
-                            <span class="tech-badge">comfyui api</span>
-                            <span class="tech-badge">websocket</span>
-                            <span class="tech-badge">netlify</span>
-                        </div>
-                        <div class="project-links">
-                            <span class="project-link primary disabled">
-                                <span>under review</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 03: Tricorder -->
-            <div class="project-card" data-project="tricorder" data-category="ai">
-                <div class="project-header">
-                    <div class="project-number">03</div>
-                    <div class="project-header-info">
-                        <h3 class="project-title">tricorder</h3>
-                        <p class="project-subtitle">personal ai assistant with star trek lcars interface</p>
-                    </div>
-                    <div class="project-meta">
-                        <span class="project-category">ai assistant</span>
-                        <span class="project-status status-review">under review</span>
-                    </div>
-                </div>
-                <div class="project-body">
-                    <div class="project-showcase">
-                        <div class="screenshot-container">
-                            <img class="screenshot-image" src="images/screenshot-tricorder.png" alt="Tricorder LCARS Interface" onload="this.classList.add('loaded')">
-                            <div class="screenshot-placeholder" data-label="LCARS Interface">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <rect x="5" y="2" width="14" height="20" rx="2"/>
-                                    <line x1="5" y1="6" x2="19" y2="6"/>
-                                    <line x1="5" y1="18" x2="19" y2="18"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                                <span>screenshot-tricorder.png</span>
-                            </div>
-                        </div>
-                        <div class="screenshot-features">
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-                                </svg>
-                                <span>ai chat</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
-                                    <path d="M19 10v2a7 7 0 01-14 0v-2"/>
-                                    <line x1="12" y1="19" x2="12" y2="23"/>
-                                </svg>
-                                <span>voice control</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
-                                    <circle cx="12" cy="13" r="4"/>
-                                </svg>
-                                <span>computer vision</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-details">
-                        <p class="project-description">
-                            web-based personal ai assistant featuring a star trek lcars interface. combines local llm chat via lm studio,
-                            voice interaction, computer vision, and device sensors into a single progressive web app — built with zero dependencies.
-                            includes streaming conversations, mcp server support, real-time sensor readouts, and star trek sound effects.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-badge">vanilla javascript</span>
-                            <span class="tech-badge">lm studio api</span>
-                            <span class="tech-badge">web speech api</span>
-                            <span class="tech-badge">web audio api</span>
-                            <span class="tech-badge">pwa</span>
-                            <span class="tech-badge">node.js</span>
-                        </div>
-                        <div class="project-links">
-                            <span class="project-link primary disabled">
-                                <span>under review</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 04: Safety Quest -->
-            <div class="project-card" data-project="quest" data-category="web">
-                <div class="project-header">
-                    <div class="project-number">04</div>
-                    <div class="project-header-info">
-                        <h3 class="project-title">safety quest</h3>
-                        <p class="project-subtitle">retro 16-bit safety educational game</p>
-                    </div>
-                    <div class="project-meta">
-                        <span class="project-category">educational game</span>
-                        <span class="project-status status-review">under review</span>
-                    </div>
-                </div>
-                <div class="project-body">
-                    <div class="project-showcase">
-                        <div class="screenshot-container">
-                            <img class="screenshot-image" src="images/screenshot-game.png" alt="Safety Quest Gameplay" onload="this.classList.add('loaded')">
-                            <div class="screenshot-placeholder" data-label="Game Screenshot">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <rect x="2" y="6" width="20" height="12" rx="2"/>
-                                    <circle cx="8" cy="12" r="2"/>
-                                    <path d="M15 10v4M13 12h4"/>
-                                </svg>
-                                <span>screenshot-game.png</span>
-                            </div>
-                        </div>
-                        <div class="screenshot-features">
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                                </svg>
-                                <span>16-bit retro</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M9 18V5l12-2v13"/>
-                                    <circle cx="6" cy="18" r="3"/>
-                                    <circle cx="18" cy="16" r="3"/>
-                                </svg>
-                                <span>12 chiptunes</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <path d="M12 6v6l4 2"/>
-                                </svg>
-                                <span>9 boss battles</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-details">
-                        <p class="project-description">
-                            innovative educational game that transforms osha compliance training into an engaging retro gaming experience.
-                            built with 100% vanilla javascript, featuring procedurally generated 16-bit aesthetics, 5 unique characters,
-                            and 100+ real workplace hazard scenarios.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-badge">javascript</span>
-                            <span class="tech-badge">html5 canvas</span>
-                            <span class="tech-badge">web audio api</span>
-                            <span class="tech-badge">pwa</span>
-                            <span class="tech-badge">cordova</span>
-                        </div>
-                        <div class="project-links">
-                            <span class="project-link primary disabled">
-                                <span>under review</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 05: Healthy Brunch Club Wien -->
-            <div class="project-card" data-project="brunch" data-category="web">
-                <div class="project-header">
-                    <div class="project-number">05</div>
-                    <div class="project-header-info">
-                        <h3 class="project-title">healthy brunch club</h3>
-                        <p class="project-subtitle">progressive web app with headless cms for bio-brunch restaurant</p>
-                    </div>
-                    <div class="project-meta">
-                        <span class="project-category">restaurant website</span>
-                        <span class="project-status status-production">production</span>
-                    </div>
-                </div>
-                <div class="project-body">
-                    <div class="project-showcase">
-                        <div class="screenshot-container">
-                            <img class="screenshot-image" src="images/screenshot-brunch.png" alt="Healthy Brunch Club Wien" onload="this.classList.add('loaded')">
-                            <div class="screenshot-placeholder" data-label="Restaurant Website">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M18 8h1a4 4 0 010 8h-1"/>
-                                    <path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/>
-                                    <line x1="6" y1="1" x2="6" y2="4"/>
-                                    <line x1="10" y1="1" x2="10" y2="4"/>
-                                    <line x1="14" y1="1" x2="14" y2="4"/>
-                                </svg>
-                                <span>screenshot-brunch.png</span>
-                            </div>
-                        </div>
-                        <div class="screenshot-features">
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                                    <polyline points="14 2 14 8 20 8"/>
-                                    <line x1="16" y1="13" x2="8" y2="13"/>
-                                    <line x1="16" y1="17" x2="8" y2="17"/>
-                                </svg>
-                                <span>dynamic menus</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M5 12.55a11 11 0 0114.08 0"/>
-                                    <path d="M1.42 9a16 16 0 0121.16 0"/>
-                                    <path d="M8.53 16.11a6 6 0 016.95 0"/>
-                                    <line x1="12" y1="20" x2="12.01" y2="20"/>
-                                </svg>
-                                <span>offline capability</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 20h9"/>
-                                    <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
-                                </svg>
-                                <span>git-based cms</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-details">
-                        <p class="project-description">
-                            modern pwa for a vienna bio-brunch restaurant combining static site speed with dynamic content management.
-                            features filterable menu system, event management with audio previews, online reservations via serverless functions,
-                            and a git-based cms enabling non-technical staff to update content instantly.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-badge">html5</span>
-                            <span class="tech-badge">css3</span>
-                            <span class="tech-badge">vanilla js</span>
-                            <span class="tech-badge">netlify functions</span>
-                            <span class="tech-badge">netlify cms</span>
-                            <span class="tech-badge">pwa</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://healthybrunchclub.at" target="_blank" rel="noopener" class="project-link primary">
-                                <span>view live site</span>
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M6 3h8v8M14 3L6 11"/>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 06: Safety Analytics -->
-            <div class="project-card" data-project="analytics" data-category="safety">
-                <div class="project-header">
-                    <div class="project-number">06</div>
-                    <div class="project-header-info">
-                        <h3 class="project-title">safety analytics</h3>
-                        <p class="project-subtitle">enterprise workplace safety intelligence system</p>
-                    </div>
-                    <div class="project-meta">
-                        <span class="project-category">analytics platform</span>
-                        <span class="project-status status-review">under review</span>
-                    </div>
-                </div>
-                <div class="project-body">
-                    <div class="project-showcase">
-                        <div class="screenshot-container">
-                            <img class="screenshot-image" src="images/screenshot-dashboard.png" alt="Safety Analytics Dashboard" onload="this.classList.add('loaded')">
-                            <div class="screenshot-placeholder" data-label="Dashboard Overview">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                                    <path d="M3 9h18"/>
-                                    <path d="M9 21V9"/>
-                                </svg>
-                                <span>screenshot-dashboard.png</span>
-                            </div>
-                        </div>
-                        <div class="screenshot-features">
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                </svg>
-                                <span>4-tier privacy</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <line x1="18" y1="20" x2="18" y2="10"/>
-                                    <line x1="12" y1="20" x2="12" y2="4"/>
-                                    <line x1="6" y1="20" x2="6" y2="14"/>
-                                </svg>
-                                <span>interactive charts</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-                                    <polyline points="14 2 14 8 20 8"/>
-                                </svg>
-                                <span>pdf export</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-details">
-                        <p class="project-description">
-                            comprehensive 33,641-line enterprise-grade safety intelligence platform.
-                            features revolutionary 4-tier progressive disclosure for gdpr/hipaa compliance, zero-error calculations,
-                            and advanced interactive visualizations transforming incident data into actionable insights.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-badge">vanilla js</span>
-                            <span class="tech-badge">chart.js</span>
-                            <span class="tech-badge">papaparse</span>
-                            <span class="tech-badge">jspdf</span>
-                            <span class="tech-badge">gdpr compliant</span>
-                        </div>
-                        <div class="project-links">
-                            <span class="project-link primary disabled">
-                                <span>under review</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 07: Safety Hub -->
-            <div class="project-card" data-project="hub" data-category="safety">
-                <div class="project-header">
-                    <div class="project-number">07</div>
-                    <div class="project-header-info">
-                        <h3 class="project-title">safety hub</h3>
-                        <p class="project-subtitle">mobile-first progressive web application for safety auditing</p>
-                    </div>
-                    <div class="project-meta">
-                        <span class="project-category">audit platform</span>
-                        <span class="project-status status-review">under review</span>
-                    </div>
-                </div>
-                <div class="project-body">
-                    <div class="project-showcase">
-                        <div class="screenshot-container">
-                            <img class="screenshot-image" src="images/screenshot-mobile.png" alt="Safety Hub Mobile View" onload="this.classList.add('loaded')">
-                            <div class="screenshot-placeholder" data-label="Mobile Audit View">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-                                    <line x1="12" y1="18" x2="12.01" y2="18"/>
-                                </svg>
-                                <span>screenshot-mobile.png</span>
-                            </div>
-                        </div>
-                        <div class="screenshot-features">
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M5 12.55a11 11 0 0114.08 0"/>
-                                    <path d="M1.42 9a16 16 0 0121.16 0"/>
-                                    <path d="M8.53 16.11a6 6 0 016.95 0"/>
-                                    <line x1="12" y1="20" x2="12.01" y2="20"/>
-                                </svg>
-                                <span>offline-first</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/>
-                                    <circle cx="12" cy="13" r="4"/>
-                                </svg>
-                                <span>photo capture</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                </svg>
-                                <span>auth0 security</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-details">
-                        <p class="project-description">
-                            next-generation pwa revolutionizing workplace safety auditing with offline-first architecture.
-                            built with react 18 + typescript, featuring real-time analytics, digital signatures, photo capture,
-                            and enterprise-grade auth0 security.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-badge">react 18</span>
-                            <span class="tech-badge">typescript</span>
-                            <span class="tech-badge">vite</span>
-                            <span class="tech-badge">tailwindcss</span>
-                            <span class="tech-badge">supabase</span>
-                            <span class="tech-badge">auth0</span>
-                        </div>
-                        <div class="project-links">
-                            <span class="project-link primary disabled">
-                                <span>under review</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Project 08: Safety Compliance Navigator -->
-            <div class="project-card" data-project="compliance" data-category="safety">
-                <div class="project-header">
-                    <div class="project-number">08</div>
-                    <div class="project-header-info">
-                        <h3 class="project-title">safety compliance</h3>
-                        <p class="project-subtitle">multi-jurisdiction compliance navigator for european logistics</p>
-                    </div>
-                    <div class="project-meta">
-                        <span class="project-category">compliance platform</span>
-                        <span class="project-status status-review">under review</span>
-                    </div>
-                </div>
-                <div class="project-body">
-                    <div class="project-showcase">
-                        <div class="screenshot-container">
-                            <img class="screenshot-image" src="images/screenshot-compliance.png" alt="Safety Compliance Navigator" onload="this.classList.add('loaded')">
-                            <div class="screenshot-placeholder" data-label="Compliance Navigator">
-                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                    <path d="M9 12l2 2 4-4"/>
-                                </svg>
-                                <span>screenshot-compliance.png</span>
-                            </div>
-                        </div>
-                        <div class="screenshot-features">
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="3"/>
-                                    <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-                                </svg>
-                                <span>smart analytics</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <circle cx="12" cy="12" r="10"/>
-                                    <line x1="2" y1="12" x2="22" y2="12"/>
-                                    <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
-                                </svg>
-                                <span>3 eu countries</span>
-                            </div>
-                            <div class="feature-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                                    <path d="M3 9h18"/>
-                                    <path d="M9 21V9"/>
-                                </svg>
-                                <span>facility viz</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-details">
-                        <p class="project-description">
-                            full-stack compliance platform integrating advanced analytics with comprehensive european safety legislation.
-                            features interactive facility visualization with clickable safety zones, prevention time calculator with csv import,
-                            and 150+ quiz questions. unified database of 94 laws across austria, germany & netherlands with cross-platform android app.
-                        </p>
-                        <div class="project-tech">
-                            <span class="tech-badge">react 18</span>
-                            <span class="tech-badge">vite</span>
-                            <span class="tech-badge">tailwind css</span>
-                            <span class="tech-badge">analytics api</span>
-                            <span class="tech-badge">kotlin</span>
-                            <span class="tech-badge">jetpack compose</span>
-                        </div>
-                        <div class="project-links">
-                            <span class="project-link primary disabled">
-                                <span>under review</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-                    </div><!-- /carousel-track -->
-                </div><!-- /carousel-viewport -->
-                <button class="carousel-arrow carousel-next" aria-label="Next project">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="9 18 15 12 9 6"/>
-                    </svg>
-                </button>
-            </div><!-- /project-carousel-wrapper -->
-            <div class="carousel-dots project-carousel-dots"></div>
-        </div>
-    </section>
-
-    <!-- Visual Creations Section -->
-    <section id="visuals" class="visuals-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">visuals</span>
-                <h2 class="section-title">Visual Creations</h2>
-                <p class="section-description">
-                    Transforming ideas into striking visuals using advanced creative tools and techniques
-                </p>
-            </div>
-
-            <!-- Video Gallery Carousel -->
-            <div class="video-gallery">
-                <div class="carousel-wrapper">
-                    <button class="carousel-arrow video-carousel-prev" aria-label="Previous videos">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="15 18 9 12 15 6"/>
-                        </svg>
+                <!-- Creative Tabs -->
+                <div class="creative-tabs reveal-up" style="--delay: 0.2s" role="tablist" aria-label="Switch between visuals and music">
+                    <button class="creative-tab active" role="tab" aria-selected="true" data-tab="visuals">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                        Visuals
                     </button>
-                    <div class="carousel-viewport video-carousel-viewport">
-                        <div class="video-carousel-track">
-                            <!-- Video cards will be injected by JavaScript -->
-                        </div>
-                    </div>
-                    <button class="carousel-arrow video-carousel-next" aria-label="Next videos">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <polyline points="9 18 15 12 9 6"/>
-                        </svg>
+                    <button class="creative-tab" role="tab" aria-selected="false" data-tab="music">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                        Music
                     </button>
                 </div>
-                <div class="carousel-dots video-carousel-dots"></div>
-            </div>
 
-            <!-- Video Modal -->
-            <div class="video-modal" id="videoModal">
-                <div class="modal-backdrop"></div>
-                <div class="modal-content">
-                    <button class="modal-close" aria-label="Close video">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M18 6L6 18M6 6l12 12"/>
-                        </svg>
-                    </button>
-                    <div class="modal-video-container">
-                        <video id="modalVideo" controls playsinline>
-                            <source src="" type="video/mp4">
-                        </video>
-                    </div>
-                    <div class="modal-info">
-                        <h3 class="modal-title"></h3>
-                        <p class="modal-description"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Music Remixes Section -->
-    <section id="music" class="music-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">music</span>
-                <h2 class="section-title">Remixes & Covers</h2>
-                <p class="section-description">
-                    Personal reinterpretations of classic songs, produced and performed with passion
-                </p>
-            </div>
-
-            <!-- Audio Player -->
-            <div class="music-player">
-                <div class="player-visualization">
-                    <canvas id="audioVisualizer"></canvas>
-                    <div class="vinyl-record">
-                        <div class="vinyl-inner"></div>
-                        <div class="vinyl-label"></div>
+                <!-- Visuals Panel -->
+                <div class="creative-panel active" id="panel-visuals" role="tabpanel" aria-label="Video clips">
+                    <div class="video-grid" id="video-grid">
+                        <!-- Populated dynamically from content.json -->
                     </div>
                 </div>
 
-                <div class="player-controls">
-                    <div class="now-playing">
-                        <span class="now-playing-label">now playing</span>
-                        <h3 class="track-title">Select a track</h3>
-                        <p class="track-artist">-</p>
-                    </div>
-
-                    <div class="player-buttons">
-                        <button class="player-btn prev-btn" aria-label="Previous track">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
-                            </svg>
-                        </button>
-                        <button class="player-btn play-btn" aria-label="Play/Pause">
-                            <svg class="play-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8 5v14l11-7z"/>
-                            </svg>
-                            <svg class="pause-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
-                                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                            </svg>
-                        </button>
-                        <button class="player-btn next-btn" aria-label="Next track">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <div class="progress-container">
-                        <span class="time-current">0:00</span>
-                        <div class="progress-bar">
-                            <div class="progress-fill"></div>
-                            <input type="range" class="progress-input" min="0" max="100" value="0">
+                <!-- Music Panel -->
+                <div class="creative-panel" id="panel-music" role="tabpanel" aria-label="Music tracks">
+                    <!-- Music Player -->
+                    <div class="music-player" id="music-player">
+                        <div class="player-display">
+                            <div class="player-art" id="player-art">
+                                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                            </div>
+                            <div class="player-info">
+                                <h3 class="player-title" id="player-title">Select a track</h3>
+                                <p class="player-artist" id="player-artist">Browse the collection below</p>
+                            </div>
                         </div>
-                        <span class="time-duration">0:00</span>
+                        <div class="player-controls">
+                            <div class="player-progress">
+                                <input type="range" class="progress-bar" id="progress-bar" min="0" max="100" value="0" aria-label="Seek through track">
+                                <div class="progress-times">
+                                    <span id="current-time">0:00</span>
+                                    <span id="total-time">0:00</span>
+                                </div>
+                            </div>
+                            <div class="player-buttons">
+                                <button class="player-btn" id="btn-prev" aria-label="Previous track">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 20L9 12l10-8v16zM7 19V5h-2v14h2z"/></svg>
+                                </button>
+                                <button class="player-btn player-btn-main" id="btn-play" aria-label="Play">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon-play" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="icon-pause" style="display:none" aria-hidden="true"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                                </button>
+                                <button class="player-btn" id="btn-next" aria-label="Next track">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 4l10 8-10 8V4zm12-1v14h2V3h-2z"/></svg>
+                                </button>
+                                <div class="volume-control">
+                                    <button class="player-btn" id="btn-volume" aria-label="Mute">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-volume-on" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="icon-volume-off" style="display:none" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+                                    </button>
+                                    <input type="range" class="volume-slider" id="volume-slider" min="0" max="100" value="80" aria-label="Volume">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="volume-container">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                        </svg>
-                        <input type="range" class="volume-slider" min="0" max="100" value="80">
+                    <!-- Track List -->
+                    <div class="track-list" id="track-list">
+                        <!-- Populated dynamically from content.json -->
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Track List - Dynamically loaded from data/content.json -->
-            <div class="track-list">
-                <!-- Track cards will be injected by JavaScript -->
-            </div>
-        </div>
-    </section>
+        <!-- ====== ABOUT ====== -->
+        <section id="about" class="section about">
+            <div class="container">
+                <header class="section-header">
+                    <span class="section-label reveal-up">About me</span>
+                    <h2 class="section-title reveal-up" style="--delay: 0.1s">Skills & Technologies</h2>
+                </header>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">about</span>
-                <h2 class="section-title">Skills & Technologies</h2>
-                <p class="section-description">
-                    The tools and technologies I use for development, visual creation, and audio production
-                </p>
-            </div>
-
-            <div class="skills-grid">
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Frontend Development</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">TypeScript</span>
-                        <span class="skill-tag">React</span>
-                        <span class="skill-tag">HTML5</span>
-                        <span class="skill-tag">CSS3</span>
-                        <span class="skill-tag">TailwindCSS</span>
+                <div class="skills-grid">
+                    <div class="skill-group reveal-up" style="--delay: 0.1s">
+                        <h3 class="skill-group-title">Frontend Development</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">TypeScript</span>
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Vue.js</span>
+                            <span class="skill-tag">HTML5</span>
+                            <span class="skill-tag">CSS3</span>
+                            <span class="skill-tag">TailwindCSS</span>
+                        </div>
                     </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Tools & Frameworks</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Vite</span>
-                        <span class="skill-tag">Chart.js</span>
-                        <span class="skill-tag">PWA</span>
-                        <span class="skill-tag">Service Workers</span>
-                        <span class="skill-tag">Web Audio API</span>
-                        <span class="skill-tag">Canvas API</span>
+                    <div class="skill-group reveal-up" style="--delay: 0.15s">
+                        <h3 class="skill-group-title">Tools & Frameworks</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Vite</span>
+                            <span class="skill-tag">Chart.js</span>
+                            <span class="skill-tag">PWA</span>
+                            <span class="skill-tag">Service Workers</span>
+                            <span class="skill-tag">Web Audio API</span>
+                            <span class="skill-tag">Canvas API</span>
+                        </div>
                     </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3 class="skill-category-title">AI Media Generation</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">ComfyUI</span>
-                        <span class="skill-tag">LMStudio</span>
-                        <span class="skill-tag">Stable Diffusion</span>
-                        <span class="skill-tag">AI Video</span>
-                        <span class="skill-tag">AI Audio</span>
-                        <span class="skill-tag">Local Pipelines</span>
+                    <div class="skill-group reveal-up" style="--delay: 0.2s">
+                        <h3 class="skill-group-title">AI & Media</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">ComfyUI</span>
+                            <span class="skill-tag">LMStudio</span>
+                            <span class="skill-tag">Stable Diffusion</span>
+                            <span class="skill-tag">AI Video</span>
+                            <span class="skill-tag">AI Audio</span>
+                            <span class="skill-tag">Local Pipelines</span>
+                        </div>
                     </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Visual & Audio Production</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Video Editing</span>
-                        <span class="skill-tag">Visual Effects</span>
-                        <span class="skill-tag">Motion Graphics</span>
-                        <span class="skill-tag">Audio Production</span>
-                        <span class="skill-tag">Music Remixing</span>
-                    </div>
-                </div>
-
-                <div class="skill-category">
-                    <h3 class="skill-category-title">Domain Expertise</h3>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Workplace Safety</span>
-                        <span class="skill-tag">GDPR Compliance</span>
-                        <span class="skill-tag">Data Analytics</span>
-                        <span class="skill-tag">Audit Systems</span>
-                        <span class="skill-tag">Incident Tracking</span>
+                    <div class="skill-group reveal-up" style="--delay: 0.25s">
+                        <h3 class="skill-group-title">Production & Domain</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Video Editing</span>
+                            <span class="skill-tag">VFX</span>
+                            <span class="skill-tag">Audio Production</span>
+                            <span class="skill-tag">Workplace Safety</span>
+                            <span class="skill-tag">GDPR</span>
+                            <span class="skill-tag">Data Analytics</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="contact-content">
-                <div class="section-header">
-                    <span class="section-label">connect</span>
-                    <h2 class="section-title">get in touch</h2>
-                    <p class="section-description">
-                        interested in discussing collaboration opportunities or learning more about these projects?
-                    </p>
-                </div>
-
-                <div class="contact-grid">
-                    <a href="https://github.com/eres2k" target="_blank" rel="noopener" class="contact-card">
-                        <div class="contact-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                            </svg>
-                        </div>
-                        <div class="contact-info">
-                            <h3>GitHub</h3>
-                            <p>@eres2k</p>
-                        </div>
-                        <svg class="contact-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 17L17 7M17 7H7M17 7v10"/>
-                        </svg>
-                    </a>
-
-                    <a href="https://www.linkedin.com/in/erwin-esener-539b45155/" target="_blank" rel="noopener" class="contact-card">
-                        <div class="contact-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                            </svg>
-                        </div>
-                        <div class="contact-info">
-                            <h3>LinkedIn</h3>
-                            <p>Connect professionally</p>
-                        </div>
-                        <svg class="contact-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 17L17 7M17 7H7M17 7v10"/>
-                        </svg>
-                    </a>
-
-                    <a href="mailto:erwin.esener@gmail.com" class="contact-card">
-                        <div class="contact-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="5" width="18" height="14" rx="2"/>
-                                <path d="M3 7l9 6 9-6"/>
-                            </svg>
-                        </div>
-                        <div class="contact-info">
-                            <h3>Email</h3>
-                            <p>Send a message</p>
-                        </div>
-                        <svg class="contact-arrow" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M7 17L17 7M17 7H7M17 7v10"/>
-                        </svg>
-                    </a>
+        <!-- ====== CONTACT ====== -->
+        <section id="contact" class="section contact">
+            <div class="container">
+                <div class="contact-content">
+                    <header class="section-header section-header-left">
+                        <span class="section-label reveal-up">Get in touch</span>
+                        <h2 class="section-title reveal-up" style="--delay: 0.1s">Let's work together</h2>
+                        <p class="section-description reveal-up" style="--delay: 0.15s">
+                            Have a project in mind or need AI expertise? I'm always open to interesting collaborations and new challenges.
+                        </p>
+                    </header>
+                    <div class="contact-links reveal-up" style="--delay: 0.2s">
+                        <a href="https://github.com/eres2k" target="_blank" rel="noopener noreferrer" class="contact-card" aria-label="GitHub profile">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                            <div>
+                                <span class="contact-label">GitHub</span>
+                                <span class="contact-value">@eres2k</span>
+                            </div>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="contact-arrow" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/erwin-esener" target="_blank" rel="noopener noreferrer" class="contact-card" aria-label="LinkedIn profile">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            <div>
+                                <span class="contact-label">LinkedIn</span>
+                                <span class="contact-value">Erwin Esener</span>
+                            </div>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="contact-arrow" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                        </a>
+                        <a href="mailto:erwin.esener@gmail.com" class="contact-card" aria-label="Send email">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+                            <div>
+                                <span class="contact-label">Email</span>
+                                <span class="contact-value">erwin.esener@gmail.com</span>
+                            </div>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="contact-arrow" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>About</h4>
-                    <p>Erwin Esener - Software Developer Austria. Building safety solutions, creating visual art, and producing music remixes.</p>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-column">
-                        <h4>portfolio</h4>
-                        <ul>
-                            <li><a href="#projects">projects</a></li>
-                            <li><a href="#visuals">visuals</a></li>
-                            <li><a href="#music">music</a></li>
-                            <li><a href="#about">about</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>connect</h4>
-                        <ul>
-                            <li><a href="https://github.com/eres2k" target="_blank">github</a></li>
-                            <li><a href="https://www.linkedin.com/in/erwin-esener-539b45155/" target="_blank">linkedin</a></li>
-                            <li><a href="mailto:erwin.esener@gmail.com">email</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Erwin Esener. All rights reserved.</p>
-                <p>Software Developer Austria</p>
-            </div>
-            <div class="page-views-counter">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                    <circle cx="12" cy="12" r="3"/>
-                </svg>
-                <span>page views: <span class="view-count" id="pageViewCount">0</span></span>
-            </div>
+        <div class="container footer-container">
+            <p class="footer-text">&copy; 2025 Erwin Esener. Built with vanilla HTML, CSS & JS.</p>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="#hero">Home</a>
+                <a href="#services">Services</a>
+                <a href="#projects">Projects</a>
+                <a href="#creative">Creative</a>
+                <a href="#contact">Contact</a>
+            </nav>
         </div>
     </footer>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="video-modal" role="dialog" aria-modal="true" aria-label="Video player" hidden>
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close" aria-label="Close video">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+            <video id="modal-video" controls playsinline></video>
+            <h3 class="modal-title" id="modal-title"></h3>
+        </div>
+    </div>
+
+    <audio id="audio-player" preload="none"></audio>
 
     <script src="script.js"></script>
 </body>
