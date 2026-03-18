@@ -177,11 +177,14 @@ function initCounters() {
     const nums = document.querySelectorAll('.stat__num[data-count]');
     if (!nums.length) return;
 
+    // Reset to 0 — HTML has real values as fallback for no-JS
+    nums.forEach(el => { el.textContent = '0'; });
+
     const obs = new IntersectionObserver(entries => {
         entries.forEach(e => {
             if (e.isIntersecting) { animateNum(e.target); obs.unobserve(e.target); }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.15 });
 
     nums.forEach(el => obs.observe(el));
 }
