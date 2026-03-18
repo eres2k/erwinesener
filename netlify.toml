@@ -3,25 +3,25 @@
 
 [build]
   # Directory to change to before starting build
-  base = "/"
+  base = "."
 
   # Directory that contains the deploy-ready HTML files and assets
-  publish = "/"
+  publish = "."
 
   # Build command - analyze media to update content.json
   command = "npm install && npm run analyze"
 
 # Production context
 [context.production]
-  publish = "/"
+  publish = "."
 
 # Deploy Preview context
 [context.deploy-preview]
-  publish = "/"
+  publish = "."
 
 # Branch deploy context
 [context.branch-deploy]
-  publish = "/"
+  publish = "."
 
 # Redirect rules
 [[redirects]]
