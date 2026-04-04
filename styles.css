@@ -234,7 +234,7 @@ img { max-width: 100%; height: auto; display: block; }
 .showcase__video {
     position: relative;
     background: #000;
-    aspect-ratio: 9/16;
+    aspect-ratio: 1080/1298;
     max-height: 580px;
     overflow: hidden;
     cursor: pointer;
