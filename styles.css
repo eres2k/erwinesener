@@ -309,6 +309,32 @@ img { max-width: 100%; height: auto; display: block; }
     text-transform: uppercase; letter-spacing: .1em; margin-top: .25rem;
 }
 
+.showcase__features {
+    display: flex; flex-direction: column; gap: .5rem;
+}
+.showcase__feature {
+    display: flex; align-items: flex-start; gap: .625rem;
+    padding: .5rem .625rem;
+    border-radius: var(--r-sm);
+    transition: background .2s var(--ease);
+}
+.showcase__feature:hover { background: rgba(255,255,255,.03); }
+.showcase__feature-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    background: var(--accent-dim);
+    color: var(--accent);
+}
+.showcase__feature div { min-width: 0; }
+.showcase__feature strong {
+    display: block; font-size: .8rem; font-weight: 600; color: var(--text);
+    line-height: 1.2;
+}
+.showcase__feature span {
+    font-size: .7rem; color: var(--text-3); line-height: 1.4;
+}
+
 /* =============================================
    FILTERS
    ============================================= */
