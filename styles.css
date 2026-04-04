@@ -216,6 +216,126 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 /* =============================================
+   PROJECT SHOWCASE
+   ============================================= */
+.showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    margin-bottom: 2rem;
+    transition: border-color .3s var(--ease);
+}
+.showcase:hover { border-color: rgba(249,115,22,.2); }
+
+.showcase__video {
+    position: relative;
+    background: #000;
+    aspect-ratio: 9/16;
+    max-height: 580px;
+    overflow: hidden;
+    cursor: pointer;
+}
+.showcase__video video {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+}
+.showcase__play {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,.35);
+    border: none; cursor: pointer;
+    transition: background .25s var(--ease);
+}
+.showcase__play svg {
+    width: 56px; height: 56px; color: #fff;
+    filter: drop-shadow(0 2px 12px rgba(0,0,0,.5));
+    transition: transform .2s var(--ease);
+}
+.showcase__play:hover { background: rgba(0,0,0,.2); }
+.showcase__play:hover svg { transform: scale(1.1); }
+.showcase__play.hidden { display: none; }
+
+.showcase__content {
+    padding: 2rem 2rem 1.75rem;
+    display: flex; flex-direction: column; justify-content: center;
+    gap: 1.25rem;
+}
+
+.showcase__header h3 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700; letter-spacing: -.03em; line-height: 1.1;
+    margin-bottom: .25rem;
+}
+.showcase__tagline {
+    font-size: .9rem; color: var(--accent); font-weight: 500;
+}
+.showcase__desc {
+    font-size: .85rem; color: var(--text-2); line-height: 1.65;
+}
+
+.showcase__stats {
+    display: flex; gap: 1.25rem; flex-wrap: wrap;
+}
+.showcase__stat {
+    flex: 1; min-width: 100px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: .75rem 1rem;
+    text-align: center;
+}
+.showcase__stat--accent {
+    background: var(--accent-dim);
+    border-color: rgba(249,115,22,.2);
+}
+.showcase__stat-num {
+    font-family: var(--mono); font-size: 1.5rem; font-weight: 500;
+    color: var(--text); display: block; line-height: 1;
+}
+.showcase__stat-unit {
+    font-family: var(--mono); font-size: .85rem; font-weight: 500;
+    color: var(--text-2);
+}
+.showcase__stat--accent .showcase__stat-num,
+.showcase__stat--accent .showcase__stat-unit {
+    color: var(--accent);
+}
+.showcase__stat-label {
+    display: block; font-size: .6rem; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: .1em; margin-top: .25rem;
+}
+
+.showcase__features {
+    display: flex; flex-direction: column; gap: .5rem;
+}
+.showcase__feature {
+    display: flex; align-items: flex-start; gap: .625rem;
+    padding: .5rem .625rem;
+    border-radius: var(--r-sm);
+    transition: background .2s var(--ease);
+}
+.showcase__feature:hover { background: rgba(255,255,255,.03); }
+.showcase__feature-icon {
+    width: 28px; height: 28px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    background: var(--accent-dim);
+    color: var(--accent);
+}
+.showcase__feature div { min-width: 0; }
+.showcase__feature strong {
+    display: block; font-size: .8rem; font-weight: 600; color: var(--text);
+    line-height: 1.2;
+}
+.showcase__feature span {
+    font-size: .7rem; color: var(--text-3); line-height: 1.4;
+}
+
+/* =============================================
    FILTERS
    ============================================= */
 .filters {
@@ -582,6 +702,9 @@ img { max-width: 100%; height: auto; display: block; }
     .hero__stats { gap: 1.5rem; }
     .stat__num, .stat__suffix { font-size: 1.25rem; }
 
+    .showcase { grid-template-columns: 1fr; }
+    .showcase__video { max-height: 420px; aspect-ratio: auto; }
+    .showcase__content { padding: 1.5rem; }
     .projects { grid-template-columns: 1fr; }
     .bento { grid-template-columns: 1fr; }
     .bento__item--wide { grid-column: span 1; }

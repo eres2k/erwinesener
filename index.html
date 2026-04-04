@@ -91,6 +91,80 @@
                     <h2>Projects</h2>
                 </div>
 
+                <!-- Tricorder Showcase -->
+                <article class="showcase anim" data-anim>
+                    <div class="showcase__video">
+                        <video src="showcases/Showcase_Tricorder_1.mp4" muted loop playsinline preload="metadata" id="showcase-video"></video>
+                        <button class="showcase__play" id="showcase-play" aria-label="Play showcase video">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        </button>
+                    </div>
+                    <div class="showcase__content">
+                        <div class="showcase__header">
+                            <span class="label label--sm">Featured Project</span>
+                            <h3>Tricorder</h3>
+                            <p class="showcase__tagline">Personal mobile AI assistant — fast, private, uncensored.</p>
+                        </div>
+                        <p class="showcase__desc">A fully local AI assistant powered by Qwen 3.5 MoE — running on a dedicated RTX 5090 workstation. No cloud, no filters, no compromises. Tricorder delivers raw LLM inference at speeds that rival cloud APIs with MCP tool integration and full agent support for autonomous multi-step tasks.</p>
+                        <div class="showcase__stats">
+                            <div class="showcase__stat">
+                                <span class="showcase__stat-num">140</span>
+                                <span class="showcase__stat-unit">T/s</span>
+                                <span class="showcase__stat-label">Inference Speed</span>
+                            </div>
+                            <div class="showcase__stat">
+                                <span class="showcase__stat-num">RTX</span>
+                                <span class="showcase__stat-unit">5090</span>
+                                <span class="showcase__stat-label">Local Hardware</span>
+                            </div>
+                            <div class="showcase__stat showcase__stat--accent">
+                                <span class="showcase__stat-num">100%</span>
+                                <span class="showcase__stat-unit"></span>
+                                <span class="showcase__stat-label">Uncensored</span>
+                            </div>
+                        </div>
+                        <div class="showcase__features">
+                            <div class="showcase__feature">
+                                <span class="showcase__feature-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                                </span>
+                                <div>
+                                    <strong>Qwen 3.5 MoE</strong>
+                                    <span>Mixture-of-Experts model running fully local via LMStudio</span>
+                                </div>
+                            </div>
+                            <div class="showcase__feature">
+                                <span class="showcase__feature-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+                                </span>
+                                <div>
+                                    <strong>MCP Tool Integration</strong>
+                                    <span>Model Context Protocol for external tools, APIs &amp; data sources</span>
+                                </div>
+                            </div>
+                            <div class="showcase__feature">
+                                <span class="showcase__feature-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                </span>
+                                <div>
+                                    <strong>Agent Mode</strong>
+                                    <span>Autonomous multi-step reasoning, planning &amp; task execution</span>
+                                </div>
+                            </div>
+                            <div class="showcase__feature">
+                                <span class="showcase__feature-icon">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                                </span>
+                                <div>
+                                    <strong>Text-to-Voice</strong>
+                                    <span>Local speech synthesis — private, real-time voice output</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tags"><span>Qwen 3.5 MoE</span><span>LMStudio</span><span>MCP</span><span>Agent</span><span>Text-to-Voice</span><span>Android</span><span>RTX 5090</span></div>
+                    </div>
+                </article>
+
                 <div class="filters" role="tablist" aria-label="Filter projects">
                     <button class="filters__btn active" data-filter="all" role="tab" aria-selected="true">All</button>
                     <button class="filters__btn" data-filter="ai" role="tab" aria-selected="false">AI &amp; Creative</button>

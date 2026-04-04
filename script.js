@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initCounters();
     initFilters();
     initTabs();
+    initShowcase();
 
     await loadContent();
 });
@@ -201,6 +202,36 @@ function animateNum(el) {
         if (t < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
+}
+
+// =============================================
+// Showcase Video
+// =============================================
+
+function initShowcase() {
+    const video = document.getElementById('showcase-video');
+    const playBtn = document.getElementById('showcase-play');
+    if (!video || !playBtn) return;
+
+    playBtn.addEventListener('click', () => {
+        video.muted = false;
+        video.play().catch(() => {});
+        playBtn.classList.add('hidden');
+    });
+
+    video.addEventListener('click', () => {
+        if (video.paused) {
+            video.play().catch(() => {});
+            playBtn.classList.add('hidden');
+        } else {
+            video.pause();
+            playBtn.classList.remove('hidden');
+        }
+    });
+
+    video.addEventListener('ended', () => {
+        playBtn.classList.remove('hidden');
+    });
 }
 
 // =============================================
