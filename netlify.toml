@@ -8,8 +8,8 @@
   # Directory that contains the deploy-ready HTML files and assets
   publish = "."
 
-  # Build command - analyze media to update content.json
-  command = "npm install && npm run analyze"
+  # Build command - restore cached content.json, analyze only new media, then update cache
+  command = "npm install && node scripts/netlify-build.js"
 
 # Production context
 [context.production]
