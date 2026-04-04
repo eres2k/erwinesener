@@ -237,7 +237,7 @@ img { max-width: 100%; height: auto; display: block; }
     background: #000;
     overflow: hidden;
     cursor: pointer;
-    aspect-ratio: 9 / 16;
+    aspect-ratio: 1080 / 1298;
     max-height: 640px;
 }
 .showcase__video video,
