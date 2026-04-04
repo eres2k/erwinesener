@@ -220,7 +220,8 @@ img { max-width: 100%; height: auto; display: block; }
    ============================================= */
 .showcase {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: auto 1fr;
+    align-items: start;
     gap: 0;
     background: var(--surface);
     border: 1px solid var(--border);
@@ -236,9 +237,11 @@ img { max-width: 100%; height: auto; display: block; }
     background: #000;
     overflow: hidden;
     cursor: pointer;
+    max-height: 640px;
 }
-.showcase__video video {
-    width: 100%; height: auto; display: block;
+.showcase__video video,
+.showcase__video img {
+    height: 100%; width: auto; max-width: none; display: block;
 }
 .showcase__play {
     position: absolute; inset: 0;
@@ -700,7 +703,10 @@ img { max-width: 100%; height: auto; display: block; }
     .stat__num, .stat__suffix { font-size: 1.25rem; }
 
     .showcase { grid-template-columns: 1fr; }
+    .showcase { grid-template-columns: 1fr; }
     .showcase__video { max-height: 480px; }
+    .showcase__video video,
+    .showcase__video img { width: 100%; height: auto; }
     .showcase__content { padding: 1.5rem; }
     .projects { grid-template-columns: 1fr; }
     .bento { grid-template-columns: 1fr; }
