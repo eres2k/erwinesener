@@ -234,14 +234,11 @@ img { max-width: 100%; height: auto; display: block; }
 .showcase__video {
     position: relative;
     background: #000;
-    aspect-ratio: 1080/1298;
-    max-height: 580px;
     overflow: hidden;
     cursor: pointer;
 }
 .showcase__video video {
-    width: 100%; height: 100%; object-fit: cover;
-    display: block;
+    width: 100%; height: auto; display: block;
 }
 .showcase__play {
     position: absolute; inset: 0;
@@ -703,7 +700,7 @@ img { max-width: 100%; height: auto; display: block; }
     .stat__num, .stat__suffix { font-size: 1.25rem; }
 
     .showcase { grid-template-columns: 1fr; }
-    .showcase__video { max-height: 420px; aspect-ratio: auto; }
+    .showcase__video { max-height: 480px; }
     .showcase__content { padding: 1.5rem; }
     .projects { grid-template-columns: 1fr; }
     .bento { grid-template-columns: 1fr; }
